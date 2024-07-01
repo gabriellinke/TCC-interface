@@ -62,6 +62,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "sslKey": "./server-key.pem",
+            "sslCert": "./server-cert.pem"
+          },
           "configurations": {
             "production": {
               "buildTarget": "camera-test:build:production"
@@ -97,5 +101,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "0bb8523f-1c39-4c39-ade5-41689b4c49cf"
   }
 }
