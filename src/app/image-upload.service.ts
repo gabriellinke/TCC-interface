@@ -21,11 +21,10 @@ export class ImageUploadService {
         body: formData
       });
 
-
-      if (uploadResponse.ok) {
-        const response = await uploadResponse.json();
-        console.log(response.path);
-        return response.path;
+      const responseJson = await uploadResponse.json();
+      console.log(responseJson);
+      if (responseJson) {
+        return responseJson;
       } else {
         console.error('File upload failed');
       }

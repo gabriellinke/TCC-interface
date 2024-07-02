@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   // latest snapshot
   public webcamImage: WebcamImage | null = null;
   public processedImage: string | null = null;
+  public number: string | null = null;
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
@@ -70,7 +71,8 @@ export class AppComponent implements OnInit {
 
   public sendImage(): void {
     this.imageUploadService.uploadImage(this.webcamImage?.imageAsDataUrl ?? '').then(res => {
-      this.processedImage = res;
+      this.processedImage = res.path;
+      this.number = res.number ?? null;
     })
     .catch(err => console.error(err));
   }

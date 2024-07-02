@@ -39,6 +39,7 @@
   </div>
   <div id="container" *ngIf="processedImage">
     <img [src]="processedImage" alt="">
+    <div *ngIf="number" style="color: white;">{{number}}</div>
     <div class="buttons">
       <button (click)="clearImage();">Clear image</button>
     </div>
