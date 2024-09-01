@@ -63,6 +63,40 @@ button {
   z-index: 2;
 }
 
+button.default {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #fff;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+
+  /* Estilos que simulam o comportamento de um <button> */
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+button.default:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+button.default:active {
+  background-color: #004085;
+  border-color: #003769;
+}
+
+button.default:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
 #takePhotoButton {
   left: calc(50% - 40px);
   top: calc(50% - 40px);

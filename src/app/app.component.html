@@ -1,5 +1,23 @@
 <main>
-  <div id="container" *ngIf="!webcamImage">
+  <div id="header" *ngIf="state==1">
+    <h1 style="background-color: red;">Login: State {{state}}</h1>
+    <section>
+      <form action="">
+        <input type="text" placeholder="Email" #email>
+        <input type="password" placeholder="Senha" #password>
+        <button class="default" type="button" (click)="login(email.value, password.value)">Login</button>
+      </form>
+    </section>
+  </div>
+  <div id="header" *ngIf="state==2">
+    <h1 style="background-color: red;">Criar arquivo: State {{state}}</h1>
+    <section>
+      <form action="">
+        <button class="default" type="button" (click)="createFile()">Criar arquivo</button>
+      </form>
+    </section>
+  </div>
+  <div id="container" *ngIf="!webcamImage && state==150">
     <div id="vid_container">
       <section class="camera-view">
         <webcam [height]="screenHeight" [width]="screenWidth"

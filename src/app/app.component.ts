@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, assertPlatform, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {Subject, Observable} from 'rxjs';
 import {WebcamImage, WebcamInitError, WebcamUtil, WebcamModule} from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
-import { ImageUploadService } from './image-upload.service';
+import { BackendService } from './backend.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -12,7 +12,7 @@ import { ImageUploadService } from './image-upload.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public imageUploadService: ImageUploadService = inject(ImageUploadService);
+  public backendService: BackendService = inject(BackendService);
   public screenWidth: number = 0;
   public screenHeight: number = 0;
   // toggle webcam on/off
@@ -36,6 +36,8 @@ export class AppComponent implements OnInit {
   private trigger: Subject<void> = new Subject<void>();
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
+
+  public state = 1;
 
   public ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs()
@@ -70,11 +72,11 @@ export class AppComponent implements OnInit {
   }
 
   public sendImage(): void {
-    this.imageUploadService.uploadImage(this.webcamImage?.imageAsDataUrl ?? '').then(res => {
-      this.processedImage = res.path;
-      this.number = res.number ?? null;
-    })
-    .catch(err => console.error(err));
+    // this.backendService.uploadImage(this.webcamImage?.imageAsDataUrl ?? '').then((res:any) => {
+    //   this.processedImage = res.path;
+    //   this.number = res.assetNumber ?? null;
+    // })
+    // .catch(err => console.error(err));
   }
 
   public handleInitError(error: WebcamInitError): void {
@@ -110,5 +112,33 @@ export class AppComponent implements OnInit {
 
   public get nextWebcamObservable(): Observable<boolean|string> {
     return this.nextWebcam.asObservable();
+  }
+
+  public login(email: string, password: string) {
+    this.backendService.login(email, password).subscribe({
+      next: data => {
+        // Sucesso no login
+        console.log('Logged in successfully:', data);
+        this.state = this.state+1;
+      },
+      error: error => {
+        // Erro no login
+        console.error('Login failed:', error);
+      }
+    });
+  }
+
+  public createFile() {
+    this.backendService.createFile().subscribe({
+      next: data => {
+        // Sucesso na criação do arquivo
+        console.log('File created:', data);
+        this.state = this.state+1;
+      },
+      error: error => {
+        // Erro na criação do arquivo
+        console.error('Error creating file:', error);
+      }
+    });
   }
 }
