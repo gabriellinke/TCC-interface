@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
 import { LoginResponse } from '../interfaces/LoginResponse';
+import { CreateFileResponse } from './../interfaces/CreateFileResponse';
+import { CreateAssetResponse } from '../interfaces/CreateAssetResponse';
+import { AddImageResponse } from '../interfaces/AddImageResponse';
+import { ConfirmFileResponse } from '../interfaces/ConfirmFileResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +18,11 @@ export class BackendService {
 
   constructor(private http: HttpClient) { }
 
-  uploadImage(image: string): Observable<any> {
-    return this.http.get(image, { responseType: 'blob' })
-      .pipe(
-        switchMap(blob => {
-          const formData = new FormData();
-          formData.append('image', blob, 'filename.jpg');
-
-          return this.http.post(`${this.baseUrl}/upload`, formData);
-        })
-      );
-  }
-
   login(email: string, password: string): Observable<LoginResponse> {
     const url = `${this.baseUrl}/auth/login`;
     const body = { email, password };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<LoginResponse>(url, body, { headers }).pipe(
+    return this.http.post<LoginResponse>(url, body).pipe(
       tap((data: LoginResponse) => {
         // Armazena o token e a timestamp de expiração no localStorage
         localStorage.setItem('token', data.token);
@@ -41,12 +32,52 @@ export class BackendService {
     );
   }
 
-  createFile(): Observable<any> {
+  createFile(): Observable<CreateFileResponse> {
     const url = `${this.baseUrl}/file`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    return this.http.post<CreateFileResponse>(url, null);
+  }
 
-    return this.http.post(url, null, { headers });
+  createAsset(fileId: number, image: string): Observable<CreateAssetResponse> {
+    const url = `${this.baseUrl}/asset`;
+    return this.http.get(image, { responseType: 'blob' })
+      .pipe(
+        switchMap(blob => {
+          const formData = new FormData();
+          formData.append('image', blob);
+          formData.append('fileId', fileId.toString());
+
+          return this.http.post<CreateAssetResponse>(url, formData);
+        })
+      );
+  }
+
+  deleteAsset(assetId:number): Observable<any> {
+    const url = `${this.baseUrl}/asset/${assetId}`;
+    return this.http.delete<CreateFileResponse>(url);
+  }
+
+  confirmAsset(assetId: number, assetNumber: string): Observable<any> {
+    const url = `${this.baseUrl}/asset/confirm/${assetId}`;
+    const body = { assetNumber }
+    return this.http.post(url, body);
+  }
+
+  addImageToAsset(assetId: number, image: string): Observable<AddImageResponse>{
+    const url = `${this.baseUrl}/asset/add-image`;
+    return this.http.get(image, { responseType: 'blob' })
+      .pipe(
+        switchMap(blob => {
+          const formData = new FormData();
+          formData.append('image', blob);
+          formData.append('assetId', assetId.toString());
+
+          return this.http.post<AddImageResponse>(url, formData);
+        })
+      );
+  }
+
+  confirmFile(fileId: number): Observable<ConfirmFileResponse> {
+    const url = `${this.baseUrl}/file/${fileId}/confirm`;
+    return this.http.post<ConfirmFileResponse>(url, null);
   }
 }

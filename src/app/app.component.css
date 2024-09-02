@@ -65,6 +65,7 @@ button {
 
 button.default {
   display: inline-block;
+  position: relative;
   padding: 0.5em 1em;
   font-size: 1rem;
   font-family: inherit;
@@ -175,9 +176,9 @@ button.default:focus {
   flex-direction: column;
 
   button {
-    display: flex;
-    background-color: red;
-    position: inherit;
+    position: relative;
+    margin-top: 8px;
+    max-width: 160px;
   }
 
 }

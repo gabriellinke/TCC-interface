@@ -7,6 +7,7 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Obs
   }
 
   const token = localStorage.getItem('token');
+  // TODO: Se não tiver token ou tiver expirado, redireciona para a página de login
 
   if (token && token !== "") {
     const cloned = req.clone({

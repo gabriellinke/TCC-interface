@@ -1,13 +1,14 @@
 import { Component, OnInit, assertPlatform, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {Subject, Observable} from 'rxjs';
+import { FormsModule } from '@angular/forms';
 import {WebcamImage, WebcamInitError, WebcamUtil, WebcamModule} from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
 import { BackendService } from './backend.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, WebcamModule],
+  imports: [RouterOutlet, CommonModule, WebcamModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -28,16 +29,28 @@ export class AppComponent implements OnInit {
   public errors: WebcamInitError[] = [];
 
   // latest snapshot
-  public webcamImage: WebcamImage | null = null;
   public processedImage: string | null = null;
-  public number: string | null = null;
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
 
-  public state = 1;
+
+  /**----------------------------------------------------------------------------------------------------------- */
+
+  public webcamImage: WebcamImage | null = null;
+
+  public state: number = 1;
+  public imageCount: number = 0;
+  public fileId: number | undefined = undefined;
+  public assetId: number | undefined = undefined;
+  public assetNumber: string | undefined = undefined;
+  public assetNumberConfidence: string | undefined = undefined;
+  public assetNumberUpdateEnabled: boolean = false;
+  public file: string | undefined = undefined;
+
+/**----------------------------------------------------------------------------------------------------------- */
 
   public ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs()
@@ -66,17 +79,10 @@ export class AppComponent implements OnInit {
     this.showWebcam = !this.showWebcam;
   }
 
-  public clearImage(): void {
+  public clearImage(numberOfStates: number = 1): void {
     this.webcamImage = null;
     this.processedImage = null;
-  }
-
-  public sendImage(): void {
-    // this.backendService.uploadImage(this.webcamImage?.imageAsDataUrl ?? '').then((res:any) => {
-    //   this.processedImage = res.path;
-    //   this.number = res.assetNumber ?? null;
-    // })
-    // .catch(err => console.error(err));
+    this.state = this.state-numberOfStates;
   }
 
   public handleInitError(error: WebcamInitError): void {
@@ -99,6 +105,7 @@ export class AppComponent implements OnInit {
   public handleImage(webcamImage: WebcamImage): void {
     console.info('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
+    this.state = this.state+1;
   }
 
   public cameraWasSwitched(deviceId: string): void {
@@ -114,15 +121,17 @@ export class AppComponent implements OnInit {
     return this.nextWebcam.asObservable();
   }
 
+  public enableAssetNumberUpdate() {
+    this.assetNumberUpdateEnabled = true;
+  }
+
   public login(email: string, password: string) {
     this.backendService.login(email, password).subscribe({
       next: data => {
-        // Sucesso no login
         console.log('Logged in successfully:', data);
         this.state = this.state+1;
       },
       error: error => {
-        // Erro no login
         console.error('Login failed:', error);
       }
     });
@@ -131,14 +140,103 @@ export class AppComponent implements OnInit {
   public createFile() {
     this.backendService.createFile().subscribe({
       next: data => {
-        // Sucesso na criação do arquivo
         console.log('File created:', data);
+        this.fileId = data.id;
         this.state = this.state+1;
       },
       error: error => {
-        // Erro na criação do arquivo
         console.error('Error creating file:', error);
       }
     });
+  }
+
+  public createAsset() {
+    if(this.fileId && this.webcamImage?.imageAsDataUrl){
+      this.backendService.createAsset(this.fileId, this.webcamImage.imageAsDataUrl).subscribe({
+        next: data => {
+          console.log('Asset created:', data);
+          this.assetNumber = data.assetNumber;
+          this.assetNumberConfidence = data.confidenceLevel;
+          this.processedImage = data.mainImage;
+          this.assetId = data.assetId;
+          this.state = this.state+1;
+          this.imageCount = this.imageCount+1;
+        },
+        error: error => {
+          console.error('Error creating asset:', error);
+        }
+      });
+    }
+  }
+
+  public deleteAsset() {
+    if(this.assetId){
+      this.backendService.deleteAsset(this.assetId).subscribe({
+        next: data => {
+          console.log('Asset deleted:', data);
+          this.state = 3;
+          this.imageCount = this.imageCount-1;
+        },
+        error: error => {
+          console.error('Error deleting asset:', error);
+        }
+      });
+    }
+  }
+
+  public confirmAsset() {
+    if(this.assetId && this.assetNumber){
+      this.backendService.confirmAsset(this.assetId, this.assetNumber).subscribe({
+        next: data => {
+          console.log('Asset confirmed:', data);
+          this.state = this.state+1;
+        },
+        error: error => {
+          console.error('Error confirming asset:', error);
+        }
+      });
+    }
+  }
+
+  public addImageToAsset() {
+    if(this.assetId && this.webcamImage?.imageAsDataUrl){
+      this.backendService.addImageToAsset(this.assetId, this.webcamImage.imageAsDataUrl).subscribe({
+        next: data => {
+          console.log('Image added to asset:', data);
+          this.state = this.state+1;
+          this.imageCount = this.imageCount+1;
+        },
+        error: error => {
+          console.error('Error adding image to asset:', error);
+        }
+      });
+    }
+  }
+
+  public confirmFile() {
+    if(this.fileId && this.imageCount >= 3){
+      this.backendService.confirmFile(this.fileId).subscribe({
+        next: data => {
+          console.log('File confirmed:', data);
+          this.file = data.filename;
+          this.state = this.state+1;
+        },
+        error: error => {
+          console.error('Error confirming file:', error);
+        }
+      });
+    }
+  }
+
+  public resetVariables() {
+    this.state = 1;
+    this.webcamImage = null;
+    this.imageCount = 0;
+    this.fileId = undefined;
+    this.assetId = undefined;
+    this.assetNumber = undefined;
+    this.assetNumberConfidence = undefined;
+    this.assetNumberUpdateEnabled = false;
+    this.file = undefined;
   }
 }
