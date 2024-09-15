@@ -1,0 +1,55 @@
+<div id="vid_container">
+  <section class="camera-view">
+    <webcam [height]="screenHeight" [width]="screenWidth"
+      [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+      [allowCameraSwitch]="false"
+      [switchCamera]="nextWebcamObservable"
+      [videoOptions]="videoOptions"
+      [imageQuality]="1"
+      (cameraSwitched)="cameraWasSwitched($event)"
+      (initError)="handleInitError($event)"
+    ></webcam>
+    <div id="red-square" *ngIf="showSquare" [ngStyle]="{'width.px': screenWidth*0.6, 'height.px': screenHeight*0.2}">
+      <div
+        class="corner top-left"
+        [ngStyle]="{'width.px': screenHeight*0.05, 'height.px': screenHeight*0.05}">
+      </div>
+      <div
+        class="corner top-right"
+        [ngStyle]="{'width.px': screenHeight*0.05, 'height.px': screenHeight*0.05}">
+      </div>
+      <div
+        class="corner bottom-left"
+        [ngStyle]="{'width.px': screenHeight*0.05, 'height.px': screenHeight*0.05}">
+      </div>
+      <div
+        class="corner bottom-right"
+        [ngStyle]="{'width.px': screenHeight*0.05, 'height.px': screenHeight*0.05}">
+      </div>
+    </div>
+  </section>
+</div>
+<div id="gui_controls">
+  <button
+    id="switchCameraButton"
+    name="switch Camera"
+    type="button"
+    class="actionBtn"
+    (click)="showNextWebcam(true);"
+  ></button>
+  <button
+    id="takePhotoButton"
+    name="take Photo"
+    type="button"
+    class="actionBtn"
+    (click)="triggerSnapshot();"
+  ></button>
+  <button
+    id="switchTorchButton"
+    name="switch Torch"
+    type="button"
+    class="actionBtn"
+    (click)="onSwitchTorch();"
+  ></button>
+  <video #videoElement autoplay playsinline></video>
+</div>

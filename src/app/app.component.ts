@@ -1,44 +1,20 @@
-import { Component, OnInit, assertPlatform, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {Subject, Observable} from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import {WebcamImage, WebcamInitError, WebcamUtil, WebcamModule} from 'ngx-webcam';
+import { WebcamImage } from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
 import { BackendService } from './backend.service';
+import { CameraComponent } from './camera/camera.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, WebcamModule, FormsModule],
+  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   public backendService: BackendService = inject(BackendService);
-  public screenWidth: number = 0;
-  public screenHeight: number = 0;
-  // toggle webcam on/off
-  public showWebcam = true;
-  public allowCameraSwitch = true;
-  public multipleWebcamsAvailable = false;
-  public deviceId: string = '';
-  public videoOptions: MediaTrackConstraints = {
-    // width: {ideal: 1024},
-    // height: {ideal: 576}
-    facingMode: { ideal: 'environment' },
-  };
-  public errors: WebcamInitError[] = [];
-
-  // latest snapshot
   public processedImage: string | null = null;
-
-  // webcam snapshot trigger
-  private trigger: Subject<void> = new Subject<void>();
-  // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
-  private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
-
-
-  /**----------------------------------------------------------------------------------------------------------- */
-
   public webcamImage: WebcamImage | null = null;
 
   public state: number = 1;
@@ -51,74 +27,14 @@ export class AppComponent implements OnInit {
   public file: string | undefined = undefined;
 
 /**----------------------------------------------------------------------------------------------------------- */
-
-  public ngOnInit(): void {
-    WebcamUtil.getAvailableVideoInputs()
-      .then((mediaDevices: MediaDeviceInfo[]) => {
-        this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
-      });
-
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-
-    // Update screen dimensions on window resize
-    window.addEventListener('resize', this.updateScreenDimensions.bind(this));
-  }
-
-
-  public updateScreenDimensions() {
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-  }
-
-  public triggerSnapshot(): void {
-    this.trigger.next();
-  }
-
-  public toggleWebcam(): void {
-    this.showWebcam = !this.showWebcam;
-  }
-
   public clearImage(numberOfStates: number = 1): void {
     this.webcamImage = null;
-    this.processedImage = null;
     this.state = this.state-numberOfStates;
   }
 
-  public handleInitError(error: WebcamInitError): void {
-    if (error.mediaStreamError && error.mediaStreamError.name === "NotAllowedError") {
-      alert("NotAllowedError");
-      console.warn("Camera access was not allowed by user!");
-    } else {
-      alert(`Other error: ${error.mediaStreamError.name}`);
-    }
-    this.errors.push(error);
-  }
-
-  public showNextWebcam(directionOrDeviceId: boolean|string): void {
-    // true => move forward through devices
-    // false => move backwards through devices
-    // string => move to device with given deviceId
-    this.nextWebcam.next(directionOrDeviceId);
-  }
-
-  public handleImage(webcamImage: WebcamImage): void {
-    console.info('received webcam image', webcamImage);
-    this.webcamImage = webcamImage;
+  onImageCaptured(image: WebcamImage): void {
+    this.webcamImage = image;
     this.state = this.state+1;
-  }
-
-  public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
-    this.deviceId = deviceId;
-  }
-
-  public get triggerObservable(): Observable<void> {
-    return this.trigger.asObservable();
-  }
-
-  public get nextWebcamObservable(): Observable<boolean|string> {
-    return this.nextWebcam.asObservable();
   }
 
   public enableAssetNumberUpdate() {

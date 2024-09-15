@@ -18,35 +18,10 @@
     </section>
   </div>
   <div id="container" *ngIf="state==3">
-    <div id="vid_container">
-      <section class="camera-view">
-        <webcam [height]="screenHeight" [width]="screenWidth"
-          [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
-          [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
-          [videoOptions]="videoOptions"
-          [imageQuality]="1"
-          (cameraSwitched)="cameraWasSwitched($event)"
-          (initError)="handleInitError($event)"
-        ></webcam>
-        <div id="red-square"></div>
-      </section>
-    </div>
-    <div id="gui_controls">
-      <button
-        id="switchCameraButton"
-        name="switch Camera"
-        type="button"
-        class="actionBtn"
-        (click)="showNextWebcam(true);"
-      ></button>
-      <button
-        id="takePhotoButton"
-        name="take Photo"
-        type="button"
-        class="actionBtn"
-        (click)="triggerSnapshot();"
-      ></button>
-    </div>
+    <app-camera
+      (imageCaptured)="onImageCaptured($event)"
+      [showSquare]="true"
+    />
   </div>
   <div id="container" *ngIf="state==4 && webcamImage">
     <h1 style="background-color: red;">Confirmar imagem: State {{state}}</h1>
@@ -70,34 +45,10 @@
     </div>
   </div>
   <div id="container" *ngIf="state==6">
-    <div id="vid_container">
-      <section class="camera-view">
-        <webcam [height]="screenHeight" [width]="screenWidth"
-          [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
-          [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
-          [videoOptions]="videoOptions"
-          [imageQuality]="1"
-          (cameraSwitched)="cameraWasSwitched($event)"
-          (initError)="handleInitError($event)"
-        ></webcam>
-      </section>
-    </div>
-    <div id="gui_controls">
-      <button
-        id="switchCameraButton"
-        name="switch Camera"
-        type="button"
-        class="actionBtn"
-        (click)="showNextWebcam(true);"
-      ></button>
-      <button
-        id="takePhotoButton"
-        name="take Photo"
-        type="button"
-        class="actionBtn"
-        (click)="triggerSnapshot();"
-      ></button>
-    </div>
+    <app-camera
+      (imageCaptured)="onImageCaptured($event)"
+      [showSquare]="false"
+    />
   </div>
   <div id="container" *ngIf="state==7 && webcamImage">
     <h1 style="background-color: red;">Adicionar nova imagem: State {{state}}</h1>
