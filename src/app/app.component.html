@@ -63,6 +63,7 @@
     <p>Total de {{imageCount}} fotos</p>
     <div class="buttons">
       <button class="default" type="button" (click)="clearImage(2);">Adicionar nova foto</button>
+      <button *ngIf="imageCount >= 3" class="default" type="button" (click)="resetVariablesForNewAsset();">Adicionar novo bem</button>
       <button *ngIf="imageCount >= 3" class="default" type="button" (click)="confirmFile();">Gerar arquivo</button>
     </div>
   </div>
@@ -72,7 +73,7 @@
       <a [href]="file" download target="_blank">
         <button class="default" type="button">Baixar Arquivo</button>
       </a>
-      <button class="default" type="button" (click)="resetVariables();">Adicionar novo bem</button>
+      <button class="default" type="button" (click)="resetVariables();">Criar novo arquivo</button>
     </div>
   </div>
 </main>

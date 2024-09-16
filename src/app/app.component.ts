@@ -49,6 +49,7 @@ export class AppComponent {
       },
       error: error => {
         console.error('Login failed:', error);
+        alert("Usuário ou senha incorretos");
       }
     });
   }
@@ -62,6 +63,7 @@ export class AppComponent {
       },
       error: error => {
         console.error('Error creating file:', error);
+        alert("Erro ao criar arquivo");
       }
     });
   }
@@ -70,16 +72,23 @@ export class AppComponent {
     if(this.fileId && this.webcamImage?.imageAsDataUrl){
       this.backendService.createAsset(this.fileId, this.webcamImage.imageAsDataUrl).subscribe({
         next: data => {
-          console.log('Asset created:', data);
-          this.assetNumber = data.assetNumber;
-          this.assetNumberConfidence = data.confidenceLevel;
-          this.processedImage = data.mainImage;
-          this.assetId = data.assetId;
-          this.state = this.state+1;
-          this.imageCount = this.imageCount+1;
+          if(data.confidenceLevel && parseInt(data.confidenceLevel) > 0.5) {
+            console.log('Asset created:', data);
+            this.assetNumber = data.assetNumber;
+            this.assetNumberConfidence = data.confidenceLevel;
+            this.processedImage = data.mainImage;
+            this.assetId = data.assetId;
+            this.state = this.state+1;
+            this.imageCount = this.imageCount+1;
+          } else {
+            alert("Não foi possível obter o número de patrimônio");
+            this.assetId = data.assetId;
+            this.deleteAsset();
+          }
         },
         error: error => {
           console.error('Error creating asset:', error);
+          alert("Erro ao criar bem");
         }
       });
     }
@@ -91,10 +100,11 @@ export class AppComponent {
         next: data => {
           console.log('Asset deleted:', data);
           this.state = 3;
-          this.imageCount = this.imageCount-1;
+          this.imageCount = 0;
         },
         error: error => {
           console.error('Error deleting asset:', error);
+          alert("Erro ao deletar bem");
         }
       });
     }
@@ -109,6 +119,7 @@ export class AppComponent {
         },
         error: error => {
           console.error('Error confirming asset:', error);
+          alert("Não foi possível obter informações do bem informado");
         }
       });
     }
@@ -124,6 +135,7 @@ export class AppComponent {
         },
         error: error => {
           console.error('Error adding image to asset:', error);
+          alert("Não foi possível adicionar imagem ao bem");
         }
       });
     }
@@ -139,6 +151,7 @@ export class AppComponent {
         },
         error: error => {
           console.error('Error confirming file:', error);
+          alert("Erro ao gerar arquivo");
         }
       });
     }
@@ -154,5 +167,15 @@ export class AppComponent {
     this.assetNumberConfidence = undefined;
     this.assetNumberUpdateEnabled = false;
     this.file = undefined;
+  }
+
+  public resetVariablesForNewAsset() {
+    this.state = 3;
+    this.webcamImage = null;
+    this.imageCount = 0;
+    this.assetId = undefined;
+    this.assetNumber = undefined;
+    this.assetNumberConfidence = undefined;
+    this.assetNumberUpdateEnabled = false;
   }
 }
