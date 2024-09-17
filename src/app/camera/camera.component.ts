@@ -124,7 +124,7 @@ export class CameraComponent implements OnInit {
         const imageCapture = new ImageCapture(track);
 
         imageCapture.getPhotoCapabilities().then((capabilities: any) => {
-          if (capabilities.fillLightMode.includes('flash') || capabilities.fillLightMode.includes('torch')) {
+          if (capabilities && capabilities.fillLightMode && (capabilities.fillLightMode.includes('flash') || capabilities.fillLightMode.includes('torch'))) {
             this.isTorchOn = !this.isTorchOn;
             track.applyConstraints({
               advanced: [

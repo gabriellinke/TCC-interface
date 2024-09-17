@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { tap, map, catchError, switchMap } from 'rxjs/operators';
 import { LoginResponse } from '../interfaces/LoginResponse';
 import { CreateFileResponse } from './../interfaces/CreateFileResponse';
 import { CreateAssetResponse } from '../interfaces/CreateAssetResponse';
@@ -23,19 +22,25 @@ export class BackendService {
     const url = `${this.baseUrl}/auth/login`;
     const body = { email, password };
 
-    return this.http.post<LoginResponse>(url, body).pipe(
-      tap((data: LoginResponse) => {
-        // Armazena o token e a timestamp de expiração no localStorage
-        localStorage.setItem('token', data.token);
-        const expiresAt = Date.now() + data.expiresIn;
-        localStorage.setItem('tokenExpiresAt', expiresAt.toString());
-      })
+    return this.http.post<LoginResponse>(url, body, { observe: 'response' }).pipe(
+      tap((response: HttpResponse<LoginResponse>) => {
+        const data = response.body;
+        if (data) {
+          localStorage.setItem('token', data.token);
+          const expiresAt = Date.now() + data.expiresIn;
+          localStorage.setItem('tokenExpiresAt', expiresAt.toString());
+        }
+      }),
+      map(response => response.body as LoginResponse)
     );
   }
 
   createFile(): Observable<CreateFileResponse> {
     const url = `${this.baseUrl}/file`;
-    return this.http.post<CreateFileResponse>(url, null);
+
+    return this.http.post<CreateFileResponse>(url, null, { observe: 'response' }).pipe(
+      map(response => response.body as CreateFileResponse)
+    );
   }
 
   createAsset(fileId: number, image: string): Observable<CreateAssetResponse> {
@@ -80,5 +85,13 @@ export class BackendService {
   confirmFile(fileId: number): Observable<ConfirmFileResponse> {
     const url = `${this.baseUrl}/file/${fileId}/confirm`;
     return this.http.post<ConfirmFileResponse>(url, null);
+  }
+
+  // Função de logout
+  logout() {
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('tokenExpiresAt');
+    // Redirecionar o usuário para a página de login
+    console.log('Logout realizado');
   }
 }

@@ -5,6 +5,7 @@ import { WebcamImage } from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
 import { BackendService } from './backend.service';
 import { CameraComponent } from './camera/camera.component';
+import { BAKEND_ASSET_ALREADY_IN_FILE, BAKEND_ASSET_INVALID_CONDITION, BAKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BAKEND_ASSET_NOT_FOUND, BAKEND_FILE_INCOMPLETE_ASSETS, BAKEND_FILE_INVALID_ASSETS, BAKEND_USER_ALREADY_HAS_FILE, FORBIDDEN_403 } from '../constants/constants';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -45,11 +46,13 @@ export class AppComponent {
     this.backendService.login(email, password).subscribe({
       next: data => {
         console.log('Logged in successfully:', data);
-        this.state = this.state+1;
+        this.state = this.state + 1;
       },
       error: error => {
-        console.error('Login failed:', error);
-        alert("Usuário ou senha incorretos");
+        if(error.message === FORBIDDEN_403) {
+          alert(error.message);
+        }
+        console.error(error.message);
       }
     });
   }
@@ -59,11 +62,13 @@ export class AppComponent {
       next: data => {
         console.log('File created:', data);
         this.fileId = data.id;
-        this.state = this.state+1;
+        this.state = this.state + 1;
       },
       error: error => {
-        console.error('Error creating file:', error);
-        alert("Erro ao criar arquivo");
+        if(error.message === BAKEND_USER_ALREADY_HAS_FILE) {
+          alert(error.message);
+        }
+        console.error(error.message);
       }
     });
   }
@@ -72,7 +77,7 @@ export class AppComponent {
     if(this.fileId && this.webcamImage?.imageAsDataUrl){
       this.backendService.createAsset(this.fileId, this.webcamImage.imageAsDataUrl).subscribe({
         next: data => {
-          if(data.confidenceLevel && parseInt(data.confidenceLevel) > 0.5) {
+          if(data.confidenceLevel && (parseFloat(data.confidenceLevel) > 0.5)) {
             console.log('Asset created:', data);
             this.assetNumber = data.assetNumber;
             this.assetNumberConfidence = data.confidenceLevel;
@@ -87,8 +92,10 @@ export class AppComponent {
           }
         },
         error: error => {
-          console.error('Error creating asset:', error);
-          alert("Erro ao criar bem");
+          if(error.message === BAKEND_FILE_INCOMPLETE_ASSETS) {
+            alert(error.message);
+          }
+          console.error(error.message);
         }
       });
     }
@@ -118,8 +125,13 @@ export class AppComponent {
           this.state = this.state+1;
         },
         error: error => {
-          console.error('Error confirming asset:', error);
-          alert("Não foi possível obter informações do bem informado");
+          if(error.message == BAKEND_ASSET_NOT_FOUND ||
+            BAKEND_ASSET_INVALID_CONDITION ||
+            BAKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE ||
+            BAKEND_ASSET_ALREADY_IN_FILE) {
+            alert(error.message);
+          }
+          console.error(error.message);
         }
       });
     }
@@ -150,8 +162,10 @@ export class AppComponent {
           this.state = this.state+1;
         },
         error: error => {
-          console.error('Error confirming file:', error);
-          alert("Erro ao gerar arquivo");
+          if(error.message === BAKEND_FILE_INVALID_ASSETS) {
+            alert(error.message);
+          }
+          console.error(error.message);
         }
       });
     }
