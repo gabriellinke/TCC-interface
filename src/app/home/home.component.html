@@ -1,0 +1,10 @@
+<div id="container">
+  <h1 style="background-color: red;">{{ unconsolidatedFileId ? 'Atualizar arquivo' : 'Criar arquivo' }}</h1>
+  <section>
+    <form action="">
+      <button class="default" type="button" (click)="handleFileAction()">
+        {{ unconsolidatedFileId ? 'Atualizar arquivo' : 'Criar arquivo' }}
+      </button>
+    </form>
+  </section>
+</div>

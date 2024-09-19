@@ -7,14 +7,15 @@ import { CreateFileResponse } from './../interfaces/CreateFileResponse';
 import { CreateAssetResponse } from '../interfaces/CreateAssetResponse';
 import { AddImageResponse } from '../interfaces/AddImageResponse';
 import { ConfirmFileResponse } from '../interfaces/ConfirmFileResponse';
+import { FileInterface } from '../interfaces/FileInterface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
   // baseUrl = 'http://localhost:8080';
-  baseUrl = 'https://192.168.0.177:8443';
-  // baseUrl = 'https://backend.tcc.utfpr';
+  // baseUrl = 'https://192.168.0.177:8443';
+  baseUrl = 'https://backend.tcc.utfpr';
 
   constructor(private http: HttpClient) { }
 
@@ -33,6 +34,20 @@ export class BackendService {
       }),
       map(response => response.body as LoginResponse)
     );
+  }
+
+  // Função de logout
+  logout() {
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('tokenExpiresAt');
+    // Redirecionar o usuário para a página de login
+    console.log('Logout realizado');
+  }
+
+  getFiles(): Observable<FileInterface[]> {
+    const url = `${this.baseUrl}/file`;
+
+    return this.http.get<FileInterface[]>(url, { responseType: 'json' });
   }
 
   createFile(): Observable<CreateFileResponse> {
@@ -87,11 +102,4 @@ export class BackendService {
     return this.http.post<ConfirmFileResponse>(url, null);
   }
 
-  // Função de logout
-  logout() {
-    // localStorage.removeItem('token');
-    // localStorage.removeItem('tokenExpiresAt');
-    // Redirecionar o usuário para a página de login
-    console.log('Logout realizado');
-  }
 }
