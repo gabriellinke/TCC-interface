@@ -20,7 +20,7 @@ export const routes: Routes = [
       component: SignUpComponent,
   },
   {
-      path: 'generate/:id',
+      path: 'generate',
       component: FileGenerationComponent,
       canActivate: [authGuard]
   }

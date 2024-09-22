@@ -1,9 +1,12 @@
 <div id="container">
-  <h1 style="background-color: red;">{{ unconsolidatedFileId ? 'Atualizar arquivo' : 'Criar arquivo' }}</h1>
+  <h1 style="background-color: red;">{{ assets.length > 0 || incompleteAsset ? 'Atualizar arquivo' : 'Iniciar geração' }}</h1>
   <section>
     <form action="">
       <button class="default" type="button" (click)="handleFileAction()">
-        {{ unconsolidatedFileId ? 'Atualizar arquivo' : 'Criar arquivo' }}
+        {{ assets.length > 0 || incompleteAsset ? 'Atualizar arquivo' : 'Iniciar geração' }}
+      </button>
+      <button class="default" type="button" *ngIf="assets.length > 0 && !incompleteAsset" (click)="generateFile()">
+        Gerar arquivo
       </button>
     </form>
   </section>

@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WebcamImage } from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
 import { BackendService } from '../backend.service';
 import { CameraComponent } from '../camera/camera.component';
 import { BAKEND_ASSET_ALREADY_IN_FILE, BAKEND_ASSET_INVALID_CONDITION, BAKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BAKEND_ASSET_NOT_FOUND, BAKEND_FILE_INCOMPLETE_ASSETS, BAKEND_FILE_INVALID_ASSETS, BAKEND_USER_ALREADY_HAS_FILE, FORBIDDEN_403 } from '../../constants/constants';
+import { ActivatedRoute } from '@angular/router';
+import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 
 @Component({
   selector: 'app-file-generation',
@@ -16,17 +18,39 @@ import { BAKEND_ASSET_ALREADY_IN_FILE, BAKEND_ASSET_INVALID_CONDITION, BAKEND_AS
 })
 export class FileGenerationComponent {
   public backendService: BackendService = inject(BackendService);
-  public processedImage: string | null = null;
+  public route: ActivatedRoute = inject(ActivatedRoute);
+  public router: Router = inject(Router);
   public webcamImage: WebcamImage | null = null;
+  public currentAsset: AssetInterfaceSimplified;
 
-  public state: number = 3;
-  public imageCount: number = 0;
-  public fileId: number | undefined = undefined;
-  public assetId: number | undefined = undefined;
-  public assetNumber: string | undefined = undefined;
+  public state: number = 2;
+  public temporaryAssetNumber: string | undefined = undefined;
   public assetNumberConfidence: string | undefined = undefined;
   public assetNumberUpdateEnabled: boolean = false;
-  public file: string | undefined = undefined;
+
+  constructor() {
+    console.log(this.router.getCurrentNavigation()?.extras.state?.['data']);
+    this.currentAsset = this.router.getCurrentNavigation()?.extras.state?.['data'];
+    if(!this.currentAsset || !this.currentAsset.id) {
+      this.state = 3;
+    } else if(this.currentAsset.assetNumber === "") {
+      if(this.currentAsset.mainImage !== "") {
+        this.reconizeAsset();
+      }
+    } else {
+      this.state = 6;
+    }
+  };
+
+  public getImageCount(): number {
+    let imageCount = this.currentAsset?.mainImage !== "" ? 1 : 0;
+    imageCount += this.currentAsset?.images.length || 0;
+    return imageCount;
+  }
+
+  public isAssetComplete(): boolean {
+    return !!this.currentAsset && this.currentAsset.mainImage !== "" && this.currentAsset.assetNumber !== "" && this.currentAsset.images.length >= 2;
+  }
 
 /**----------------------------------------------------------------------------------------------------------- */
   public clearImage(numberOfStates: number = 1): void {
@@ -43,37 +67,25 @@ export class FileGenerationComponent {
     this.assetNumberUpdateEnabled = true;
   }
 
-  public createFile() {
-    this.backendService.createFile().subscribe({
-      next: data => {
-        console.log('File created:', data);
-        this.fileId = data.id;
-        this.state = this.state + 1;
-      },
-      error: error => {
-        if(error.message === BAKEND_USER_ALREADY_HAS_FILE) {
-          alert(error.message);
-        }
-        console.error(error.message);
-      }
-    });
-  }
-
   public createAsset() {
-    if(this.fileId && this.webcamImage?.imageAsDataUrl){
-      this.backendService.createAsset(this.fileId, this.webcamImage.imageAsDataUrl).subscribe({
+    const fileId = this.currentAsset.fileId;
+    if(fileId && this.webcamImage?.imageAsDataUrl){
+      this.backendService.createAsset(fileId, this.webcamImage.imageAsDataUrl).subscribe({
         next: data => {
+          this.currentAsset = {
+            id: data.assetId,
+            fileId: fileId,
+            assetNumber: "",
+            mainImage: data.mainImage,
+            images: []
+          }
           if(data.confidenceLevel && (parseFloat(data.confidenceLevel) > 0.5)) {
             console.log('Asset created:', data);
-            this.assetNumber = data.assetNumber;
+            this.temporaryAssetNumber = data.assetNumber;
             this.assetNumberConfidence = data.confidenceLevel;
-            this.processedImage = data.mainImage;
-            this.assetId = data.assetId;
             this.state = this.state+1;
-            this.imageCount = this.imageCount+1;
           } else {
             alert("Não foi possível obter o número de patrimônio");
-            this.assetId = data.assetId;
             this.deleteAsset();
           }
         },
@@ -88,12 +100,19 @@ export class FileGenerationComponent {
   }
 
   public deleteAsset() {
-    if(this.assetId){
-      this.backendService.deleteAsset(this.assetId).subscribe({
+    const fileId = this.currentAsset.fileId;
+    if(this.currentAsset.id){
+      this.backendService.deleteAsset(this.currentAsset.id).subscribe({
         next: data => {
           console.log('Asset deleted:', data);
           this.state = 3;
-          this.imageCount = 0;
+          this.currentAsset = {
+            id: undefined,
+            fileId: fileId,
+            assetNumber: "",
+            mainImage: "",
+            images: []
+          }
         },
         error: error => {
           console.error('Error deleting asset:', error);
@@ -103,11 +122,44 @@ export class FileGenerationComponent {
     }
   }
 
+  public reconizeAsset() {
+    this.backendService.recognizeAssetNumber(this.currentAsset.id || 0).subscribe({
+      next: data => {
+        this.currentAsset = {
+          id: data.assetId,
+          fileId: data.fileId,
+          assetNumber: "",
+          mainImage: data.mainImage,
+          images: []
+        }
+        if(data.confidenceLevel && (parseFloat(data.confidenceLevel) > 0.5)) {
+          console.log('Recognizing asset number:', data);
+          this.temporaryAssetNumber = data.assetNumber;
+          this.assetNumberConfidence = data.confidenceLevel;
+          this.state = 5;
+        } else {
+          alert("Não foi possível obter o número de patrimônio");
+          this.deleteAsset();
+        }
+      },
+      error: error => {
+        console.error(error.message);
+      }
+    });
+  }
+
   public confirmAsset() {
-    if(this.assetId && this.assetNumber){
-      this.backendService.confirmAsset(this.assetId, this.assetNumber).subscribe({
+    if(this.currentAsset.id && this.temporaryAssetNumber){
+      this.backendService.confirmAsset(this.currentAsset.id, this.temporaryAssetNumber).subscribe({
         next: data => {
-          console.log('Asset confirmed:', data);
+          console.log('Asset confirmed');
+          this.currentAsset = {
+            id: this.currentAsset.id,
+            fileId: this.currentAsset.fileId,
+            assetNumber: this.temporaryAssetNumber || "",
+            mainImage: this.currentAsset.mainImage,
+            images: []
+          }
           this.state = this.state+1;
         },
         error: error => {
@@ -124,12 +176,12 @@ export class FileGenerationComponent {
   }
 
   public addImageToAsset() {
-    if(this.assetId && this.webcamImage?.imageAsDataUrl){
-      this.backendService.addImageToAsset(this.assetId, this.webcamImage.imageAsDataUrl).subscribe({
+    if(this.currentAsset.id && this.webcamImage?.imageAsDataUrl){
+      this.backendService.addImageToAsset(this.currentAsset.id, this.webcamImage.imageAsDataUrl).subscribe({
         next: data => {
           console.log('Image added to asset:', data);
+          this.currentAsset.images.push(data.path);
           this.state = this.state+1;
-          this.imageCount = this.imageCount+1;
         },
         error: error => {
           console.error('Error adding image to asset:', error);
@@ -140,12 +192,11 @@ export class FileGenerationComponent {
   }
 
   public confirmFile() {
-    if(this.fileId && this.imageCount >= 3){
-      this.backendService.confirmFile(this.fileId).subscribe({
+    if(this.currentAsset.fileId && this.isAssetComplete()){
+      this.backendService.confirmFile(this.currentAsset.fileId).subscribe({
         next: data => {
           console.log('File confirmed:', data);
-          this.file = data.filename;
-          this.state = this.state+1;
+          this.router.navigate(['/']);
         },
         error: error => {
           if(error.message === BAKEND_FILE_INVALID_ASSETS) {
@@ -157,25 +208,18 @@ export class FileGenerationComponent {
     }
   }
 
-  public resetVariables() {
-    this.state = 3;
-    this.webcamImage = null;
-    this.imageCount = 0;
-    this.fileId = undefined;
-    this.assetId = undefined;
-    this.assetNumber = undefined;
-    this.assetNumberConfidence = undefined;
-    this.assetNumberUpdateEnabled = false;
-    this.file = undefined;
-  }
-
   public resetVariablesForNewAsset() {
     this.state = 3;
     this.webcamImage = null;
-    this.imageCount = 0;
-    this.assetId = undefined;
-    this.assetNumber = undefined;
+    this.temporaryAssetNumber = undefined;
     this.assetNumberConfidence = undefined;
     this.assetNumberUpdateEnabled = false;
+    this.currentAsset = {
+      id: undefined,
+      fileId: this.currentAsset.fileId,
+      assetNumber: "",
+      mainImage: "",
+      images: []
+    }
   }
 }

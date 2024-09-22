@@ -8,7 +8,7 @@ import { CreateAssetResponse } from '../interfaces/CreateAssetResponse';
 import { AddImageResponse } from '../interfaces/AddImageResponse';
 import { ConfirmFileResponse } from '../interfaces/ConfirmFileResponse';
 import { FileInterface } from '../interfaces/FileInterface';
-
+import { AssetInterface } from './../interfaces/AssetInterface';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,7 +36,7 @@ export class BackendService {
     );
   }
 
-  // Função de logout
+  // TODO: Função de logout
   logout() {
     // localStorage.removeItem('token');
     // localStorage.removeItem('tokenExpiresAt');
@@ -48,6 +48,11 @@ export class BackendService {
     const url = `${this.baseUrl}/file`;
 
     return this.http.get<FileInterface[]>(url, { responseType: 'json' });
+  }
+
+  getAssetsByFileId(id: number): Observable<AssetInterface[]> {
+    const url = `${this.baseUrl}/file/${id}/assets`;
+    return this.http.get<AssetInterface[]>(url, { responseType: 'json' });
   }
 
   createFile(): Observable<CreateFileResponse> {
@@ -81,6 +86,11 @@ export class BackendService {
     const url = `${this.baseUrl}/asset/confirm/${assetId}`;
     const body = { assetNumber }
     return this.http.post(url, body);
+  }
+
+  recognizeAssetNumber(assetId: number): Observable<CreateAssetResponse> {
+    const url = `${this.baseUrl}/asset/recognize/${assetId}`;
+    return this.http.get<CreateAssetResponse>(url, { responseType: 'json' });
   }
 
   addImageToAsset(assetId: number, image: string): Observable<AddImageResponse>{
