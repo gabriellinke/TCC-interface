@@ -3,6 +3,7 @@ import { RouterOutlet, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WebcamImage } from 'ngx-webcam';
 import { CommonModule } from '@angular/common';
+import { UtilsService } from './../utils.service';
 import { BackendService } from '../backend.service';
 import { CameraComponent } from '../camera/camera.component';
 import { BAKEND_ASSET_ALREADY_IN_FILE, BAKEND_ASSET_INVALID_CONDITION, BAKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BAKEND_ASSET_NOT_FOUND, BAKEND_FILE_INCOMPLETE_ASSETS, BAKEND_FILE_INVALID_ASSETS, BAKEND_USER_ALREADY_HAS_FILE, FORBIDDEN_403 } from '../../constants/constants';
@@ -18,6 +19,7 @@ import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplif
 })
 export class FileGenerationComponent {
   public backendService: BackendService = inject(BackendService);
+  public utilsService: UtilsService = inject(UtilsService);
   public route: ActivatedRoute = inject(ActivatedRoute);
   public router: Router = inject(Router);
   public webcamImage: WebcamImage | null = null;
@@ -43,13 +45,11 @@ export class FileGenerationComponent {
   };
 
   public getImageCount(): number {
-    let imageCount = this.currentAsset?.mainImage !== "" ? 1 : 0;
-    imageCount += this.currentAsset?.images.length || 0;
-    return imageCount;
+    return this.utilsService.getImageCount(this.currentAsset);
   }
 
   public isAssetComplete(): boolean {
-    return !!this.currentAsset && this.currentAsset.mainImage !== "" && this.currentAsset.assetNumber !== "" && this.currentAsset.images.length >= 2;
+    return this.utilsService.isAssetComplete(this.currentAsset);
   }
 
 /**----------------------------------------------------------------------------------------------------------- */

@@ -1,0 +1,7 @@
+<div class="card" (click)="onClick()">
+  <img [src]="asset.mainImage" alt="" width="50px" height="50px">
+  <p>Bem número {{ asset.assetNumber }}</p>
+  <p>{{ asset.description }}</p>
+  <p>{{ asset.responsible }}</p>
+  <p>{{ utilsService.isAssetComplete(asset) ? "Concluído" : "Pendente"}}</p>
+</div>

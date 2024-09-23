@@ -3,8 +3,9 @@ import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BackendService } from '../backend.service';
+import { UtilsService } from './../utils.service';
 import { CameraComponent } from '../camera/camera.component';
-import { BAKEND_FILE_INVALID_ASSETS, BAKEND_USER_ALREADY_HAS_FILE } from '../../constants/constants';
+import { BAKEND_USER_ALREADY_HAS_FILE } from '../../constants/constants';
 import { FileInterface } from '../../interfaces/FileInterface';
 import { AssetInterface } from './../../interfaces/AssetInterface';
 import { Router } from '@angular/router';
@@ -18,10 +19,10 @@ import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplif
 })
 export class HomeComponent {
   public backendService: BackendService = inject(BackendService);
+  public utilsService: UtilsService = inject(UtilsService);
   public router: Router = inject(Router);
   public files: FileInterface[] = [];
-  public incompleteAsset: AssetInterface | undefined = undefined;
-  public assets: AssetInterface[] = [];
+  public consolidateFiles: FileInterface[] = [];
   public unconsolidatedFile: FileInterface | undefined;
 
   constructor() {
@@ -30,18 +31,7 @@ export class HomeComponent {
         console.log("Get Files", data);
         this.files = data;
         this.unconsolidatedFile = this.files.find(file => file.consolidated === false);
-        if(this.unconsolidatedFile) {
-          this.backendService.getAssetsByFileId(this.unconsolidatedFile.id).subscribe({
-            next: data => {
-              console.log('Got assets by fileId:', data);
-              this.assets = data;
-              this.incompleteAsset = data.find(asset => !this.isAssetComplete(asset));
-            },
-            error: error => {
-              console.error(error.message);
-            }
-          });
-        }
+        this.consolidateFiles = this.files.filter(file => file.consolidated === true);
       },
       error: error => {
         console.error(error.message);
@@ -50,43 +40,29 @@ export class HomeComponent {
   }
 
   public isAssetComplete(asset: AssetInterface): boolean {
-    return asset.mainImage !== "" && asset.assetNumber !== "" && asset.images.length >= 2;
+    return this.utilsService.isAssetComplete(asset);
   }
 
   public handleFileAction() {
     if (this.unconsolidatedFile) {
-      this.redirectToPage();
+      this.router.navigate([`/info/${this.unconsolidatedFile.id}`]);
     } else {
       this.createFile();
     }
-  }
-
-  public redirectToPage() {
-    let asset: AssetInterfaceSimplified = {
-      id: undefined,
-      fileId: this.unconsolidatedFile?.id || 0,
-      assetNumber: "",
-      mainImage: "",
-      images: []
-    }
-    if(this.incompleteAsset) {
-      asset = {
-        id: this.incompleteAsset.id,
-        fileId: this.incompleteAsset.fileId,
-        assetNumber: this.incompleteAsset.assetNumber,
-        mainImage: this.incompleteAsset.mainImage,
-        images: this.incompleteAsset.images
-      }
-    }
-
-    this.router.navigate([`/generate`], {state: {data: asset}});
   }
 
   public createFile() {
     this.backendService.createFile().subscribe({
       next: data => {
         console.log('File created:', data);
-        this.redirectToPage()
+        let asset: AssetInterfaceSimplified = {
+          id: undefined,
+          fileId: data.id,
+          assetNumber: "",
+          mainImage: "",
+          images: []
+        }
+        this.router.navigate([`/generate`], {state: {data: asset}});
       },
       error: error => {
         if(error.message === BAKEND_USER_ALREADY_HAS_FILE) {
@@ -95,21 +71,5 @@ export class HomeComponent {
         console.error(error.message);
       }
     });
-  }
-
-  public generateFile() {
-    if(this.assets.length > 0 && this.unconsolidatedFile?.id){
-      this.backendService.confirmFile(this.unconsolidatedFile?.id).subscribe({
-        next: data => {
-          console.log('File generated:', data);
-        },
-        error: error => {
-          if(error.message === BAKEND_FILE_INVALID_ASSETS) {
-            alert(error.message);
-          }
-          console.error(error.message);
-        }
-      });
-    }
   }
 }

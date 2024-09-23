@@ -39,6 +39,28 @@ button.default:focus {
   outline-offset: 2px;
 }
 
+button.default:disabled {
+  background-color: #cccccc; /* Cor de fundo mais clara */
+  border-color: #cccccc; /* Bordas mais claras */
+  color: #666666; /* Cor do texto mais escura */
+  cursor: not-allowed; /* Cursor de "não permitido" */
+  opacity: 0.65; /* Opacidade para dar efeito visual de desabilitado */
+}
+
+button.default:disabled:hover {
+  background-color: #cccccc; /* Não muda no hover */
+  border-color: #cccccc; /* Não muda no hover */
+}
+
+button.default:disabled:active {
+  background-color: #cccccc; /* Não muda no active */
+  border-color: #cccccc; /* Não muda no active */
+}
+
+button.default:disabled:focus {
+  outline: none; /* Remove outline */
+}
+
 .buttons {
   display: flex;
   flex-direction: column;

@@ -1,12 +1,12 @@
 <div id="container">
-  <h1 style="background-color: red;">{{ assets.length > 0 || incompleteAsset ? 'Atualizar arquivo' : 'Iniciar geração' }}</h1>
   <section>
+    <h1>Arquivos disponíveis</h1>
+    <div *ngFor="let file of consolidateFiles">
+      <a [href]="file.filename" target="_blank" download>{{ file.filename }}</a>
+    </div>
     <form action="">
       <button class="default" type="button" (click)="handleFileAction()">
-        {{ assets.length > 0 || incompleteAsset ? 'Atualizar arquivo' : 'Iniciar geração' }}
-      </button>
-      <button class="default" type="button" *ngIf="assets.length > 0 && !incompleteAsset" (click)="generateFile()">
-        Gerar arquivo
+        {{ unconsolidatedFile ? 'Atualizar arquivo' : 'Iniciar geração' }}
       </button>
     </form>
   </section>
