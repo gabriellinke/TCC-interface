@@ -37,8 +37,7 @@ export class FileInfoComponent {
   }
 
   goToAsset(assetId: number): void {
-    console.log(assetId);
-    // this.router.navigate(['/asset-info', assetId]);
+    this.router.navigate([`info/${this.fileId}/asset/${assetId}`]);
   }
 
   public areAllAssetsComplete(): boolean {

@@ -1,0 +1,47 @@
+<h1>Confira os dados do bem</h1>
+
+<section *ngIf="!!asset">
+  <strong>Número do tombamento</strong>
+  <p>{{asset.assetNumber}}</p>
+
+  <strong>Descrição</strong>
+  <p>{{asset.description}}</p>
+
+  <strong>Responsável</strong>
+  <p>{{asset.responsible}}</p>
+
+  <strong>Estado de conservação</strong>
+  <p>{{asset.conservationState}}</p>
+
+  <strong>Situação</strong>
+  <p>{{asset.situation}}</p>
+
+  <strong>Local</strong>
+  <p>{{asset.place}}</p>
+
+  <br/>
+
+  <div style="display: flex; flex-direction: column;">
+    <strong>Foto da placa de patrimônio</strong>
+    <img [src]="asset.mainImage" alt="Imagem principal do bem" width="60%">
+  </div>
+
+  <br/>
+
+  <div style="display: flex; flex-direction: column;">
+    <strong>Fotos do bem</strong>
+    <div *ngFor="let image of asset.images">
+      <img [src]="image" alt="Imagem principal do bem" width="60%">
+      <button
+        type="button"
+        class="actionBtn"
+        (click)="deleteImage(image);">
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <button class="default" type="button" (click)="updateAsset();">Atualizar bem</button>
+  <button class="default" type="button" (click)="deleteAsset();">Remover bem</button>
+
+</section>
