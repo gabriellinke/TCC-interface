@@ -1,6 +1,6 @@
 main {
   margin: 0px;
   padding: 0px;
-  background: #000;
-  color: white;
+  background: var(--background-color);
+  color: black;
 }

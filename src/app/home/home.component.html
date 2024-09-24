@@ -2,7 +2,7 @@
   <section>
     <h1>Arquivos disponíveis</h1>
     <div *ngFor="let file of consolidateFiles">
-      <a [href]="file.filename" target="_blank" download>{{ file.filename }}</a>
+      <a [href]="file.filename" target="_blank" download>{{ file.responsible }} - {{ file.assetQuantity }} bem ({{ file.consolidatedAt }})</a>
     </div>
     <form action="">
       <button class="default" type="button" (click)="handleFileAction()">

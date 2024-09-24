@@ -2,6 +2,27 @@
 *, html {
   margin: 0;
   padding: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --primary-color: #FFBE00;
+  --primary-hover-color: #e0a500;
+  --red-color: #DE0101;
+  --red-hover-color: #b50000;
+  --green-color: #077F21;
+  --green-hover-color: #056c1c;
+  --background-color: #F1F1F1;
+  --gray-background: #E5E5E5;
+  --gray-text: #7A7A7A;
+  --black-light: #000000DE;
+  --link-color: #0169CD;
+}
+
+a {
+  color: var(--link-color);
 }
 
 button.default {
@@ -10,51 +31,51 @@ button.default {
   padding: 0.5em 1em;
   font-size: 1rem;
   font-family: inherit;
-  color: #fff;
-  background-color: #007bff;
-  border: 1px solid #007bff;
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   border-radius: 0.25rem;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
   outline: none;
+  height: 50px;
+  width: 288px;
+  border-radius: 24px;
 
   /* Estilos que simulam o comportamento de um <button> */
   transition: background-color 0.2s, border-color 0.2s;
 }
 
 button.default:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
-}
-
-button.default:active {
-  background-color: #004085;
-  border-color: #003769;
+  background-color: var(--primary-hover-color);
+  border-color: var(--primary-hover-color);
 }
 
 button.default:focus {
-  outline: 2px solid #0056b3;
+  outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
 
 button.default:disabled {
-  background-color: #cccccc; /* Cor de fundo mais clara */
-  border-color: #cccccc; /* Bordas mais claras */
-  color: #666666; /* Cor do texto mais escura */
+  background-color: var(--gray-background); /* Cor de fundo mais clara */
+  border-color: var(--gray-background); /* Bordas mais claras */
+  color: var(--gray-text); /* Cor do texto mais escura */
   cursor: not-allowed; /* Cursor de "não permitido" */
   opacity: 0.65; /* Opacidade para dar efeito visual de desabilitado */
 }
 
 button.default:disabled:hover {
-  background-color: #cccccc; /* Não muda no hover */
-  border-color: #cccccc; /* Não muda no hover */
+  background-color: var(--gray-background);
+  border-color: var(--gray-background);
 }
 
 button.default:disabled:active {
-  background-color: #cccccc; /* Não muda no active */
-  border-color: #cccccc; /* Não muda no active */
+  background-color: var(--gray-background);
+  border-color: var(--gray-background);
 }
 
 button.default:disabled:focus {
