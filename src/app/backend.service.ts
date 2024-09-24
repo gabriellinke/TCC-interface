@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { tap, map, catchError, switchMap } from 'rxjs/operators';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap, map, switchMap } from 'rxjs/operators';
 import { LoginResponse } from '../interfaces/LoginResponse';
 import { CreateFileResponse } from './../interfaces/CreateFileResponse';
 import { CreateAssetResponse } from '../interfaces/CreateAssetResponse';
@@ -79,7 +79,7 @@ export class BackendService {
 
   deleteAsset(assetId:number): Observable<any> {
     const url = `${this.baseUrl}/asset/${assetId}`;
-    return this.http.delete<CreateFileResponse>(url);
+    return this.http.delete(url, { observe: 'response' });
   }
 
   confirmAsset(assetId: number, assetNumber: string): Observable<any> {
@@ -112,4 +112,8 @@ export class BackendService {
     return this.http.post<ConfirmFileResponse>(url, null);
   }
 
+  deleteImage(filename:string): Observable<any> {
+    const url = `${this.baseUrl}/asset/delete-image/${filename}`;
+    return this.http.delete(url, { observe: 'response' });
+  }
 }
