@@ -9,11 +9,12 @@ import { CameraComponent } from '../camera/camera.component';
 import { BAKEND_ASSET_ALREADY_IN_FILE, BAKEND_ASSET_INVALID_CONDITION, BAKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BAKEND_ASSET_NOT_FOUND, BAKEND_FILE_INCOMPLETE_ASSETS, BAKEND_FILE_INVALID_ASSETS, BAKEND_USER_ALREADY_HAS_FILE, FORBIDDEN_403 } from '../../constants/constants';
 import { ActivatedRoute } from '@angular/router';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
+import { OverlayComponent } from '../overlay/overlay.component';
 
 @Component({
   selector: 'app-file-generation',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent],
+  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, OverlayComponent],
   templateUrl: './file-generation.component.html',
   styleUrl: './file-generation.component.css'
 })

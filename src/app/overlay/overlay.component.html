@@ -1,0 +1,5 @@
+<div class="overlay" *ngIf="isVisible">
+  <div class="overlay-content" (click)="$event.stopPropagation()">
+    <ng-content></ng-content>
+  </div>
+</div>

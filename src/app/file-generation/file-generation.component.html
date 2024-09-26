@@ -2,23 +2,22 @@
   <div *ngIf="state==2">
     <img src="assets/img/load.gif" alt="Loading">
   </div>
-  <div *ngIf="state==3">
+  <div *ngIf="state!=2">
     <app-camera
       (imageCaptured)="onImageCaptured($event)"
-      [showSquare]="true"
+      [showSquare]="state==3"
     />
   </div>
+  <app-overlay [isVisible]="state==4 || state==5 || state==7 || state==8">
   <div *ngIf="state==4 && webcamImage">
-    <h1 style="background-color: red;">Confirmar imagem: State {{state}}</h1>
-    <img [src]="webcamImage.imageAsDataUrl" alt="">
+    <img [src]="webcamImage.imageAsDataUrl" alt="Foto da placa de patrimônio" width="100%">
     <div class="buttons">
       <button class="default" type="button" (click)="createAsset();">Confirmar</button>
       <button class="default" type="button" (click)="clearImage();">Tirar nova foto</button>
     </div>
   </div>
   <div *ngIf="state==5">
-    <h1 style="background-color: red;">Confirmar número de patrimônio: State {{state}}</h1>
-    <img [src]="currentAsset.mainImage" alt="">
+    <img [src]="currentAsset.mainImage" alt="" width="100%">
     <div *ngIf="temporaryAssetNumber">
       <p *ngIf="!assetNumberUpdateEnabled">{{temporaryAssetNumber}} - Nível de confiança {{assetNumberConfidence}}</p>
       <input *ngIf="assetNumberUpdateEnabled" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
@@ -29,22 +28,14 @@
       <button class="default" type="button" (click)="deleteAsset();">Cancelar</button>
     </div>
   </div>
-  <div *ngIf="state==6">
-    <app-camera
-      (imageCaptured)="onImageCaptured($event)"
-      [showSquare]="false"
-    />
-  </div>
   <div *ngIf="state==7 && webcamImage">
-    <h1 style="background-color: red;">Adicionar nova imagem: State {{state}}</h1>
-    <img [src]="webcamImage.imageAsDataUrl" alt="">
+    <img [src]="webcamImage.imageAsDataUrl" alt="Imagem do bem" width="100%">
     <div class="buttons">
       <button class="default" type="button" (click)="addImageToAsset();">Confirmar foto</button>
       <button class="default" type="button" (click)="clearImage();">Voltar</button>
     </div>
   </div>
   <div *ngIf="state==8">
-    <h1 style="background-color: red;">Adicionar nova imagem ou gerar arquivo: State {{state}}</h1>
     <p>Total de {{getImageCount()}} fotos</p>
     <div class="buttons">
       <button class="default" type="button" (click)="clearImage(2);">Adicionar nova foto</button>
@@ -52,5 +43,5 @@
       <button *ngIf="isAssetComplete()" class="default" type="button" (click)="confirmFile();">Gerar arquivo</button>
     </div>
   </div>
-
+  </app-overlay>
 </div>
