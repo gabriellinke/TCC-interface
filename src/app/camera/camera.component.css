@@ -17,6 +17,14 @@
   left: 50%;
   transform: translate(-50%, -50%); /* Centers the red square */
 }
+
+#close {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  border: none;
+}
+
 /* Estilo para as quinas */
 .corner {
   position: absolute;

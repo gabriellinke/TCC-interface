@@ -8,7 +8,12 @@
       [imageQuality]="1"
       (cameraSwitched)="cameraWasSwitched($event)"
       (initError)="handleInitError($event)"
-    ></webcam>
+      id="camera-container"
+      >
+    </webcam>
+    <button id="close" (click)="close();">
+      <img src="assets/img/close.svg" alt="Cancelar geração" width="32px" height="32px">
+    </button>
     <div id="red-square" *ngIf="showSquare" [ngStyle]="{'width.px': screenWidth*0.6, 'height.px': screenHeight*0.2}">
       <div
         class="corner top-left"

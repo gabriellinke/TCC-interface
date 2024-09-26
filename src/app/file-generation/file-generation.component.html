@@ -1,53 +1,56 @@
-<div id="container" *ngIf="state==2">
-  <img src="assets/img/load.gif" alt="Loading">
-</div>
-<div id="container" *ngIf="state==3">
-  <app-camera
-    (imageCaptured)="onImageCaptured($event)"
-    [showSquare]="true"
-  />
-</div>
-<div id="container" *ngIf="state==4 && webcamImage">
-  <h1 style="background-color: red;">Confirmar imagem: State {{state}}</h1>
-  <img [src]="webcamImage.imageAsDataUrl" alt="">
-  <div class="buttons">
-    <button class="default" type="button" (click)="createAsset();">Confirmar</button>
-    <button class="default" type="button" (click)="clearImage();">Tirar nova foto</button>
+<div id="container">
+  <div *ngIf="state==2">
+    <img src="assets/img/load.gif" alt="Loading">
   </div>
-</div>
-<div id="container" *ngIf="state==5">
-  <h1 style="background-color: red;">Confirmar número de patrimônio: State {{state}}</h1>
-  <img [src]="currentAsset.mainImage" alt="">
-  <div *ngIf="temporaryAssetNumber" style="color: white;">
-    <p *ngIf="!assetNumberUpdateEnabled">{{temporaryAssetNumber}} - Nível de confiança {{assetNumberConfidence}}</p>
-    <input *ngIf="assetNumberUpdateEnabled" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
+  <div *ngIf="state==3">
+    <app-camera
+      (imageCaptured)="onImageCaptured($event)"
+      [showSquare]="true"
+    />
   </div>
-  <div class="buttons">
-    <button class="default" type="button" (click)="confirmAsset();">Confirmar</button>
-    <button class="default" type="button" (click)="enableAssetNumberUpdate();">Atualizar</button>
-    <button class="default" type="button" (click)="deleteAsset();">Cancelar</button>
+  <div *ngIf="state==4 && webcamImage">
+    <h1 style="background-color: red;">Confirmar imagem: State {{state}}</h1>
+    <img [src]="webcamImage.imageAsDataUrl" alt="">
+    <div class="buttons">
+      <button class="default" type="button" (click)="createAsset();">Confirmar</button>
+      <button class="default" type="button" (click)="clearImage();">Tirar nova foto</button>
+    </div>
   </div>
-</div>
-<div id="container" *ngIf="state==6">
-  <app-camera
-    (imageCaptured)="onImageCaptured($event)"
-    [showSquare]="false"
-  />
-</div>
-<div id="container" *ngIf="state==7 && webcamImage">
-  <h1 style="background-color: red;">Adicionar nova imagem: State {{state}}</h1>
-  <img [src]="webcamImage.imageAsDataUrl" alt="">
-  <div class="buttons">
-    <button class="default" type="button" (click)="addImageToAsset();">Confirmar foto</button>
-    <button class="default" type="button" (click)="clearImage();">Voltar</button>
+  <div *ngIf="state==5">
+    <h1 style="background-color: red;">Confirmar número de patrimônio: State {{state}}</h1>
+    <img [src]="currentAsset.mainImage" alt="">
+    <div *ngIf="temporaryAssetNumber">
+      <p *ngIf="!assetNumberUpdateEnabled">{{temporaryAssetNumber}} - Nível de confiança {{assetNumberConfidence}}</p>
+      <input *ngIf="assetNumberUpdateEnabled" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
+    </div>
+    <div class="buttons">
+      <button class="default" type="button" (click)="confirmAsset();">Confirmar</button>
+      <button class="default" type="button" (click)="enableAssetNumberUpdate();">Atualizar</button>
+      <button class="default" type="button" (click)="deleteAsset();">Cancelar</button>
+    </div>
   </div>
-</div>
-<div id="container" *ngIf="state==8">
-  <h1 style="background-color: red;">Adicionar nova imagem ou gerar arquivo: State {{state}}</h1>
-  <p style="color: white;">Total de {{getImageCount()}} fotos</p>
-  <div class="buttons">
-    <button class="default" type="button" (click)="clearImage(2);">Adicionar nova foto</button>
-    <button *ngIf="isAssetComplete()" class="default" type="button" (click)="resetVariablesForNewAsset();">Adicionar novo bem</button>
-    <button *ngIf="isAssetComplete()" class="default" type="button" (click)="confirmFile();">Gerar arquivo</button>
+  <div *ngIf="state==6">
+    <app-camera
+      (imageCaptured)="onImageCaptured($event)"
+      [showSquare]="false"
+    />
   </div>
+  <div *ngIf="state==7 && webcamImage">
+    <h1 style="background-color: red;">Adicionar nova imagem: State {{state}}</h1>
+    <img [src]="webcamImage.imageAsDataUrl" alt="">
+    <div class="buttons">
+      <button class="default" type="button" (click)="addImageToAsset();">Confirmar foto</button>
+      <button class="default" type="button" (click)="clearImage();">Voltar</button>
+    </div>
+  </div>
+  <div *ngIf="state==8">
+    <h1 style="background-color: red;">Adicionar nova imagem ou gerar arquivo: State {{state}}</h1>
+    <p>Total de {{getImageCount()}} fotos</p>
+    <div class="buttons">
+      <button class="default" type="button" (click)="clearImage(2);">Adicionar nova foto</button>
+      <button *ngIf="isAssetComplete()" class="default" type="button" (click)="resetVariablesForNewAsset();">Adicionar novo bem</button>
+      <button *ngIf="isAssetComplete()" class="default" type="button" (click)="confirmFile();">Gerar arquivo</button>
+    </div>
+  </div>
+
 </div>

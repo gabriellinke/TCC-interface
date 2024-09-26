@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import {Subject, Observable} from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil, WebcamModule } from 'ngx-webcam';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 // Declaração do ImageCapture para que o TypeScript entenda
 declare var ImageCapture: any;
 
@@ -15,6 +15,7 @@ declare var ImageCapture: any;
 export class CameraComponent implements OnInit {
   @Output() imageCaptured = new EventEmitter<WebcamImage>();  // Emitir o evento com a imagem
   @Input() showSquare: boolean = false;
+  @Input() onClose!: () => void;
   public screenWidth: number = 0;
   public screenHeight: number = 0;
   // toggle webcam on/off
@@ -37,11 +38,13 @@ export class CameraComponent implements OnInit {
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
   public isTorchOn: boolean | ConstrainBooleanParameters | undefined = false;
-  /**----------------------------------------------------------------------------------------------------------- */
 
   public webcamImage: WebcamImage | null = null;
+  private resizeObserver: ResizeObserver | undefined;
 
 /**----------------------------------------------------------------------------------------------------------- */
+
+  constructor(private location: Location) {};
 
   public ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs()
@@ -54,6 +57,52 @@ export class CameraComponent implements OnInit {
 
     // Update screen dimensions on window resize
     window.addEventListener('resize', this.updateScreenDimensions.bind(this));
+  }
+
+  ngAfterViewInit(): void {
+    this.setupResizeObserver();
+  }
+
+  ngOnDestroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+  }
+
+  setupResizeObserver() {
+    const cameraContainer = document.getElementById('camera-container');
+    if (cameraContainer) {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.updateCloseButtonPosition();
+      });
+
+      const videoElement = cameraContainer.querySelector('video');
+      if (videoElement) {
+        this.resizeObserver.observe(videoElement);
+      }
+    }
+  }
+
+  public close() {
+    this.location.back();
+  }
+
+  public updateCloseButtonPosition() {
+    const cameraContainer = document.getElementById('camera-container');
+    if (cameraContainer) {
+      const videoElement = cameraContainer.querySelector('video');
+      if (videoElement) {
+        const videoRect = videoElement.getBoundingClientRect();
+        const closeButton = document.getElementById('close');
+        if (closeButton) {
+          console.log(videoRect);
+          closeButton.style.top = `${videoRect.top + 16}px`;  // Ajuste a posição conforme necessário
+          closeButton.style.right = `${Math.max(videoRect.left, 0) + 16}px`;
+        }
+      } else {
+        console.log('Elemento <video> não encontrado');
+      }
+    }
   }
 
   public updateScreenDimensions() {
