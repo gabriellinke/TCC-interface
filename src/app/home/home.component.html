@@ -5,7 +5,7 @@
       <a [href]="file.filename" target="_blank" download>{{ file.responsible }} - {{ file.assetQuantity }} bem ({{ file.consolidatedAt }})</a>
     </div>
     <form action="">
-      <button class="default" type="button" (click)="handleFileAction()">
+      <button class="primary" type="button" (click)="handleFileAction()">
         {{ unconsolidatedFile ? 'Atualizar arquivo' : 'Iniciar geração' }}
       </button>
     </form>

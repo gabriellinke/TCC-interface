@@ -4,12 +4,12 @@
   <app-asset-info-card [asset]="asset" (assetClicked)="goToAsset($event)"></app-asset-info-card>
 </div>
 
-<button class="default" *ngIf="assets.length > 0 && areAllAssetsComplete()" type="button" (click)="handleAddAsset()">
+<button class="primary" *ngIf="assets.length > 0 && areAllAssetsComplete()" type="button" (click)="handleAddAsset()">
   Adicionar bem
 </button>
 
 <div>
-  <button class="default" type="button" (click)="handleAssetAction()">
+  <button class="primary" type="button" (click)="handleAssetAction()">
     {{ assets.length > 0 && areAllAssetsComplete() ? 'Gerar arquivo' : 'Continuar geração' }}
   </button>
 </div>

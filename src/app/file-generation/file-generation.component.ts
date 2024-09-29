@@ -29,7 +29,6 @@ export class FileGenerationComponent {
   public state: number = 2;
   public temporaryAssetNumber: string | undefined = undefined;
   public assetNumberConfidence: string | undefined = undefined;
-  public assetNumberUpdateEnabled: boolean = false;
 
   constructor() {
     console.log(this.router.getCurrentNavigation()?.extras.state?.['data']);
@@ -62,10 +61,6 @@ export class FileGenerationComponent {
   onImageCaptured(image: WebcamImage): void {
     this.webcamImage = image;
     this.state = this.state+1;
-  }
-
-  public enableAssetNumberUpdate() {
-    this.assetNumberUpdateEnabled = true;
   }
 
   public createAsset() {
@@ -214,7 +209,6 @@ export class FileGenerationComponent {
     this.webcamImage = null;
     this.temporaryAssetNumber = undefined;
     this.assetNumberConfidence = undefined;
-    this.assetNumberUpdateEnabled = false;
     this.currentAsset = {
       id: undefined,
       fileId: this.currentAsset.fileId,

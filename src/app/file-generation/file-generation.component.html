@@ -9,38 +9,36 @@
     />
   </div>
   <app-overlay [isVisible]="state==4 || state==5 || state==7 || state==8">
-  <div *ngIf="state==4 && webcamImage">
-    <img [src]="webcamImage.imageAsDataUrl" alt="Foto da placa de patrimônio" width="100%">
-    <div class="buttons">
-      <button class="default" type="button" (click)="createAsset();">Confirmar</button>
-      <button class="default" type="button" (click)="clearImage();">Tirar nova foto</button>
+  <div *ngIf="state==4 && webcamImage" class="overlay-content">
+    <img [src]="webcamImage.imageAsDataUrl" alt="Foto da placa de patrimônio" class="image">
+    <div class="buttons-center">
+      <button class="primary button-margin" type="button" (click)="createAsset();">Confirmar</button>
+      <button class="secondary" type="button" (click)="clearImage();">Tirar nova foto</button>
     </div>
   </div>
-  <div *ngIf="state==5">
-    <img [src]="currentAsset.mainImage" alt="" width="100%">
-    <div *ngIf="temporaryAssetNumber">
-      <p *ngIf="!assetNumberUpdateEnabled">{{temporaryAssetNumber}} - Nível de confiança {{assetNumberConfidence}}</p>
-      <input *ngIf="assetNumberUpdateEnabled" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
+  <div *ngIf="state==5" class="overlay-content overlay-padding-top">
+    <div>
+      <p class="overlay-text" style="padding-bottom: 8px;">Número de patrimônio</p>
+      <input class="styled-input" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
     </div>
-    <div class="buttons">
-      <button class="default" type="button" (click)="confirmAsset();">Confirmar</button>
-      <button class="default" type="button" (click)="enableAssetNumberUpdate();">Atualizar</button>
-      <button class="default" type="button" (click)="deleteAsset();">Cancelar</button>
+    <div class="buttons-bottom">
+      <button class="primary button-margin" type="button" (click)="confirmAsset();">Confirmar</button>
+      <button class="secondary" type="button" (click)="deleteAsset();">Cancelar</button>
     </div>
   </div>
-  <div *ngIf="state==7 && webcamImage">
-    <img [src]="webcamImage.imageAsDataUrl" alt="Imagem do bem" width="100%">
-    <div class="buttons">
-      <button class="default" type="button" (click)="addImageToAsset();">Confirmar foto</button>
-      <button class="default" type="button" (click)="clearImage();">Voltar</button>
+  <div *ngIf="state==7 && webcamImage" class="overlay-content">
+    <img [src]="webcamImage.imageAsDataUrl" alt="Imagem do bem" class="image">
+    <div class="buttons-center">
+      <button class="primary button-margin" type="button" (click)="addImageToAsset();">Confirmar foto</button>
+      <button class="secondary" type="button" (click)="clearImage();">Voltar</button>
     </div>
   </div>
-  <div *ngIf="state==8">
+  <div *ngIf="state==8" class="overlay-content">
     <p>Total de {{getImageCount()}} fotos</p>
-    <div class="buttons">
-      <button class="default" type="button" (click)="clearImage(2);">Adicionar nova foto</button>
-      <button *ngIf="isAssetComplete()" class="default" type="button" (click)="resetVariablesForNewAsset();">Adicionar novo bem</button>
-      <button *ngIf="isAssetComplete()" class="default" type="button" (click)="confirmFile();">Gerar arquivo</button>
+    <div class="buttons-bottom">
+      <button *ngIf="isAssetComplete()" class="primary button-margin" type="button" (click)="confirmFile();">Gerar arquivo</button>
+      <button class="secondary button-margin" type="button" (click)="clearImage(2);">Adicionar nova foto</button>
+      <button *ngIf="isAssetComplete()" class="secondary" type="button" (click)="resetVariablesForNewAsset();">Adicionar novo bem</button>
     </div>
   </div>
   </app-overlay>

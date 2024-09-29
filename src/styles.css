@@ -25,17 +25,14 @@ a {
   color: var(--link-color);
 }
 
-button.default {
+button.primary, button.secondary, button.delete {
   display: inline-block;
   position: relative;
   padding: 0.5em 1em;
   font-size: 1rem;
   font-family: inherit;
-  color: black;
   font-weight: bold;
   font-size: 14px;
-  background-color: var(--primary-color);
-  border: 1px solid var(--primary-color);
   border-radius: 0.25rem;
   text-align: center;
   text-decoration: none;
@@ -43,24 +40,63 @@ button.default {
   user-select: none;
   outline: none;
   height: 50px;
-  width: 288px;
+  max-width: 288px;
+  width: 100%;
   border-radius: 24px;
 
   /* Estilos que simulam o comportamento de um <button> */
   transition: background-color 0.2s, border-color 0.2s;
 }
 
-button.default:hover {
+button.primary {
+  color: black;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+button.secondary {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+}
+
+button.delete {
+  color: white;
+  background-color: var(--red-color);
+  border: 1px solid var(--red-color);
+}
+
+button.primary:hover {
   background-color: var(--primary-hover-color);
   border-color: var(--primary-hover-color);
 }
 
-button.default:focus {
+button.primary:focus {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
 
-button.default:disabled {
+button.secondary:hover {
+  background-color: var(--background-color);
+  border-color: black;
+}
+
+button.secondary:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+button.delete:hover {
+  background-color: var(--red-hover-color);
+  border-color: var(--red-hover-color);
+}
+
+button.delete:focus {
+  outline: 2px solid var(--red-color);
+  outline-offset: 2px;
+}
+
+button.primary:disabled, button.secondary:disabled, button.delete:disabled {
   background-color: var(--gray-background); /* Cor de fundo mais clara */
   border-color: var(--gray-background); /* Bordas mais claras */
   color: var(--gray-text); /* Cor do texto mais escura */
@@ -68,27 +104,16 @@ button.default:disabled {
   opacity: 0.65; /* Opacidade para dar efeito visual de desabilitado */
 }
 
-button.default:disabled:hover {
+button.primary:disabled:hover, button.secondary:disabled:hover, button.delete:disabled:hover {
   background-color: var(--gray-background);
   border-color: var(--gray-background);
 }
 
-button.default:disabled:active {
+button.primary:disabled:active, button.secondary:disabled:active, button.delete:disabled:active {
   background-color: var(--gray-background);
   border-color: var(--gray-background);
 }
 
-button.default:disabled:focus {
-  outline: none; /* Remove outline */
-}
-
-.buttons {
-  display: flex;
-  flex-direction: column;
-
-  button {
-    position: relative;
-    margin-top: 8px;
-    max-width: 160px;
-  }
+button.primary:disabled:focus, button.secondary:disabled:focus, button.delete:disabled:focus {
+  outline: none;
 }
