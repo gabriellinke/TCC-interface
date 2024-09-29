@@ -1,0 +1,31 @@
+a {
+  color: black;
+  text-decoration: none;
+}
+
+p {
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 224px;
+}
+
+.container {
+  height: 80px;
+  width: 288px;
+  background-color: white;
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px;
+  max-width: 288px;
+}

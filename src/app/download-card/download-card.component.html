@@ -1,0 +1,10 @@
+<div class="container">
+  <a [href]="file.filename" target="_blank" download class="content">
+    <div>
+      <p>{{ file.assetQuantity }} {{ file.assetQuantity === 1 ? "bem" : "bens" }}</p>
+      <p>{{ file.responsible }}</p>
+      <p>Gerado em {{ file.consolidatedAt | date:'dd/MM/yyyy' }}</p>
+    </div>
+    <img src="assets/img/download.svg" alt="Download" width="32px" height="32px">
+  </a>
+</div>

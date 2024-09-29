@@ -1,8 +1,8 @@
 <div id="container">
   <section>
     <h1>Arquivos disponíveis</h1>
-    <div *ngFor="let file of consolidateFiles">
-      <a [href]="file.filename" target="_blank" download>{{ file.responsible }} - {{ file.assetQuantity }} bem ({{ file.consolidatedAt }})</a>
+    <div *ngFor="let file of consolidateFiles" style="margin-bottom: 16px;">
+      <app-download-card [file]="file"></app-download-card>
     </div>
     <form action="">
       <button class="primary" type="button" (click)="handleFileAction()">
