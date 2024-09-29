@@ -1,5 +1,5 @@
 {
-  "name": "camera-test",
+  "name": "tcc-interface",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:camera-test": "node dist/camera-test/server/server.mjs"
+    "serve:ssr:tcc-interface": "node dist/tcc-interface/server/server.mjs"
   },
   "private": true,
   "dependencies": {

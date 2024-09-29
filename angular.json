@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "camera-test": {
+    "tcc-interface": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/camera-test",
+            "outputPath": "dist/tcc-interface",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -69,10 +69,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "camera-test:build:production"
+              "buildTarget": "tcc-interface:build:production"
             },
             "development": {
-              "buildTarget": "camera-test:build:development"
+              "buildTarget": "tcc-interface:build:development"
             }
           },
           "defaultConfiguration": "development"

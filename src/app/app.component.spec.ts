@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'camera-test' title`, () => {
+  it(`should have the 'tcc-interface' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('camera-test');
+    expect(app.title).toEqual('tcc-interface');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, camera-test');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, tcc-interface');
   });
 });
