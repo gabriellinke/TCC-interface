@@ -10,7 +10,7 @@ import { BAKEND_ASSET_ALREADY_IN_FILE, BAKEND_ASSET_INVALID_CONDITION, BAKEND_AS
 import { ActivatedRoute } from '@angular/router';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { OverlayComponent } from '../overlay/overlay.component';
-
+import { FileGenerationStates } from '../file-generation-states';
 @Component({
   selector: 'app-file-generation',
   standalone: true,
@@ -26,7 +26,8 @@ export class FileGenerationComponent {
   public webcamImage: WebcamImage | null = null;
   public currentAsset: AssetInterfaceSimplified;
 
-  public state: number = 2;
+  public fileStates = FileGenerationStates;
+  public currentState: FileGenerationStates = FileGenerationStates.LOADING;
   public temporaryAssetNumber: string | undefined = undefined;
   public assetNumberConfidence: string | undefined = undefined;
 
@@ -34,13 +35,13 @@ export class FileGenerationComponent {
     console.log(this.router.getCurrentNavigation()?.extras.state?.['data']);
     this.currentAsset = this.router.getCurrentNavigation()?.extras.state?.['data'];
     if(!this.currentAsset || !this.currentAsset.id) {
-      this.state = 3;
+      this.currentState = FileGenerationStates.ASSET_NUMBER_CAPTURE;
     } else if(this.currentAsset.assetNumber === "") {
       if(this.currentAsset.mainImage !== "") {
         this.reconizeAsset();
       }
     } else {
-      this.state = 6;
+      this.currentState = FileGenerationStates.PHOTO_CAPTURE;
     }
   };
 
@@ -53,14 +54,18 @@ export class FileGenerationComponent {
   }
 
 /**----------------------------------------------------------------------------------------------------------- */
-  public clearImage(numberOfStates: number = 1): void {
+  public clearImage(state: FileGenerationStates): void {
     this.webcamImage = null;
-    this.state = this.state-numberOfStates;
+    this.currentState = state;
   }
 
   onImageCaptured(image: WebcamImage): void {
     this.webcamImage = image;
-    this.state = this.state+1;
+    if(this.currentState==FileGenerationStates.ASSET_NUMBER_CAPTURE) {
+      this.currentState = FileGenerationStates.REVIEWING_MAIN_PHOTO;
+    } else {
+      this.currentState = FileGenerationStates.REVIEWING_ASSET_PHOTO;
+    }
   }
 
   public createAsset() {
@@ -79,7 +84,7 @@ export class FileGenerationComponent {
             console.log('Asset created:', data);
             this.temporaryAssetNumber = data.assetNumber;
             this.assetNumberConfidence = data.confidenceLevel;
-            this.state = this.state+1;
+            this.currentState = FileGenerationStates.REVIEWING_ASSET_NUMBER;
           } else {
             alert("Não foi possível obter o número de patrimônio");
             this.deleteAsset();
@@ -101,7 +106,7 @@ export class FileGenerationComponent {
       this.backendService.deleteAsset(this.currentAsset.id).subscribe({
         next: data => {
           console.log('Asset deleted:', data);
-          this.state = 3;
+          this.currentState = FileGenerationStates.ASSET_NUMBER_CAPTURE;
           this.currentAsset = {
             id: undefined,
             fileId: fileId,
@@ -132,7 +137,7 @@ export class FileGenerationComponent {
           console.log('Recognizing asset number:', data);
           this.temporaryAssetNumber = data.assetNumber;
           this.assetNumberConfidence = data.confidenceLevel;
-          this.state = 5;
+          this.currentState = FileGenerationStates.REVIEWING_ASSET_NUMBER;
         } else {
           alert("Não foi possível obter o número de patrimônio");
           this.deleteAsset();
@@ -156,7 +161,7 @@ export class FileGenerationComponent {
             mainImage: this.currentAsset.mainImage,
             images: []
           }
-          this.state = this.state+1;
+          this.currentState = FileGenerationStates.PHOTO_CAPTURE;
         },
         error: error => {
           if(error.message == BAKEND_ASSET_NOT_FOUND ||
@@ -177,7 +182,7 @@ export class FileGenerationComponent {
         next: data => {
           console.log('Image added to asset:', data);
           this.currentAsset.images.push(data.path);
-          this.state = this.state+1;
+          this.currentState = FileGenerationStates.SELECTING_NEXT_ACTION;
         },
         error: error => {
           console.error('Error adding image to asset:', error);
@@ -205,7 +210,7 @@ export class FileGenerationComponent {
   }
 
   public resetVariablesForNewAsset() {
-    this.state = 3;
+    this.currentState = FileGenerationStates.ASSET_NUMBER_CAPTURE;
     this.webcamImage = null;
     this.temporaryAssetNumber = undefined;
     this.assetNumberConfidence = undefined;
