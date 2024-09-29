@@ -2,11 +2,11 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WebcamImage } from 'ngx-webcam';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { UtilsService } from './../utils.service';
 import { BackendService } from '../backend.service';
 import { CameraComponent } from '../camera/camera.component';
-import { BAKEND_ASSET_ALREADY_IN_FILE, BAKEND_ASSET_INVALID_CONDITION, BAKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BAKEND_ASSET_NOT_FOUND, BAKEND_FILE_INCOMPLETE_ASSETS, BAKEND_FILE_INVALID_ASSETS, BAKEND_USER_ALREADY_HAS_FILE, FORBIDDEN_403 } from '../../constants/constants';
+import { BACKEND_ASSET_ALREADY_IN_FILE, BACKEND_ASSET_INVALID_CONDITION, BACKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BACKEND_ASSET_NOT_FOUND, BACKEND_FILE_INCOMPLETE_ASSETS, BACKEND_FILE_INVALID_ASSETS, BACKEND_USER_ALREADY_HAS_FILE, FORBIDDEN_403 } from '../../constants/constants';
 import { ActivatedRoute } from '@angular/router';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { OverlayComponent } from '../overlay/overlay.component';
@@ -31,17 +31,21 @@ export class FileGenerationComponent {
   public temporaryAssetNumber: string | undefined = undefined;
   public assetNumberConfidence: string | undefined = undefined;
 
-  constructor() {
+  constructor(private location: Location) {
     console.log(this.router.getCurrentNavigation()?.extras.state?.['data']);
     this.currentAsset = this.router.getCurrentNavigation()?.extras.state?.['data'];
     if(!this.currentAsset || !this.currentAsset.id) {
       this.currentState = FileGenerationStates.ASSET_NUMBER_CAPTURE;
     } else if(this.currentAsset.assetNumber === "") {
       if(this.currentAsset.mainImage !== "") {
-        this.reconizeAsset();
+        this.recognizeAsset();
       }
     } else {
-      this.currentState = FileGenerationStates.PHOTO_CAPTURE;
+      if(this.isAssetComplete()) {
+        this.currentState = FileGenerationStates.SELECTING_NEXT_ACTION;
+      } else {
+        this.currentState = FileGenerationStates.PHOTO_CAPTURE;
+      }
     }
   };
 
@@ -68,6 +72,10 @@ export class FileGenerationComponent {
     }
   }
 
+  public goBack() {
+    this.location.back();
+  }
+
   public createAsset() {
     const fileId = this.currentAsset.fileId;
     if(fileId && this.webcamImage?.imageAsDataUrl){
@@ -86,13 +94,12 @@ export class FileGenerationComponent {
             this.assetNumberConfidence = data.confidenceLevel;
             this.currentState = FileGenerationStates.REVIEWING_ASSET_NUMBER;
           } else {
-            alert("Não foi possível obter o número de patrimônio");
-            this.deleteAsset();
+            this.currentState = FileGenerationStates.ASSET_NUMBER_NOT_FOUND;
           }
         },
         error: error => {
-          if(error.message === BAKEND_FILE_INCOMPLETE_ASSETS) {
-            alert(error.message);
+          if(error.message === BACKEND_FILE_INCOMPLETE_ASSETS) {
+            this.currentState = FileGenerationStates.ERROR_FILE_INCOMPLETE_ASSETS;
           }
           console.error(error.message);
         }
@@ -123,7 +130,7 @@ export class FileGenerationComponent {
     }
   }
 
-  public reconizeAsset() {
+  public recognizeAsset() {
     this.backendService.recognizeAssetNumber(this.currentAsset.id || 0).subscribe({
       next: data => {
         this.currentAsset = {
@@ -139,8 +146,7 @@ export class FileGenerationComponent {
           this.assetNumberConfidence = data.confidenceLevel;
           this.currentState = FileGenerationStates.REVIEWING_ASSET_NUMBER;
         } else {
-          alert("Não foi possível obter o número de patrimônio");
-          this.deleteAsset();
+          this.currentState = FileGenerationStates.ASSET_NUMBER_NOT_FOUND;
         }
       },
       error: error => {
@@ -164,10 +170,15 @@ export class FileGenerationComponent {
           this.currentState = FileGenerationStates.PHOTO_CAPTURE;
         },
         error: error => {
-          if(error.message == BAKEND_ASSET_NOT_FOUND ||
-            BAKEND_ASSET_INVALID_CONDITION ||
-            BAKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE ||
-            BAKEND_ASSET_ALREADY_IN_FILE) {
+          if(error.message == BACKEND_ASSET_NOT_FOUND) {
+            this.currentState = FileGenerationStates.ERROR_ASSET_NOT_FOUND;
+          } else if(error.message == BACKEND_ASSET_INVALID_CONDITION) {
+            this.currentState = FileGenerationStates.ERROR_ASSET_INVALID_CONDITION;
+          } else if(error.message == BACKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE) {
+            this.currentState = FileGenerationStates.ERROR_MORE_THAN_ONE_RESPONSIBLE;
+          } else if(error.message == BACKEND_ASSET_ALREADY_IN_FILE) {
+            this.currentState = FileGenerationStates.ERROR_ASSET_ALREADY_IN_FILE;
+          } else {
             alert(error.message);
           }
           console.error(error.message);
@@ -182,7 +193,11 @@ export class FileGenerationComponent {
         next: data => {
           console.log('Image added to asset:', data);
           this.currentAsset.images.push(data.path);
-          this.currentState = FileGenerationStates.SELECTING_NEXT_ACTION;
+          if(this.isAssetComplete()) {
+            this.currentState = FileGenerationStates.SELECTING_NEXT_ACTION;
+          } else {
+            this.currentState = FileGenerationStates.PHOTO_CAPTURE;
+          }
         },
         error: error => {
           console.error('Error adding image to asset:', error);
@@ -200,7 +215,9 @@ export class FileGenerationComponent {
           this.router.navigate(['/']);
         },
         error: error => {
-          if(error.message === BAKEND_FILE_INVALID_ASSETS) {
+          if(error.message === BACKEND_FILE_INVALID_ASSETS) {
+            this.currentState = FileGenerationStates.ERROR_FILE_INVALID_ASSETS;
+          } else {
             alert(error.message);
           }
           console.error(error.message);

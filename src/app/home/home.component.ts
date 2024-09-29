@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { BackendService } from '../backend.service';
 import { UtilsService } from './../utils.service';
 import { CameraComponent } from '../camera/camera.component';
-import { BAKEND_USER_ALREADY_HAS_FILE } from '../../constants/constants';
+import { BACKEND_USER_ALREADY_HAS_FILE } from '../../constants/constants';
 import { FileInterface } from '../../interfaces/FileInterface';
 import { AssetInterface } from './../../interfaces/AssetInterface';
 import { Router } from '@angular/router';
@@ -65,7 +65,7 @@ export class HomeComponent {
         this.router.navigate([`/generate`], {state: {data: asset}});
       },
       error: error => {
-        if(error.message === BAKEND_USER_ALREADY_HAS_FILE) {
+        if(error.message === BACKEND_USER_ALREADY_HAS_FILE) {
           alert(error.message);
         }
         console.error(error.message);

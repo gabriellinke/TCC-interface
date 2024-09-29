@@ -5,7 +5,7 @@ import { UtilsService } from '../utils.service';
 import { AssetInterface } from '../../interfaces/AssetInterface';
 import { CommonModule } from '@angular/common';
 import { AssetInfoCardComponent } from '../asset-info-card/asset-info-card.component';
-import { BAKEND_FILE_INVALID_ASSETS } from '../../constants/constants';
+import { BACKEND_FILE_INVALID_ASSETS } from '../../constants/constants';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 
 @Component({
@@ -52,7 +52,7 @@ export class FileInfoComponent {
           this.router.navigate(['/']);
         },
         error: error => {
-          if(error.message === BAKEND_FILE_INVALID_ASSETS) {
+          if(error.message === BACKEND_FILE_INVALID_ASSETS) {
             alert(error.message);
           }
           console.error(error.message);

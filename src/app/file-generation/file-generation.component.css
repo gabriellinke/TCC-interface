@@ -55,6 +55,9 @@
 .overlay-text {
   font-size: 20px;
   text-align: center;
+  padding-left: 32px;
+  padding-right: 32px;
+  width: calc(80vw - 64px);
 }
 
 .image {
@@ -66,4 +69,13 @@
 
 .button-margin {
   margin-bottom: 16px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
