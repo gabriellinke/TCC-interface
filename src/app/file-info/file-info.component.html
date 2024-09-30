@@ -1,15 +1,15 @@
-<h1>Bens no arquivo</h1>
+<app-header></app-header>
+<main>
+  <h1>Bens no arquivo</h1>
 
-<div *ngFor="let asset of assets">
-  <app-asset-info-card [asset]="asset" (assetClicked)="goToAsset($event)"></app-asset-info-card>
-</div>
+  <div *ngFor="let asset of assets">
+    <app-asset-info-card [asset]="asset" (assetClicked)="goToAsset($event)"></app-asset-info-card>
+  </div>
 
-<button class="primary" *ngIf="assets.length > 0 && areAllAssetsComplete()" type="button" (click)="handleAddAsset()">
-  Adicionar bem
-</button>
-
-<div>
+  <button class="primary" *ngIf="assets.length > 0 && areAllAssetsComplete()" type="button" (click)="handleAddAsset()">
+    Adicionar bem
+  </button>
   <button class="primary" type="button" (click)="handleAssetAction()">
     {{ assets.length > 0 && areAllAssetsComplete() ? 'Gerar arquivo' : 'Continuar geração' }}
   </button>
-</div>
+</main>

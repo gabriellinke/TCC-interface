@@ -5,11 +5,12 @@ import { BackendService } from '../backend.service';
 import { UtilsService } from '../utils.service';
 import { AssetInterface } from '../../interfaces/AssetInterface';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-asset-info',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent],
   templateUrl: './asset-info.component.html',
   styleUrl: './asset-info.component.css'
 })

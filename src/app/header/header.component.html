@@ -1,0 +1,19 @@
+<header>
+  <button *ngIf="!isMobileDevice">
+    <img src="assets/img/menu.svg" alt="Abrir menu" width="24px" height="24px" (click)="toggleSidebar();">
+  </button>
+  <button *ngIf="isMobileDevice && !isHomePage" (click)="goBack();">
+    <img src="assets/img/arrow-back.svg" alt="Voltar">
+  </button>
+  <img src="assets/img/utfpr-logo.svg" alt="Logo da UTFPR" height="25">
+</header>
+<div class="sidebar" *ngIf="!isMobileDevice" [ngClass]="{'open': isSidebarVisible}">
+  <button (click)="toggleSidebar();">
+    <img src="assets/img/close.svg" alt="Fechar menu" width="16px" height="16px">
+  </button>
+  <ul>
+    <li><a href="#">Início</a></li>
+    <li><a href="#">Informações</a></li>
+    <li><a href="#">Consulta</a></li>
+  </ul>
+</div>

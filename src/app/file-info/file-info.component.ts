@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { AssetInfoCardComponent } from '../asset-info-card/asset-info-card.component';
 import { BACKEND_FILE_INVALID_ASSETS } from '../../constants/constants';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-file-info',
   standalone: true,
-  imports: [CommonModule, AssetInfoCardComponent],
+  imports: [CommonModule, AssetInfoCardComponent, HeaderComponent],
   templateUrl: './file-info.component.html',
   styleUrl: './file-info.component.css'
 })

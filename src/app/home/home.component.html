@@ -1,13 +1,11 @@
-<div id="container">
-  <section>
-    <h1>Arquivos disponíveis</h1>
-    <div *ngFor="let file of consolidateFiles" style="margin-bottom: 16px;">
-      <app-download-card [file]="file"></app-download-card>
-    </div>
-    <form action="">
-      <button class="primary" type="button" (click)="handleFileAction()">
-        {{ unconsolidatedFile ? 'Atualizar arquivo' : 'Iniciar geração' }}
-      </button>
-    </form>
-  </section>
-</div>
+<app-header></app-header>
+<main>
+  <h1>Arquivos disponíveis</h1>
+  <div *ngFor="let file of consolidateFiles" style="margin-bottom: 16px;">
+    <app-download-card [file]="file"></app-download-card>
+  </div>
+  <button class="primary" type="button" (click)="handleFileAction()">
+    {{ unconsolidatedFile ? 'Atualizar arquivo' : 'Iniciar geração' }}
+  </button>
+</main>
+<app-footer></app-footer>

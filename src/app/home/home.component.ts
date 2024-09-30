@@ -11,10 +11,12 @@ import { AssetInterface } from './../../interfaces/AssetInterface';
 import { Router } from '@angular/router';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { DownloadCardComponent } from '../download-card/download-card.component';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, DownloadCardComponent],
+  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, DownloadCardComponent, HeaderComponent, FooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

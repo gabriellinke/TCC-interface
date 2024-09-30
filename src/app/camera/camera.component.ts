@@ -95,7 +95,6 @@ export class CameraComponent implements OnInit {
         const videoRect = videoElement.getBoundingClientRect();
         const closeButton = document.getElementById('close');
         if (closeButton) {
-          console.log(videoRect);
           closeButton.style.top = `${videoRect.top + 16}px`;  // Ajuste a posição conforme necessário
           closeButton.style.right = `${Math.max(videoRect.left, 0) + 16}px`;
         }
