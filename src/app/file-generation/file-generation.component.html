@@ -16,12 +16,24 @@
     </div>
     <div *ngIf="currentState==fileStates.REVIEWING_ASSET_NUMBER" class="overlay-content overlay-padding-top">
       <div>
-        <p class="overlay-text" style="padding-bottom: 8px;">Número de patrimônio</p>
+        <p class="overlay-text" style="margin-bottom: 8px;">Número de patrimônio</p>
         <input class="styled-input" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
       </div>
       <div class="buttons-bottom">
         <button class="primary button-margin" type="button" (click)="confirmAsset();">Confirmar</button>
         <button class="secondary" type="button" (click)="deleteAsset();">Cancelar</button>
+      </div>
+    </div>
+    <div *ngIf="currentState==fileStates.REVIEWING_ASSET_INFO" class="overlay-content overlay-padding-top">
+      <div>
+        <strong>Descrição do bem:</strong>
+        <p class="overlay-text max-two-lines" style="margin-bottom: 8px;">{{ currentAsset.description }}</p>
+        <br/>
+        <strong>Responsável pelo bem:</strong>
+        <p class="overlay-text max-two-lines">{{ currentAsset.responsible }}</p>
+      </div>
+      <div class="buttons-bottom">
+        <button class="primary button-margin" type="button" (click)="continueToAssetPhoto();">Continuar</button>
       </div>
     </div>
     <div

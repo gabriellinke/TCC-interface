@@ -61,6 +61,8 @@ export class HomeComponent {
         let asset: AssetInterfaceSimplified = {
           id: undefined,
           fileId: data.id,
+          description: "",
+          responsible: "",
           assetNumber: "",
           mainImage: "",
           images: []

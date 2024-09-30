@@ -64,6 +64,8 @@ export class FileInfoComponent {
       let asset: AssetInterfaceSimplified = {
         id: incompleteAsset?.id,
         fileId: this.fileId,
+        description: incompleteAsset?.description || "",
+        responsible: incompleteAsset?.responsible || "",
         assetNumber: incompleteAsset?.assetNumber || "",
         mainImage: incompleteAsset?.mainImage || "",
         images: incompleteAsset?.images || []
@@ -76,6 +78,8 @@ export class FileInfoComponent {
     let asset: AssetInterfaceSimplified = {
       id: undefined,
       fileId: this.fileId,
+      description: "",
+      responsible: "",
       assetNumber: "",
       mainImage: "",
       images: []

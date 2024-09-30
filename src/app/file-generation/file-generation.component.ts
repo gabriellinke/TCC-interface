@@ -76,6 +76,10 @@ export class FileGenerationComponent {
     this.location.back();
   }
 
+  public continueToAssetPhoto() {
+    this.currentState = FileGenerationStates.PHOTO_CAPTURE;
+  }
+
   public createAsset() {
     const fileId = this.currentAsset.fileId;
     if(fileId && this.webcamImage?.imageAsDataUrl){
@@ -84,6 +88,8 @@ export class FileGenerationComponent {
           this.currentAsset = {
             id: data.assetId,
             fileId: fileId,
+            description: "",
+            responsible: "",
             assetNumber: "",
             mainImage: data.mainImage,
             images: []
@@ -117,6 +123,8 @@ export class FileGenerationComponent {
           this.currentAsset = {
             id: undefined,
             fileId: fileId,
+            description: "",
+            responsible: "",
             assetNumber: "",
             mainImage: "",
             images: []
@@ -136,6 +144,8 @@ export class FileGenerationComponent {
         this.currentAsset = {
           id: data.assetId,
           fileId: data.fileId,
+          description: "",
+          responsible: "",
           assetNumber: "",
           mainImage: data.mainImage,
           images: []
@@ -163,11 +173,13 @@ export class FileGenerationComponent {
           this.currentAsset = {
             id: this.currentAsset.id,
             fileId: this.currentAsset.fileId,
+            description: data.description || "",
+            responsible: data.responsible || "",
             assetNumber: this.temporaryAssetNumber || "",
             mainImage: this.currentAsset.mainImage,
             images: []
           }
-          this.currentState = FileGenerationStates.PHOTO_CAPTURE;
+          this.currentState = FileGenerationStates.REVIEWING_ASSET_INFO;
         },
         error: error => {
           if(error.message == BACKEND_ASSET_NOT_FOUND) {
@@ -234,6 +246,8 @@ export class FileGenerationComponent {
     this.currentAsset = {
       id: undefined,
       fileId: this.currentAsset.fileId,
+      description: "",
+      responsible: "",
       assetNumber: "",
       mainImage: "",
       images: []

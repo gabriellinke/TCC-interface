@@ -73,6 +73,8 @@ export class AssetInfoComponent {
     let asset: AssetInterfaceSimplified = {
       id: this.asset?.id,
       fileId: this.fileId,
+      description: this.asset?.description || "",
+      responsible: this.asset?.responsible || "",
       assetNumber: this.asset?.assetNumber || "",
       mainImage: this.asset?.mainImage || "",
       images: this.asset?.images || []
