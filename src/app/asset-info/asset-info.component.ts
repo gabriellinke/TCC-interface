@@ -6,11 +6,11 @@ import { UtilsService } from '../utils.service';
 import { AssetInterface } from '../../interfaces/AssetInterface';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { HeaderComponent } from '../header/header.component';
-
+import { FooterComponent } from './../footer/footer.component';
 @Component({
   selector: 'app-asset-info',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './asset-info.component.html',
   styleUrl: './asset-info.component.css'
 })

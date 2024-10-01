@@ -5,6 +5,7 @@ main {
   align-items: center;
   padding-top: calc(50px + 32px);
   padding-bottom: 64px;
+  min-height: calc(100vh - 72px);
 }
 
 h1 {
@@ -13,4 +14,10 @@ h1 {
 
 button {
   margin-top: 32px;
+}
+
+@media (max-width:768px) {
+  main {
+    padding-bottom: calc(72px + 64px);
+  }
 }

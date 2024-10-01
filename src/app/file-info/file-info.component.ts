@@ -8,11 +8,12 @@ import { AssetInfoCardComponent } from '../asset-info-card/asset-info-card.compo
 import { BACKEND_FILE_INVALID_ASSETS } from '../../constants/constants';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-file-info',
   standalone: true,
-  imports: [CommonModule, AssetInfoCardComponent, HeaderComponent],
+  imports: [CommonModule, AssetInfoCardComponent, HeaderComponent, FooterComponent],
   templateUrl: './file-info.component.html',
   styleUrl: './file-info.component.css'
 })

@@ -1,1 +1,16 @@
-<footer>Footer</footer>
+<footer *ngIf="isMobileDevice" class="mobile">
+  <button (click)="goToHome();" [class]="isAtHome && 'selected'">
+    <img [src]="isAtHome ? 'assets/img/home-selected.svg' : 'assets/img/home.svg'" alt="Home" width="24px" height="24px">
+    <p>início</p>
+  </button>
+  <button (click)="goToInfo();" [class]="isAtInfo && 'selected'">
+    <img [src]="isAtInfo ? 'assets/img/info-selected.svg' : 'assets/img/info.svg'" alt="Informações" width="24px" height="24px">
+    <p>informações</p>
+  </button>
+</footer>
+<footer *ngIf="!isMobileDevice">
+  <div>
+    Footer
+  </div>
+</footer>
+

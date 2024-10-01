@@ -35,5 +35,15 @@ export const routes: Routes = [
     path: 'info/:file_id/asset/:asset_id',
     component: AssetInfoComponent,
     canActivate: [authGuard]
-}
+  },
+  {
+    path: 'details',
+    component: HomeComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'search',
+    component: HomeComponent,
+    canActivate: [authGuard]
+  }
 ];
