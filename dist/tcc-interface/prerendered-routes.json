@@ -1,0 +1,10 @@
+{
+  "routes": [
+    "/",
+    "/details",
+    "/generate",
+    "/login",
+    "/search",
+    "/sign-up"
+  ]
+}
