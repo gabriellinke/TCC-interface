@@ -2,10 +2,11 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { AssetInterface } from '../../interfaces/AssetInterface';
 import { UtilsService } from '../utils.service';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-asset-info-card',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './asset-info-card.component.html',
   styleUrls: ['./asset-info-card.component.css']
 })

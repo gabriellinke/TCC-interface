@@ -2,8 +2,13 @@
 <main>
   <h1>Bens no arquivo</h1>
 
-  <div *ngFor="let asset of assets">
-    <app-asset-info-card [asset]="asset" (assetClicked)="goToAsset($event)"></app-asset-info-card>
+  <div style="margin-bottom: 32px;">
+    <div *ngFor="let asset of assets" style="margin-top: 24px;">
+      <app-asset-info-card
+        [asset]="asset"
+        (assetClicked)="goToAsset($event)">
+      </app-asset-info-card>
+    </div>
   </div>
 
   <button class="primary" *ngIf="assets.length > 0 && areAllAssetsComplete()" type="button" (click)="handleAddAsset()">
