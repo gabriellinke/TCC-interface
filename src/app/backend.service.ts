@@ -1,49 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap, map, switchMap } from 'rxjs/operators';
-import { LoginResponse } from '../interfaces/LoginResponse';
+import { map, switchMap } from 'rxjs/operators';
 import { CreateFileResponse } from './../interfaces/CreateFileResponse';
 import { CreateAssetResponse } from '../interfaces/CreateAssetResponse';
 import { AddImageResponse } from '../interfaces/AddImageResponse';
 import { ConfirmFileResponse } from '../interfaces/ConfirmFileResponse';
 import { FileInterface } from '../interfaces/FileInterface';
 import { AssetInterface } from './../interfaces/AssetInterface';
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  // baseUrl = 'http://localhost:8000';
-  // baseUrl = 'https://192.168.0.177:8443';
-  // baseUrl = 'https://backend.tcc.utfpr';
-  baseUrl = 'https://backend.gabriellinke.dev.br';
-
+  private baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) { }
-
-  login(email: string, password: string): Observable<LoginResponse> {
-    const url = `${this.baseUrl}/auth/login`;
-    const body = { email, password };
-
-    return this.http.post<LoginResponse>(url, body, { observe: 'response' }).pipe(
-      tap((response: HttpResponse<LoginResponse>) => {
-        const data = response.body;
-        if (data) {
-          localStorage.setItem('token', data.token);
-          const expiresAt = Date.now() + data.expiresIn;
-          localStorage.setItem('tokenExpiresAt', expiresAt.toString());
-        }
-      }),
-      map(response => response.body as LoginResponse)
-    );
-  }
-
-  // TODO: Função de logout
-  logout() {
-    // localStorage.removeItem('token');
-    // localStorage.removeItem('tokenExpiresAt');
-    // Redirecionar o usuário para a página de login
-    console.log('Logout realizado');
-  }
 
   getFiles(): Observable<FileInterface[]> {
     const url = `${this.baseUrl}/file`;

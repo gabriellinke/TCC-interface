@@ -1,9 +1,12 @@
+import { inject } from '@angular/core';
 import { HttpHandlerFn, HttpRequest, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UNAUTHORIZED_401, FORBIDDEN_403, NOT_FOUND_404, UNKNOWN_ERROR } from '../../constants/constants';
+import { AuthService } from '../auth.service';
 
 export function errorInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
+  const authService = inject(AuthService);
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       let errorMessage = UNKNOWN_ERROR;
@@ -11,7 +14,7 @@ export function errorInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Ob
       if (error instanceof HttpErrorResponse) {
         if (error.status === 401) {
           // Implementar lógica de logout se necessário
-          // Exemplo: this.authService.logout();
+          authService.logout();
           errorMessage = UNAUTHORIZED_401;
           console.log(UNAUTHORIZED_401);
         }
