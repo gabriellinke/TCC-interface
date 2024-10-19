@@ -1,0 +1,53 @@
+<app-header></app-header>
+<main>
+  <h1 style="margin-bottom: 32px;">Pesquisar Patrimônios</h1>
+
+  <div>
+    <p>Selecione o tipo de número pelo qual você deseja realizar a pesquisa:</p>
+    <div class="search-options">
+      <label>
+        <input type="radio" name="searchType" value="tombo" checked (change)="toggleSearchInput('tombo')"> Número de Tombo
+      </label>
+      <label>
+        <input type="radio" name="searchType" value="tomboAntigo" (change)="toggleSearchInput('tomboAntigo')"> Número de Tombo Antigo
+      </label>
+    </div>
+
+    <form #form="ngForm" (ngSubmit)="search(form)">
+      <div class="search-box">
+        <button type="submit">
+          <span class="icon">
+            <img src="assets/img/search.svg" alt="" width="28px" height="28px">
+          </span>
+        </button>
+        <input type="text" placeholder="Pesquise aqui" name="searchValue" ngModel>
+      </div>
+    </form>
+
+    <ng-container *ngIf="loadingResult; else assetContent">
+      <div style="display: flex; justify-content: center; width: '100%'; margin-top: 32px;">
+        <img src="assets/img/load.gif" alt="Carregando" width="48px" height="48px">
+      </div>
+    </ng-container>
+    <ng-template #assetContent>
+      <div *ngIf="asset" style="margin-top: 32px;">
+        <strong>Tombo</strong>
+        <p>{{asset.assetNumber}}</p>
+
+        <strong>Tombo antigo</strong>
+        <p>{{asset.formerAssetNumber}}</p>
+
+        <strong>Descrição</strong>
+        <p>{{asset.description}}</p>
+
+        <strong>Responsável</strong>
+        <p>{{asset.responsible}}</p>
+      </div>
+    </ng-template>
+  </div>
+</main>
+<app-footer></app-footer>
+
+
+
+
