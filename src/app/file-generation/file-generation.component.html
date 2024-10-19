@@ -4,74 +4,79 @@
     [showSquare]="currentState==fileStates.ASSET_NUMBER_CAPTURE"
   />
   <app-overlay [isVisible]="currentState != fileStates.ASSET_NUMBER_CAPTURE && currentState != fileStates.PHOTO_CAPTURE">
-    <div *ngIf="currentState==fileStates.LOADING" class="loading-container">
-      <img src="assets/img/load.gif" alt="Loading" width="64px" height="64px">
-    </div>
-    <div *ngIf="currentState==fileStates.REVIEWING_MAIN_PHOTO && webcamImage" class="overlay-content">
-      <img [src]="webcamImage.imageAsDataUrl" alt="Foto da placa de patrimônio" class="image">
-      <div class="buttons-center">
-        <button class="primary button-margin" type="button" (click)="createAsset();">Confirmar</button>
-        <button class="secondary" type="button" (click)="clearImage(fileStates.ASSET_NUMBER_CAPTURE);">Tirar nova foto</button>
+    <div class="overlay-content" *ngIf="!loadingOverlay; else loadingTemplate">
+      <div *ngIf="currentState==fileStates.REVIEWING_MAIN_PHOTO && webcamImage" class="overlay-content">
+        <img [src]="webcamImage.imageAsDataUrl" alt="Foto da placa de patrimônio" class="image">
+        <div class="buttons-center">
+          <button class="primary button-margin" type="button" (click)="createAsset();">Confirmar</button>
+          <button class="secondary" type="button" (click)="clearImage(fileStates.ASSET_NUMBER_CAPTURE);">Tirar nova foto</button>
+        </div>
       </div>
-    </div>
-    <div *ngIf="currentState==fileStates.REVIEWING_ASSET_NUMBER" class="overlay-content overlay-padding-top">
-      <div>
-        <p class="overlay-text" style="margin-bottom: 8px;">Número de patrimônio</p>
-        <input class="styled-input" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
+      <div *ngIf="currentState==fileStates.REVIEWING_ASSET_NUMBER" class="overlay-content overlay-padding-top">
+        <div>
+          <p class="overlay-text" style="margin-bottom: 8px;">Número de patrimônio</p>
+          <input class="styled-input" type="string" placeholder="Número de patrimônio" [(ngModel)]="temporaryAssetNumber">
+        </div>
+        <div class="buttons-bottom">
+          <button class="primary button-margin" type="button" (click)="confirmAsset();">Confirmar</button>
+          <button class="secondary" type="button" (click)="deleteAsset();">Cancelar</button>
+        </div>
       </div>
-      <div class="buttons-bottom">
-        <button class="primary button-margin" type="button" (click)="confirmAsset();">Confirmar</button>
-        <button class="secondary" type="button" (click)="deleteAsset();">Cancelar</button>
+      <div *ngIf="currentState==fileStates.REVIEWING_ASSET_INFO" class="overlay-content overlay-padding-top">
+        <div>
+          <strong>Descrição do bem:</strong>
+          <p class="overlay-text max-two-lines" style="margin-bottom: 8px;">{{ currentAsset.description }}</p>
+          <br/>
+          <strong>Responsável pelo bem:</strong>
+          <p class="overlay-text max-two-lines">{{ currentAsset.responsible }}</p>
+        </div>
+        <div class="buttons-bottom">
+          <button class="primary button-margin" type="button" (click)="continueToAssetPhoto();">Continuar</button>
+        </div>
       </div>
-    </div>
-    <div *ngIf="currentState==fileStates.REVIEWING_ASSET_INFO" class="overlay-content overlay-padding-top">
-      <div>
-        <strong>Descrição do bem:</strong>
-        <p class="overlay-text max-two-lines" style="margin-bottom: 8px;">{{ currentAsset.description }}</p>
-        <br/>
-        <strong>Responsável pelo bem:</strong>
-        <p class="overlay-text max-two-lines">{{ currentAsset.responsible }}</p>
+      <div
+        *ngIf="currentState==fileStates.ASSET_NUMBER_NOT_FOUND
+            || currentState==fileStates.ERROR_ASSET_NOT_FOUND
+            || currentState==fileStates.ERROR_ASSET_INVALID_CONDITION
+            || currentState==fileStates.ERROR_ASSET_ALREADY_IN_FILE
+            || currentState==fileStates.ERROR_FILE_INCOMPLETE_ASSETS
+            || currentState==fileStates.ERROR_MORE_THAN_ONE_RESPONSIBLE"
+        class="overlay-content overlay-padding-top">
+        <div>
+          <p class="overlay-text">{{currentState}}</p>
+        </div>
+        <div class="buttons-bottom">
+          <button class="primary" type="button" (click)="deleteAsset();">Tirar nova foto</button>
+        </div>
       </div>
-      <div class="buttons-bottom">
-        <button class="primary button-margin" type="button" (click)="continueToAssetPhoto();">Continuar</button>
+      <div *ngIf="currentState==fileStates.ERROR_FILE_INVALID_ASSETS" class="overlay-content overlay-padding-top">
+        <div>
+          <p class="overlay-text">{{currentState}}</p>
+        </div>
+        <div class="buttons-bottom">
+          <button class="primary" type="button" (click)="goBack();">Voltar</button>
+        </div>
       </div>
-    </div>
-    <div
-      *ngIf="currentState==fileStates.ASSET_NUMBER_NOT_FOUND
-          || currentState==fileStates.ERROR_ASSET_NOT_FOUND
-          || currentState==fileStates.ERROR_ASSET_INVALID_CONDITION
-          || currentState==fileStates.ERROR_ASSET_ALREADY_IN_FILE
-          || currentState==fileStates.ERROR_FILE_INCOMPLETE_ASSETS
-          || currentState==fileStates.ERROR_MORE_THAN_ONE_RESPONSIBLE"
-      class="overlay-content overlay-padding-top">
-      <div>
-        <p class="overlay-text">{{currentState}}</p>
+      <div *ngIf="currentState==fileStates.REVIEWING_ASSET_PHOTO  && webcamImage" class="overlay-content">
+        <img [src]="webcamImage.imageAsDataUrl" alt="Imagem do bem" class="image">
+        <div class="buttons-center">
+          <button class="primary button-margin" type="button" (click)="addImageToAsset();">Confirmar foto</button>
+          <button class="secondary" type="button" (click)="clearImage(fileStates.PHOTO_CAPTURE);">Voltar</button>
+        </div>
       </div>
-      <div class="buttons-bottom">
-        <button class="primary" type="button" (click)="deleteAsset();">Tirar nova foto</button>
-      </div>
-    </div>
-    <div *ngIf="currentState==fileStates.ERROR_FILE_INVALID_ASSETS" class="overlay-content overlay-padding-top">
-      <div>
-        <p class="overlay-text">{{currentState}}</p>
-      </div>
-      <div class="buttons-bottom">
-        <button class="primary" type="button" (click)="goBack();">Voltar</button>
-      </div>
-    </div>
-    <div *ngIf="currentState==fileStates.REVIEWING_ASSET_PHOTO  && webcamImage" class="overlay-content">
-      <img [src]="webcamImage.imageAsDataUrl" alt="Imagem do bem" class="image">
-      <div class="buttons-center">
-        <button class="primary button-margin" type="button" (click)="addImageToAsset();">Confirmar foto</button>
-        <button class="secondary" type="button" (click)="clearImage(fileStates.PHOTO_CAPTURE);">Voltar</button>
-      </div>
-    </div>
-    <div *ngIf="currentState==fileStates.SELECTING_NEXT_ACTION" class="overlay-content">
-      <div class="buttons-bottom">
-        <button *ngIf="isAssetComplete()" class="primary button-margin" type="button" (click)="confirmFile();">Gerar arquivo</button>
-        <button class="secondary button-margin" type="button" (click)="clearImage(fileStates.PHOTO_CAPTURE);">Adicionar nova foto</button>
-        <button *ngIf="isAssetComplete()" class="secondary" type="button" (click)="resetVariablesForNewAsset();">Adicionar novo bem</button>
+      <div *ngIf="currentState==fileStates.SELECTING_NEXT_ACTION" class="overlay-content">
+        <div class="buttons-bottom">
+          <button *ngIf="isAssetComplete()" class="primary button-margin" type="button" (click)="confirmFile();">Gerar arquivo</button>
+          <button class="secondary button-margin" type="button" (click)="clearImage(fileStates.PHOTO_CAPTURE);">Adicionar nova foto</button>
+          <button *ngIf="isAssetComplete()" class="secondary" type="button" (click)="resetVariablesForNewAsset();">Adicionar novo bem</button>
+        </div>
       </div>
     </div>
   </app-overlay>
 </div>
+
+<ng-template #loadingTemplate>
+  <main class="loading-container">
+    <img src="assets/img/load.gif" alt="Carregando" width="64px" height="64px">
+  </main>
+</ng-template>

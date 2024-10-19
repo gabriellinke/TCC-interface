@@ -30,11 +30,13 @@ export class FileGenerationComponent {
   public currentState: FileGenerationStates = FileGenerationStates.LOADING;
   public temporaryAssetNumber: string | undefined = undefined;
   public assetNumberConfidence: string | undefined = undefined;
+  public loadingOverlay: boolean = true;
 
   constructor(private location: Location) {
     console.log(this.router.getCurrentNavigation()?.extras.state?.['data']);
     this.currentAsset = this.router.getCurrentNavigation()?.extras.state?.['data'];
     if(!this.currentAsset || !this.currentAsset.id) {
+      this.loadingOverlay = false;
       this.currentState = FileGenerationStates.ASSET_NUMBER_CAPTURE;
     } else if(this.currentAsset.assetNumber === "") {
       if(this.currentAsset.mainImage !== "") {
@@ -46,6 +48,7 @@ export class FileGenerationComponent {
       } else {
         this.currentState = FileGenerationStates.PHOTO_CAPTURE;
       }
+      this.loadingOverlay = false;
     }
   };
 
@@ -81,6 +84,7 @@ export class FileGenerationComponent {
   }
 
   public createAsset() {
+    this.loadingOverlay = true;
     const fileId = this.currentAsset.fileId;
     if(fileId && this.webcamImage?.imageAsDataUrl){
       this.backendService.createAsset(fileId, this.webcamImage.imageAsDataUrl).subscribe({
@@ -102,18 +106,21 @@ export class FileGenerationComponent {
           } else {
             this.currentState = FileGenerationStates.ASSET_NUMBER_NOT_FOUND;
           }
+          this.loadingOverlay = false;
         },
         error: error => {
           if(error.message === BACKEND_FILE_INCOMPLETE_ASSETS) {
             this.currentState = FileGenerationStates.ERROR_FILE_INCOMPLETE_ASSETS;
           }
           console.error(error.message);
+          this.loadingOverlay = false;
         }
       });
     }
   }
 
   public deleteAsset() {
+    this.loadingOverlay = true;
     const fileId = this.currentAsset.fileId;
     if(this.currentAsset.id){
       this.backendService.deleteAsset(this.currentAsset.id).subscribe({
@@ -129,16 +136,19 @@ export class FileGenerationComponent {
             mainImage: "",
             images: []
           }
+          this.loadingOverlay = false;
         },
         error: error => {
           console.error('Error deleting asset:', error);
           alert("Erro ao deletar bem");
+          this.loadingOverlay = false;
         }
       });
     }
   }
 
   public recognizeAsset() {
+    this.loadingOverlay = true;
     this.backendService.recognizeAssetNumber(this.currentAsset.id || 0).subscribe({
       next: data => {
         this.currentAsset = {
@@ -158,14 +168,17 @@ export class FileGenerationComponent {
         } else {
           this.currentState = FileGenerationStates.ASSET_NUMBER_NOT_FOUND;
         }
+        this.loadingOverlay = false;
       },
       error: error => {
         console.error(error.message);
+        this.loadingOverlay = false;
       }
     });
   }
 
   public confirmAsset() {
+    this.loadingOverlay = true;
     if(this.currentAsset.id && this.temporaryAssetNumber){
       this.backendService.confirmAsset(this.currentAsset.id, this.temporaryAssetNumber).subscribe({
         next: data => {
@@ -180,6 +193,7 @@ export class FileGenerationComponent {
             images: []
           }
           this.currentState = FileGenerationStates.REVIEWING_ASSET_INFO;
+          this.loadingOverlay = false;
         },
         error: error => {
           if(error.message == BACKEND_ASSET_NOT_FOUND) {
@@ -194,12 +208,14 @@ export class FileGenerationComponent {
             alert(error.message);
           }
           console.error(error.message);
+          this.loadingOverlay = false;
         }
       });
     }
   }
 
   public addImageToAsset() {
+    this.loadingOverlay = true;
     if(this.currentAsset.id && this.webcamImage?.imageAsDataUrl){
       this.backendService.addImageToAsset(this.currentAsset.id, this.webcamImage.imageAsDataUrl).subscribe({
         next: data => {
@@ -210,21 +226,25 @@ export class FileGenerationComponent {
           } else {
             this.currentState = FileGenerationStates.PHOTO_CAPTURE;
           }
+          this.loadingOverlay = false;
         },
         error: error => {
           console.error('Error adding image to asset:', error);
           alert("Não foi possível adicionar imagem ao bem");
+          this.loadingOverlay = false;
         }
       });
     }
   }
 
   public confirmFile() {
+    this.loadingOverlay = true;
     if(this.currentAsset.fileId && this.isAssetComplete()){
       this.backendService.confirmFile(this.currentAsset.fileId).subscribe({
         next: data => {
           console.log('File confirmed:', data);
           this.router.navigate(['/']);
+          this.loadingOverlay = false;
         },
         error: error => {
           if(error.message === BACKEND_FILE_INVALID_ASSETS) {
@@ -233,6 +253,7 @@ export class FileGenerationComponent {
             alert(error.message);
           }
           console.error(error.message);
+          this.loadingOverlay = false;
         }
       });
     }
