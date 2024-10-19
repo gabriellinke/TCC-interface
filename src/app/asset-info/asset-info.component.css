@@ -5,7 +5,7 @@ main {
   align-items: center;
   padding-top: calc(50px + 32px);
   padding-bottom: 64px;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 212px);
   max-width: 80vw;
   margin: 0 auto;
 }
