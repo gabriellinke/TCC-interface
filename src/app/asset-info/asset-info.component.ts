@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BackendService } from '../backend.service';
@@ -7,26 +7,39 @@ import { AssetInterface } from '../../interfaces/AssetInterface';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from './../footer/footer.component';
+import { DeviceService } from '../device.service';
+import { OverlayComponent } from '../overlay/overlay.component';
+
 @Component({
   selector: 'app-asset-info',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, HeaderComponent, FooterComponent, OverlayComponent],
   templateUrl: './asset-info.component.html',
   styleUrl: './asset-info.component.css'
 })
-export class AssetInfoComponent {
+export class AssetInfoComponent implements OnInit{
   public backendService: BackendService = inject(BackendService);
   public utilsService: UtilsService = inject(UtilsService);
+  public deviceService: DeviceService = inject(DeviceService);
   public router: Router = inject(Router);
   public route = inject(ActivatedRoute);
   public fileId: number;
   public assetId: number;
   public asset: AssetInterface | undefined;
+  public isMobileDevice: boolean = false;
+  public isDeletingAsset: boolean = false
+  public imageToDelete: string = "";
 
   constructor() {
     this.fileId = parseInt(this.route.snapshot.paramMap.get('file_id') || '0');
     this.assetId = parseInt(this.route.snapshot.paramMap.get('asset_id') || '0');
     this.updateInfo();
+  }
+
+  ngOnInit(): void {
+    this.deviceService.mobileDevice$.subscribe(isMobile => {
+      this.isMobileDevice = isMobile;
+    });
   }
 
   public updateInfo() {
@@ -41,12 +54,29 @@ export class AssetInfoComponent {
     });
   }
 
-  public deleteImage(image: string) {
-    console.log("Delete image: ", image);
+  public setImageToDeletion(image: string) {
+    this.imageToDelete = image;
+  }
+
+  public cancelImageDeletion() {
+    this.imageToDelete = "";
+  }
+
+  public setAssetToDeletion() {
+    this.isDeletingAsset = true;
+  }
+
+  public cancelAssetDeletion() {
+    this.isDeletingAsset = false;
+  }
+
+  public deleteImage() {
+    const image = this.imageToDelete;
     const filename = image.substring(image.lastIndexOf('/')+1);
     this.backendService.deleteImage(filename).subscribe({
       next: data => {
         console.log('Deleted image');
+        this.cancelImageDeletion();
         this.updateInfo();
       },
       error: error => {
@@ -56,7 +86,6 @@ export class AssetInfoComponent {
   }
 
   public deleteAsset() {
-    console.log("Delete asset");
     this.backendService.deleteAsset(this.assetId).subscribe({
       next: data => {
         console.log('Deleted asset');

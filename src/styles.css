@@ -125,3 +125,42 @@ button.primary:disabled:active, button.secondary:disabled:active, button.delete:
 button.primary:disabled:focus, button.secondary:disabled:focus, button.delete:disabled:focus {
   outline: none;
 }
+
+.buttons-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 32px;
+  padding-right: 32px;
+  width: 80vw;
+  flex: 1;
+}
+
+.buttons-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 32px;
+  width: 80vw;
+  flex: 1;
+}
+
+.overlay-padding-top {
+  padding-top: 64px;
+}
+
+.overlay-text {
+  font-size: 20px;
+  text-align: center;
+  padding-left: 32px;
+  padding-right: 32px;
+  width: 80vw;
+}
+
+.button-margin {
+  margin-bottom: 16px;
+}

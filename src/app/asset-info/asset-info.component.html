@@ -1,5 +1,24 @@
 <app-header></app-header>
 <main>
+  <app-overlay [isVisible]="imageToDelete!==''">
+    <div class="overlay-content overlay-padding-top">
+      <p class="overlay-text">Tem certeza que deseja deletar essa imagem?</p>
+      <div class="buttons-bottom">
+        <button class="primary button-margin" type="button" (click)="deleteImage();">Confirmar</button>
+        <button class="secondary" type="button" (click)="cancelImageDeletion();">Cancelar</button>
+      </div>
+    </div>
+  </app-overlay>
+  <app-overlay [isVisible]="isDeletingAsset">
+    <div class="overlay-content overlay-padding-top">
+      <p class="overlay-text">Tem certeza que deseja deletar esse bem?</p>
+      <div class="buttons-bottom">
+        <button class="primary button-margin" type="button" (click)="deleteAsset();">Confirmar</button>
+        <button class="secondary" type="button" (click)="cancelAssetDeletion();">Cancelar</button>
+      </div>
+    </div>
+  </app-overlay>
+
   <h1>Confira os dados do bem</h1>
 
   <section *ngIf="!!asset">
@@ -25,26 +44,29 @@
 
     <div style="display: flex; flex-direction: column;">
       <strong>Foto da placa de patrimônio</strong>
-      <img [src]="asset.mainImage" alt="Imagem principal do bem" width="60%">
+      <img [src]="asset.mainImage" alt="Imagem principal do bem" [ngStyle]="{'max-width': isMobileDevice ? '90vw' : '100vw'}">
     </div>
 
     <br/>
 
     <div style="display: flex; flex-direction: column;">
       <strong>Fotos do bem</strong>
-      <div *ngFor="let image of asset.images">
-        <img [src]="image" alt="Imagem principal do bem" width="60%">
+      <p *ngIf="asset.images.length === 0">Esse bem ainda não tem fotos</p>
+      <div *ngFor="let image of asset.images" class="imageContainer">
+        <img [src]="image" alt="Imagem principal do bem" [ngStyle]="{'max-width': isMobileDevice ? '90vw' : '100vw'}">
         <button
           type="button"
-          class="actionBtn"
-          (click)="deleteImage(image);">
-          Delete
+          class="deleteImage"
+          (click)="setImageToDeletion(image);">
+          <img src="assets/img/close.svg" alt="Excluir" width="16px" height="16px">
         </button>
       </div>
     </div>
 
-    <button class="primary" type="button" (click)="updateAsset();">Atualizar bem</button>
-    <button class="delete" type="button" (click)="deleteAsset();">Remover bem</button>
+    <div class="buttons">
+      <button class="primary" type="button" (click)="updateAsset();">Atualizar bem</button>
+      <button class="delete" type="button" (click)="setAssetToDeletion();">Remover bem</button>
+    </div>
 
   </section>
 </main>

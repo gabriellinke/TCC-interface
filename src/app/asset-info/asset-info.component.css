@@ -6,6 +6,8 @@ main {
   padding-top: calc(50px + 32px);
   padding-bottom: 64px;
   min-height: calc(100vh - 160px);
+  max-width: 80vw;
+  margin: 0 auto;
 }
 
 @media (max-width:768px) {
@@ -13,4 +15,55 @@ main {
     padding-bottom: calc(72px + 64px);
     min-height: calc(100vh - 72px);
   }
+}
+
+h1 {
+  margin-bottom: 24px;
+}
+
+.imageContainer {
+  display: inline-block;
+  position: relative;
+}
+
+.imageContainer button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 32px;
+  height: 32px;
+  border-radius: 50px;
+}
+
+.deleteImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: "#EEEEEB";
+  cursor: pointer;
+  border: 1px solid #DDDDDD;
+
+  outline: none;
+  box-shadow: none;
+  color: inherit;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
