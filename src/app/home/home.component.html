@@ -1,11 +1,23 @@
 <app-header></app-header>
-<main>
+<main *ngIf="!loading; else loadingTemplate">
   <h1>Arquivos disponíveis</h1>
-  <div *ngFor="let file of consolidateFiles" style="margin-bottom: 16px;">
-    <app-download-card [file]="file"></app-download-card>
+  <div *ngIf="consolidateFiles && consolidateFiles.length > 0; else noFiles">
+    <div *ngFor="let file of consolidateFiles" style="margin-bottom: 16px;">
+      <app-download-card [file]="file"></app-download-card>
+    </div>
   </div>
   <button [ngClass]="isMobileDevice ? 'primary mobile' : 'primary'" type="button" (click)="handleFileAction()">
     {{ unconsolidatedFile ? 'Atualizar arquivo' : 'Iniciar geração' }}
   </button>
 </main>
 <app-footer></app-footer>
+
+<ng-template #noFiles>
+  <p style="text-align: center; margin-top: 16px;">Não há arquivos disponíveis no momento. Inicie a geração de um novo arquivo.</p>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <main class="loading-container">
+    <img src="assets/img/load.gif" alt="Carregando" width="64px" height="64px">
+  </main>
+</ng-template>

@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit{
   public consolidateFiles: FileInterface[] = [];
   public unconsolidatedFile: FileInterface | undefined;
   public isMobileDevice: boolean = false;
+  public loading: boolean = true;
 
   constructor() {
     this.backendService.getFiles().subscribe({
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit{
         this.files = data;
         this.unconsolidatedFile = this.files.find(file => file.consolidated === false);
         this.consolidateFiles = this.files.filter(file => file.consolidated === true);
+        this.loading = false;
       },
       error: error => {
         console.error(error.message);

@@ -1,7 +1,7 @@
 <app-header></app-header>
-<main>
+<main *ngIf="!loading; else loadingTemplate">
   <app-overlay [isVisible]="imageToDelete!==''">
-    <div class="overlay-content overlay-padding-top">
+    <div class="overlay-content overlay-padding-top" *ngIf="!loadingOverlay; else loadingTemplateOverlay">
       <p class="overlay-text">Tem certeza que deseja deletar essa imagem?</p>
       <div class="buttons-bottom">
         <button class="primary button-margin" type="button" (click)="deleteImage();">Confirmar</button>
@@ -10,7 +10,7 @@
     </div>
   </app-overlay>
   <app-overlay [isVisible]="isDeletingAsset">
-    <div class="overlay-content overlay-padding-top">
+    <div class="overlay-content overlay-padding-top" *ngIf="!loadingOverlay; else loadingTemplateOverlay">
       <p class="overlay-text">Tem certeza que deseja deletar esse bem?</p>
       <div class="buttons-bottom">
         <button class="primary button-margin" type="button" (click)="deleteAsset();">Confirmar</button>
@@ -71,3 +71,15 @@
   </section>
 </main>
 <app-footer></app-footer>
+
+<ng-template #loadingTemplate>
+  <main class="loading-container">
+    <img src="assets/img/load.gif" alt="Carregando" width="64px" height="64px">
+  </main>
+</ng-template>
+
+<ng-template #loadingTemplateOverlay>
+  <div class="loading-container">
+    <img src="assets/img/load.gif" alt="Carregando" width="64px" height="64px">
+  </div>
+</ng-template>

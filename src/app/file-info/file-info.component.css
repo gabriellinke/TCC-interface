@@ -5,6 +5,8 @@ main {
   padding-top: calc(50px + 32px);
   padding-bottom: 64px;
   min-height: calc(100vh - 160px);
+  max-width: 90vw;
+  margin: 0 auto;
 }
 
 @media (max-width:768px) {

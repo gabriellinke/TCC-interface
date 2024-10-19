@@ -1,8 +1,8 @@
 <app-header></app-header>
-<main>
+<main *ngIf="!loading; else loadingTemplate">
   <h1>Bens no arquivo</h1>
 
-  <div style="margin-bottom: 32px;">
+  <div style="margin-bottom: 32px;" *ngIf="assets && assets.length > 0; else noAssets">
     <div *ngFor="let asset of assets" style="margin-top: 24px;">
       <app-asset-info-card
         [asset]="asset"
@@ -19,3 +19,13 @@
   </button>
 </main>
 <app-footer></app-footer>
+
+<ng-template #noAssets>
+  <p style="text-align: center; margin-top: 16px;">Esse arquivo ainda não tem nenhum bem associado. Continue a geração e adicione novos bens.</p>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <main class="loading-container">
+    <img src="assets/img/load.gif" alt="Carregando" width="64px" height="64px">
+  </main>
+</ng-template>

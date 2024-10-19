@@ -5,7 +5,7 @@
   />
   <app-overlay [isVisible]="currentState != fileStates.ASSET_NUMBER_CAPTURE && currentState != fileStates.PHOTO_CAPTURE">
     <div *ngIf="currentState==fileStates.LOADING" class="loading-container">
-      <img src="assets/img/load.gif" alt="Loading" width="96px" height="96px">
+      <img src="assets/img/load.gif" alt="Loading" width="64px" height="64px">
     </div>
     <div *ngIf="currentState==fileStates.REVIEWING_MAIN_PHOTO && webcamImage" class="overlay-content">
       <img [src]="webcamImage.imageAsDataUrl" alt="Foto da placa de patrimônio" class="image">

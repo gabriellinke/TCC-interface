@@ -29,6 +29,8 @@ export class AssetInfoComponent implements OnInit{
   public isMobileDevice: boolean = false;
   public isDeletingAsset: boolean = false
   public imageToDelete: string = "";
+  public loading: boolean = true
+  public loadingOverlay: boolean = false
 
   constructor() {
     this.fileId = parseInt(this.route.snapshot.paramMap.get('file_id') || '0');
@@ -43,10 +45,12 @@ export class AssetInfoComponent implements OnInit{
   }
 
   public updateInfo() {
+    this.loading = true;
     this.backendService.getAssetsByFileId(this.fileId).subscribe({
       next: data => {
         console.log('Got assets by fileId:', data);
         this.asset = data.find(asset => asset.id === this.assetId);
+        this.loading = false;
       },
       error: error => {
         console.error(error.message);
@@ -71,11 +75,13 @@ export class AssetInfoComponent implements OnInit{
   }
 
   public deleteImage() {
+    this.loadingOverlay = true;
     const image = this.imageToDelete;
     const filename = image.substring(image.lastIndexOf('/')+1);
     this.backendService.deleteImage(filename).subscribe({
       next: data => {
         console.log('Deleted image');
+        this.loadingOverlay = false;
         this.cancelImageDeletion();
         this.updateInfo();
       },
@@ -86,10 +92,12 @@ export class AssetInfoComponent implements OnInit{
   }
 
   public deleteAsset() {
+    this.loadingOverlay = true;
     this.backendService.deleteAsset(this.assetId).subscribe({
       next: data => {
         console.log('Deleted asset');
         this.router.navigate([`/info/${this.fileId}`]);
+        this.loadingOverlay = false;
       },
       error: error => {
         console.error(error.message);

@@ -27,6 +27,7 @@ export class FileInfoComponent implements OnInit{
   public fileId: number;
   public assets: AssetInterface[] = [];
   public isMobileDevice: boolean = false;
+  public loading: boolean = true;
 
   constructor() {
     this.fileId = parseInt(this.route.snapshot.paramMap.get('id') || '0');
@@ -34,6 +35,7 @@ export class FileInfoComponent implements OnInit{
       next: data => {
         console.log('Got assets by fileId:', data);
         this.assets = data;
+        this.loading = false;
       },
       error: error => {
         console.error(error.message);
