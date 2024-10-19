@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendService } from '../backend.service';
 import { UtilsService } from '../utils.service';
@@ -9,6 +9,7 @@ import { BACKEND_FILE_INVALID_ASSETS } from '../../constants/constants';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from "../footer/footer.component";
+import { DeviceService } from '../device.service';
 
 @Component({
   selector: 'app-file-info',
@@ -17,13 +18,15 @@ import { FooterComponent } from "../footer/footer.component";
   templateUrl: './file-info.component.html',
   styleUrl: './file-info.component.css'
 })
-export class FileInfoComponent {
+export class FileInfoComponent implements OnInit{
   public backendService: BackendService = inject(BackendService);
   public utilsService: UtilsService = inject(UtilsService);
+  public deviceService: DeviceService = inject(DeviceService);
   public router: Router = inject(Router);
   public route = inject(ActivatedRoute);
   public fileId: number;
   public assets: AssetInterface[] = [];
+  public isMobileDevice: boolean = false;
 
   constructor() {
     this.fileId = parseInt(this.route.snapshot.paramMap.get('id') || '0');
@@ -35,6 +38,12 @@ export class FileInfoComponent {
       error: error => {
         console.error(error.message);
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.deviceService.mobileDevice$.subscribe(isMobile => {
+      this.isMobileDevice = isMobile;
     });
   }
 

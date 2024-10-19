@@ -126,6 +126,17 @@ button.primary:disabled:focus, button.secondary:disabled:focus, button.delete:di
   outline: none;
 }
 
+button.mobile {
+  position: absolute;
+  bottom: 72px;
+
+  border-radius: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  max-width: none;
+  width: 100vw;
+}
+
 .buttons-center {
   display: flex;
   flex-direction: column;

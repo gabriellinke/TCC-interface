@@ -1,7 +1,6 @@
 main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding-top: calc(50px + 32px);
   padding-bottom: 64px;

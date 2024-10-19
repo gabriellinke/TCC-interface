@@ -11,10 +11,10 @@
     </div>
   </div>
 
-  <button class="primary" *ngIf="assets.length > 0 && areAllAssetsComplete()" type="button" (click)="handleAddAsset()">
+  <button class="secondary button-margin" *ngIf="assets.length > 0 && areAllAssetsComplete()" type="button" (click)="handleAddAsset()">
     Adicionar bem
   </button>
-  <button class="primary" type="button" (click)="handleAssetAction()">
+  <button [ngClass]="isMobileDevice ? 'primary mobile' : 'primary'" type="button" (click)="handleAssetAction()">
     {{ assets.length > 0 && areAllAssetsComplete() ? 'Gerar arquivo' : 'Continuar geração' }}
   </button>
 </main>

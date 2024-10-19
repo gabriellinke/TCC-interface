@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,7 @@ import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplif
 import { DownloadCardComponent } from '../download-card/download-card.component';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
+import { DeviceService } from '../device.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -20,13 +21,15 @@ import { FooterComponent } from '../footer/footer.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   public backendService: BackendService = inject(BackendService);
   public utilsService: UtilsService = inject(UtilsService);
+  public deviceService: DeviceService = inject(DeviceService);
   public router: Router = inject(Router);
   public files: FileInterface[] = [];
   public consolidateFiles: FileInterface[] = [];
   public unconsolidatedFile: FileInterface | undefined;
+  public isMobileDevice: boolean = false;
 
   constructor() {
     this.backendService.getFiles().subscribe({
@@ -39,6 +42,12 @@ export class HomeComponent {
       error: error => {
         console.error(error.message);
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.deviceService.mobileDevice$.subscribe(isMobile => {
+      this.isMobileDevice = isMobile;
     });
   }
 

@@ -4,7 +4,7 @@
   <div *ngFor="let file of consolidateFiles" style="margin-bottom: 16px;">
     <app-download-card [file]="file"></app-download-card>
   </div>
-  <button class="primary" type="button" (click)="handleFileAction()">
+  <button [ngClass]="isMobileDevice ? 'primary mobile' : 'primary'" type="button" (click)="handleFileAction()">
     {{ unconsolidatedFile ? 'Atualizar arquivo' : 'Iniciar geração' }}
   </button>
 </main>
