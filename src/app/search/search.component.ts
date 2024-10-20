@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from "../footer/footer.component";
 import { FormsModule, NgForm } from '@angular/forms';
 import { AssetSearchInterface } from './../../interfaces/AssetSearchInterface';
+import { BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-search',
@@ -13,8 +14,10 @@ import { AssetSearchInterface } from './../../interfaces/AssetSearchInterface';
   styleUrl: './search.component.css'
 })
 export class SearchComponent {
+  public backendService: BackendService = inject(BackendService);
   public searchType: string = 'tombo';
   public loadingResult: boolean = false;
+  public notFound: boolean = false;
   public asset: AssetSearchInterface | undefined = undefined;
 
   public search(form: NgForm) {
@@ -25,6 +28,7 @@ export class SearchComponent {
     }
 
     this.loadingResult = true;
+    this.notFound = false;
     if (this.searchType === 'tombo') {
       this.searchAssetNumber(searchValue);
     } else if (this.searchType === 'tomboAntigo') {
@@ -37,18 +41,34 @@ export class SearchComponent {
   }
 
   searchAssetNumber(searchValue: string) {
-    console.log('Pesquisando por Número de Tombo');
-    this.loadingResult = false;
-    this.asset = {
-      assetNumber: '068497',
-      formerAssetNumber: '65165441',
-      responsible: 'Gabriel Henrique Linke',
-      description: 'Notebook Avell'
-    }
+    this.backendService.searchAssetByAssetNumber(searchValue).subscribe({
+      next: data => {
+        console.log('Searched asset by assetNumber:', data);
+        this.asset = data;
+        this.loadingResult = false;
+      },
+      error: error => {
+        console.error(error.message);
+        this.loadingResult = false;
+        this.asset = undefined;
+        this.notFound = true;
+      }
+    });
   }
 
   searchFormerAssetNumber(searchValue: string) {
-    console.log('Pesquisando por Número de Tombo Antigo');
-    this.loadingResult = false;
+    this.backendService.searchAssetByFormerAssetNumber(searchValue).subscribe({
+      next: data => {
+        console.log('Searched asset by formerAssetNumber:', data);
+        this.asset = data;
+        this.loadingResult = false;
+      },
+      error: error => {
+        console.error(error.message);
+        this.loadingResult = false;
+        this.asset = undefined;
+        this.notFound = true;
+      }
+    });
   }
 }

@@ -19,7 +19,7 @@ button {
 
 @media (max-width:768px) {
   main {
-    padding-bottom: calc(72px + 64px);
-    min-height: calc(100vh - 72px);
+    padding-bottom: calc(72px + 32px + 50px);
+    min-height: calc(100vh - 72px - 50px);
   }
 }

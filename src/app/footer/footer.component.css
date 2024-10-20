@@ -41,7 +41,6 @@ button {
   opacity: 1;
   background: transparent;
   cursor: pointer;
-  /* width: 88px; */
 }
 
 button.selected {

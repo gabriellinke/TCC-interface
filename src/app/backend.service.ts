@@ -9,6 +9,7 @@ import { ConfirmFileResponse } from '../interfaces/ConfirmFileResponse';
 import { FileInterface } from '../interfaces/FileInterface';
 import { AssetInterface } from './../interfaces/AssetInterface';
 import { environment } from '../environments/environment';
+import { AssetSearchInterface } from '../interfaces/AssetSearchInterface';
 @Injectable({
   providedIn: 'root'
 })
@@ -87,5 +88,15 @@ export class BackendService {
   deleteImage(filename:string): Observable<any> {
     const url = `${this.baseUrl}/asset/delete-image/${filename}`;
     return this.http.delete(url, { observe: 'response' });
+  }
+
+  searchAssetByAssetNumber(assetNumber: string): Observable<AssetSearchInterface> {
+    const url = `${this.baseUrl}/patrimonio?tombo=${assetNumber}`;
+    return this.http.get<AssetSearchInterface>(url, { responseType: 'json' });
+  }
+
+  searchAssetByFormerAssetNumber(formerAssetNumber: string): Observable<AssetSearchInterface> {
+    const url = `${this.baseUrl}/patrimonio?tombo_antigo=${formerAssetNumber}`;
+    return this.http.get<AssetSearchInterface>(url, { responseType: 'json' });
   }
 }

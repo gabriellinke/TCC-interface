@@ -43,6 +43,9 @@
         <strong>Responsável</strong>
         <p>{{asset.responsible}}</p>
       </div>
+      <div *ngIf="notFound" style="margin-top: 32px;">
+        <p>Nenhum bem encontrado</p>
+      </div>
     </ng-template>
   </div>
 </main>

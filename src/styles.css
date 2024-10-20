@@ -127,7 +127,7 @@ button.primary:disabled:focus, button.secondary:disabled:focus, button.delete:di
 }
 
 button.mobile {
-  position: absolute;
+  position: fixed;
   bottom: 72px;
 
   border-radius: 0;
