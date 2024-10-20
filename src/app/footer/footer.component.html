@@ -3,9 +3,13 @@
     <img [src]="isAtHome ? 'assets/img/home-selected.svg' : 'assets/img/home.svg'" alt="Home" width="24px" height="24px">
     <p>início</p>
   </button>
+  <button (click)="goToSearch();" [class]="isAtSearch ? 'selected' : ''">
+    <img [src]="isAtSearch ? 'assets/img/search-selected.svg' : 'assets/img/search.svg'" alt="Consulta" width="24px" height="24px">
+    <p>consulta</p>
+  </button>
   <button (click)="goToInfo();" [class]="isAtInfo ? 'selected' : ''">
     <img [src]="isAtInfo ? 'assets/img/info-selected.svg' : 'assets/img/info.svg'" alt="Informações" width="24px" height="24px">
-    <p>informações</p>
+    <p>info</p>
   </button>
 </footer>
 <footer *ngIf="!isMobileDevice">

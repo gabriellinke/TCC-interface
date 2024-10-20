@@ -35,4 +35,8 @@ export class FooterComponent implements OnInit{
   public goToInfo() {
     this.router.navigate([`/details`]);
   }
+
+  public goToSearch() {
+    this.router.navigate([`/search`]);
+  }
 }

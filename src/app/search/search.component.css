@@ -9,6 +9,13 @@ main {
   margin: 0 auto;
 }
 
+@media (max-width:768px) {
+  main {
+    padding-bottom: calc(72px + 64px);
+    min-height: calc(100vh - 72px);
+  }
+}
+
 .search-box {
   display: flex;
   align-items: center;
