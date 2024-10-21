@@ -1,4 +1,4 @@
 export const environment = {
   // baseUrl: 'https://backend.tcc.utfpr',
-  baseUrl: 'https://backend.gabriellinkes.dev.br',
+  baseUrl: 'https://backend.gabriellinke.dev.br',
 };
