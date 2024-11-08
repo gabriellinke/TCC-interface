@@ -1,8 +1,9 @@
 <app-header></app-header>
 <main *ngIf="!loading; else loadingTemplate">
   <h1>Arquivos disponíveis</h1>
-  <div *ngIf="consolidateFiles && consolidateFiles.length > 0; else noFiles">
-    <div *ngFor="let file of consolidateFiles" style="margin-bottom: 16px;">
+  <p>Lembre-se de que os arquivos permanecem disponíveis por apenas 10 dias.</p>
+  <div *ngIf="consolidatedFiles && consolidatedFiles.length > 0; else noFiles">
+    <div *ngFor="let file of consolidatedFiles" style="margin-bottom: 16px;">
       <app-download-card [file]="file"></app-download-card>
     </div>
   </div>

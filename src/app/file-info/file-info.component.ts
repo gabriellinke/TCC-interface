@@ -59,6 +59,7 @@ export class FileInfoComponent implements OnInit{
 
   public handleAssetAction() {
     if(this.assets.length > 0 && this.areAllAssetsComplete()) {
+      this.loading = true;
       this.backendService.confirmFile(this.fileId).subscribe({
         next: data => {
           console.log('File confirmed:', data);

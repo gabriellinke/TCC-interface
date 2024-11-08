@@ -10,7 +10,12 @@ main {
 }
 
 h1 {
-  padding-bottom: 32px;
+  margin-bottom: 24px;
+}
+
+p {
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 button {

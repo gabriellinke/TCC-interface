@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit{
   public deviceService: DeviceService = inject(DeviceService);
   public router: Router = inject(Router);
   public files: FileInterface[] = [];
-  public consolidateFiles: FileInterface[] = [];
+  public consolidatedFiles: FileInterface[] = [];
   public unconsolidatedFile: FileInterface | undefined;
   public isMobileDevice: boolean = false;
   public loading: boolean = true;
@@ -38,7 +38,11 @@ export class HomeComponent implements OnInit{
         console.log("Get Files", data);
         this.files = data;
         this.unconsolidatedFile = this.files.find(file => file.consolidated === false);
-        this.consolidateFiles = this.files.filter(file => file.consolidated === true);
+        this.consolidatedFiles = this.files.filter(file => file.consolidated === true);
+        this.consolidatedFiles = this.consolidatedFiles.sort((a, b) =>
+          new Date(b.consolidatedAt).getTime() - new Date(a.consolidatedAt).getTime()
+        );
+
         this.loading = false;
       },
       error: error => {
