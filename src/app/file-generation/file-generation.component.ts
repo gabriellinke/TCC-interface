@@ -31,6 +31,7 @@ export class FileGenerationComponent {
   public temporaryAssetNumber: string | undefined = undefined;
   public assetNumberConfidence: string | undefined = undefined;
   public loadingOverlay: boolean = true;
+  public failedAssetCreationAttempts = 0;
 
   constructor(private location: Location) {
     console.log(this.router.getCurrentNavigation()?.extras.state?.['data']);
@@ -103,7 +104,15 @@ export class FileGenerationComponent {
             this.temporaryAssetNumber = data.assetNumber;
             this.assetNumberConfidence = data.confidenceLevel;
             this.currentState = FileGenerationStates.REVIEWING_ASSET_NUMBER;
+            this.failedAssetCreationAttempts = 0;
+          } else if(this.failedAssetCreationAttempts >= 2) {
+            console.log('Asset created but asset number not recognized:', data);
+            this.temporaryAssetNumber = '';
+            this.assetNumberConfidence = '1';
+            this.currentState = FileGenerationStates.REVIEWING_ASSET_NUMBER;
+            this.failedAssetCreationAttempts = 0;
           } else {
+            this.failedAssetCreationAttempts++;
             this.currentState = FileGenerationStates.ASSET_NUMBER_NOT_FOUND;
           }
           this.loadingOverlay = false;
@@ -112,6 +121,7 @@ export class FileGenerationComponent {
           if(error.message === BACKEND_FILE_INCOMPLETE_ASSETS) {
             this.currentState = FileGenerationStates.ERROR_FILE_INCOMPLETE_ASSETS;
           }
+          this.failedAssetCreationAttempts++;
           console.error(error.message);
           this.loadingOverlay = false;
         }
