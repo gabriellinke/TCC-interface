@@ -12,11 +12,10 @@ import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplif
 import { OverlayComponent } from '../overlay/overlay.component';
 import { FileGenerationStates } from '../file-generation-states';
 @Component({
-  selector: 'app-file-generation',
-  standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, OverlayComponent],
-  templateUrl: './file-generation.component.html',
-  styleUrl: './file-generation.component.css'
+    selector: 'app-file-generation',
+    imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, OverlayComponent],
+    templateUrl: './file-generation.component.html',
+    styleUrl: './file-generation.component.css'
 })
 export class FileGenerationComponent {
   public backendService: BackendService = inject(BackendService);

@@ -15,11 +15,10 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { DeviceService } from '../device.service';
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, DownloadCardComponent, HeaderComponent, FooterComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, DownloadCardComponent, HeaderComponent, FooterComponent],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
   public backendService: BackendService = inject(BackendService);

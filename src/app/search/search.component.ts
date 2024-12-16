@@ -7,11 +7,10 @@ import { AssetSearchInterface } from './../../interfaces/AssetSearchInterface';
 import { BackendService } from '../backend.service';
 
 @Component({
-  selector: 'app-search',
-  standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent, FormsModule],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.css'
+    selector: 'app-search',
+    imports: [CommonModule, HeaderComponent, FooterComponent, FormsModule],
+    templateUrl: './search.component.html',
+    styleUrl: './search.component.css'
 })
 export class SearchComponent {
   public backendService: BackendService = inject(BackendService);
