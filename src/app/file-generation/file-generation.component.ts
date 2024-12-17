@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WebcamImage } from 'ngx-webcam';
 import { CommonModule, Location } from '@angular/common';
@@ -13,7 +13,7 @@ import { OverlayComponent } from '../overlay/overlay.component';
 import { FileGenerationStates } from '../file-generation-states';
 @Component({
     selector: 'app-file-generation',
-    imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, OverlayComponent],
+    imports: [CommonModule, FormsModule, CameraComponent, OverlayComponent],
     templateUrl: './file-generation.component.html',
     styleUrl: './file-generation.component.css'
 })

@@ -1,10 +1,13 @@
 {
-  "routes": [
-    "/",
-    "/details",
-    "/generate",
-    "/login",
-    "/search",
-    "/sign-up"
-  ]
+  "routes": {
+    "/": {},
+    "/details": {},
+    "/details/FAQ": {},
+    "/details/reportsRequest": {},
+    "/details/userviceableAssets": {},
+    "/generate": {},
+    "/login": {},
+    "/search": {},
+    "/sign-up": {}
+  }
 }

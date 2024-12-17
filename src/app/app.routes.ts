@@ -16,7 +16,6 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'login',
@@ -29,41 +28,33 @@ export const routes: Routes = [
   {
     path: 'generate',
     component: FileGenerationComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'info/:id',
     component: FileInfoComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'info/:file_id/asset/:asset_id',
     component: AssetInfoComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'search',
     component: SearchComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'details',
     component: InfoComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'details/userviceableAssets',
     component: UnserviceableAssetsInfoComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'details/FAQ',
     component: FAQComponent,
-    canActivate: [authGuard]
   },
   {
     path: 'details/reportsRequest',
     component: ReportsRequestInfoComponent,
-    canActivate: [authGuard]
   },
 ];

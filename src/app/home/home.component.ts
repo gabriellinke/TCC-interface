@@ -1,10 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BackendService } from '../backend.service';
 import { UtilsService } from './../utils.service';
-import { CameraComponent } from '../camera/camera.component';
 import { BACKEND_USER_ALREADY_HAS_FILE } from '../../constants/constants';
 import { FileInterface } from '../../interfaces/FileInterface';
 import { AssetInterface } from './../../interfaces/AssetInterface';
@@ -16,7 +14,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { DeviceService } from '../device.service';
 @Component({
     selector: 'app-home',
-    imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, DownloadCardComponent, HeaderComponent, FooterComponent],
+    imports: [CommonModule, FormsModule, DownloadCardComponent, HeaderComponent, FooterComponent],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'
 })
