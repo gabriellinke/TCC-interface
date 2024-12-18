@@ -6,6 +6,10 @@
     <img src="assets/img/arrow-back.svg" alt="Voltar">
   </button>
   <img src="assets/img/utfpr-logo.svg" alt="Logo da UTFPR" height="25">
+  <button (click)="logout();">
+    <span><img src="assets/img/exit.svg" width="24px" height="24px" alt="Sair"></span>
+    sair
+  </button>
 </header>
 <div class="sidebar" *ngIf="!isMobileDevice" [ngClass]="{'open': isSidebarVisible}">
   <button (click)="toggleSidebar();">

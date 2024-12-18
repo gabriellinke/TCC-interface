@@ -3,13 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "dev": "npm run build && npm run serve:ssr:tcc-interface",
     "start2": "ng serve --host 0.0.0.0",
     "start": "ng serve --host 0.0.0.0 --disable-host-check --ssl",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:tcc-interface": "node dist/tcc-interface/server/server.mjs"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -20,9 +18,7 @@
     "@angular/forms": "^19.0.4",
     "@angular/platform-browser": "^19.0.4",
     "@angular/platform-browser-dynamic": "^19.0.4",
-    "@angular/platform-server": "^19.0.4",
     "@angular/router": "^19.0.4",
-    "@angular/ssr": "^19.0.5",
     "angular-oauth2-oidc": "^19.0.0",
     "express": "^4.18.2",
     "ngx-webcam": "^0.4.1",

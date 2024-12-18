@@ -1,15 +1,16 @@
-import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideAppInitializer, inject, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { AuthConfig, OAuthService, provideOAuthClient } from 'angular-oauth2-oidc';
+import { environment } from '../environments/environment';
 
 export const authCodeFlowConfig: AuthConfig ={
-  issuer: 'http://localhost:8001/realms/adjoda-dev-realm',
-  tokenEndpoint: 'http://localhost:8001/realms/adjoda-dev-realm/protocol/openid-connect/token',
+  issuer: environment.keycloakIssuerUri,
+  tokenEndpoint: `${environment.keycloakIssuerUri}/protocol/openid-connect/token`,
   redirectUri: typeof window !== 'undefined' ? window.location.origin : '',
-  clientId: 'adjoda-webapp',
+  clientId: environment.clientId,
   responseType: 'code',
   scope: 'openid profile',
   requireHttps: false,  // Permite HTTP em desenvolvimento
@@ -30,17 +31,9 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(),
     provideOAuthClient(),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (oauthService: OAuthService) => {
-        return () => {
-          initializeOAuth(oauthService);
-        }
-      },
-      multi: true,
-      deps: [
-        OAuthService
-      ]
-    }
+    provideAppInitializer(() => {
+      const oauthService = inject(OAuthService);
+      return initializeOAuth(oauthService);  // Retorna a Promise diretamente
+    })
   ]
 };
