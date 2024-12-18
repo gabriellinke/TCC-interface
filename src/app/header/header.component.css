@@ -31,6 +31,17 @@ button {
   opacity: 1;
   background: transparent;
   cursor: pointer;
+  font-size: 16px;
+}
+
+header button:last-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+header button:last-child span {
+  margin-right: 4px;
 }
 
 .sidebar {
