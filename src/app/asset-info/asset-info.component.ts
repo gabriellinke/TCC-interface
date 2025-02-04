@@ -11,11 +11,10 @@ import { DeviceService } from '../device.service';
 import { OverlayComponent } from '../overlay/overlay.component';
 
 @Component({
-  selector: 'app-asset-info',
-  standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent, OverlayComponent],
-  templateUrl: './asset-info.component.html',
-  styleUrl: './asset-info.component.css'
+    selector: 'app-asset-info',
+    imports: [CommonModule, HeaderComponent, FooterComponent, OverlayComponent],
+    templateUrl: './asset-info.component.html',
+    styleUrl: './asset-info.component.css'
 })
 export class AssetInfoComponent implements OnInit{
   public backendService: BackendService = inject(BackendService);

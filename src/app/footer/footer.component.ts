@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { DeviceService } from '../device.service';
 
 @Component({
-  selector: 'app-footer',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.css'
+    selector: 'app-footer',
+    imports: [CommonModule],
+    templateUrl: './footer.component.html',
+    styleUrl: './footer.component.css'
 })
 export class FooterComponent implements OnInit{
   public router: Router = inject(Router);

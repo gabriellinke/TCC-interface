@@ -4,11 +4,10 @@ import { AssetInterface } from '../../interfaces/AssetInterface';
 import { UtilsService } from '../utils.service';
 import { CommonModule } from '@angular/common';
 @Component({
-  selector: 'app-asset-info-card',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './asset-info-card.component.html',
-  styleUrls: ['./asset-info-card.component.css']
+    selector: 'app-asset-info-card',
+    imports: [CommonModule],
+    templateUrl: './asset-info-card.component.html',
+    styleUrls: ['./asset-info-card.component.css']
 })
 export class AssetInfoCardComponent {
   @Input() asset!: AssetInterface;

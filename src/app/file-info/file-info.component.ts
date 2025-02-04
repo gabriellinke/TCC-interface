@@ -12,11 +12,10 @@ import { FooterComponent } from "../footer/footer.component";
 import { DeviceService } from '../device.service';
 
 @Component({
-  selector: 'app-file-info',
-  standalone: true,
-  imports: [CommonModule, AssetInfoCardComponent, HeaderComponent, FooterComponent],
-  templateUrl: './file-info.component.html',
-  styleUrl: './file-info.component.css'
+    selector: 'app-file-info',
+    imports: [CommonModule, AssetInfoCardComponent, HeaderComponent, FooterComponent],
+    templateUrl: './file-info.component.html',
+    styleUrl: './file-info.component.css'
 })
 export class FileInfoComponent implements OnInit{
   public backendService: BackendService = inject(BackendService);

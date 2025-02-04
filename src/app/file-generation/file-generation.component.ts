@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WebcamImage } from 'ngx-webcam';
 import { CommonModule, Location } from '@angular/common';
@@ -12,11 +12,10 @@ import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplif
 import { OverlayComponent } from '../overlay/overlay.component';
 import { FileGenerationStates } from '../file-generation-states';
 @Component({
-  selector: 'app-file-generation',
-  standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule, CameraComponent, OverlayComponent],
-  templateUrl: './file-generation.component.html',
-  styleUrl: './file-generation.component.css'
+    selector: 'app-file-generation',
+    imports: [CommonModule, FormsModule, CameraComponent, OverlayComponent],
+    templateUrl: './file-generation.component.html',
+    styleUrl: './file-generation.component.css'
 })
 export class FileGenerationComponent {
   public backendService: BackendService = inject(BackendService);

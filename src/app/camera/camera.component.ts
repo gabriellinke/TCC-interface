@@ -6,11 +6,10 @@ import { CommonModule, Location } from '@angular/common';
 declare var ImageCapture: any;
 
 @Component({
-  selector: 'app-camera',
-  standalone: true,
-  imports: [CommonModule, WebcamModule],
-  templateUrl: './camera.component.html',
-  styleUrl: './camera.component.css'
+    selector: 'app-camera',
+    imports: [CommonModule, WebcamModule],
+    templateUrl: './camera.component.html',
+    styleUrl: './camera.component.css'
 })
 export class CameraComponent implements OnInit {
   @Output() imageCaptured = new EventEmitter<WebcamImage>();  // Emitir o evento com a imagem
