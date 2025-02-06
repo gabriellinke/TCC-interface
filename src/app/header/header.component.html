@@ -17,9 +17,9 @@
     <img src="assets/img/close.svg" alt="Fechar menu" width="16px" height="16px">
   </button>
   <ul>
-    <li><a href="#">Início</a></li>
-    <li><a href="details">Informações</a></li>
-    <li><a href="search">Consulta</a></li>
-    <li *ngIf="isAdmin"><a href="upload-assets">Atualizar tabela de bens</a></li>
+    <li><a routerLink="/">Início</a></li>
+    <li><a routerLink="/details">Informações</a></li>
+    <li><a routerLink="/search">Consulta</a></li>
+    <li *ngIf="isAdmin"><a routerLink="/upload-assets">Atualizar tabela de bens</a></li>
   </ul>
 </div>
