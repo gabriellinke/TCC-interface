@@ -5,9 +5,10 @@ import { DeviceService } from '../device.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { AuthService } from '../auth.service';
 import { ADMIN_ROLE } from '../../constants/constants';
+import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-header',
-    imports: [CommonModule],
+    imports: [CommonModule, RouterLink],
     templateUrl: './header.component.html',
     styleUrl: './header.component.css'
 })
