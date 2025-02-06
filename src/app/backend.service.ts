@@ -105,4 +105,11 @@ export class BackendService {
     const url = `${this.baseUrl}/patrimonio?tombo_antigo=${formerAssetNumber}`;
     return this.http.get<AssetSearchInterface>(url, { headers: this.getHeaders(), responseType: 'json' });
   }
+
+  uploadFile(file: File): Observable<any> {
+    const url = `${this.baseUrl}/patrimonio/upload`;
+    const body = new FormData();
+    body.append('file', file);
+    return this.http.post(url, body, { headers: this.getHeaders() });
+  }
 }

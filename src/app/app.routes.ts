@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { UnserviceableAssetsInfoComponent } from './unserviceable-assets-info/unserviceable-assets-info.component';
 import { FAQComponent } from './faq/faq.component';
 import { ReportsRequestInfoComponent } from './reports-request-info/reports-request-info.component';
+import { UploadAssetsComponent } from './upload-assets/upload-assets.component';
 import { adminGuard } from './admin.guard';
 
 export const routes: Routes = [
@@ -49,7 +50,7 @@ export const routes: Routes = [
   },
   {
     path: 'upload-assets',
-    component: FAQComponent,
+    component: UploadAssetsComponent,
     canActivate: [adminGuard]
   },
 ];

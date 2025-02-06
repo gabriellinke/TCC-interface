@@ -1,0 +1,68 @@
+<app-header></app-header>
+<main>
+  <h1 style="margin-bottom: 32px;">Atualizar tabela de bens</h1>
+  <p>
+    Lembre-se de verificar se a planilha está salva no formato <em>.csv</em> e que está seguindo a formatação esperada.
+    Na tabela abaixo é possível observar um exemplo de entrada.
+  </p>
+  <table border="1">
+    <thead>
+      <tr>
+        <th><b>local</b></th>
+        <th><b>tombo</b></th>
+        <th><b>tombo_antigo</b></th>
+        <th><b>responsavel</b></th>
+        <th><b>descricao</b></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>AECEFET</td>
+        <td>72623</td>
+        <td>26500500</td>
+        <td>Frieda Saicla Barros</td>
+        <td>Mesa</td>
+      </tr>
+      <tr>
+        <td>AATA-CT</td>
+        <td>671632</td>
+        <td></td>
+        <td>Ronaldo Mansano Custodio</td>
+        <td>Tablet</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="upload-container">
+    <label for="file-upload" class="custom-file-upload">
+      Selecione o arquivo CSV
+    </label>
+    <input id="file-upload" type="file" (change)="onFileSelected($event)" accept=".csv">
+
+    <p>{{ selectedFile ? selectedFile.name : "Nenhum arquivo selecionado" }}</p>
+  </div>
+
+  <button class="primary" (click)="uploadFile()" [disabled]="!selectedFile">Enviar</button>
+
+  <app-overlay [isVisible]="isOverlayOpen">
+    <div class="overlay-content" *ngIf="state === State.PROCESSING">
+      <strong>O arquivo está sendo processado</strong>
+      <p class="overlay-text max-two-lines">Essa operação pode levar alguns minutos.</p>
+      <img src="assets/img/load.gif" alt="Carregando" width="64px" height="64px">
+    </div>
+    <div class="overlay-content" *ngIf="state === State.SUCCESS">
+      <p class="overlay-text max-two-lines">O arquivo foi processado com sucesso</p>
+      <button class="primary" (click)="closeOverlay()">Fechar</button>
+    </div>
+    <div class="overlay-content" *ngIf="state === State.ERROR">
+      <p class="overlay-text max-two-lines">Erro ao processar arquivo</p>
+      <button class="primary" (click)="closeOverlay()">Fechar</button>
+    </div>
+  </app-overlay>
+
+</main>
+<app-footer></app-footer>
+
+
+
+
