@@ -5,9 +5,10 @@
   <button *ngIf="isMobileDevice && !isHomePage" (click)="goBack();">
     <img src="assets/img/arrow-back.svg" alt="Voltar">
   </button>
-  <img src="assets/img/utfpr-logo.svg" alt="Logo da UTFPR" height="25">
+  <span></span>
+  <img class="logo" src="assets/img/utfpr-logo.svg" alt="Logo da UTFPR" height="25">
   <button (click)="logout();">
-    <span><img src="assets/img/exit.svg" width="24px" height="24px" alt="Sair"></span>
+    <span style="display:flex;align-items: center;"><img src="assets/img/exit.svg" width="24px" height="24px" alt="Sair"></span>
     sair
   </button>
 </header>
