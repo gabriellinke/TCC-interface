@@ -14,7 +14,7 @@ h1 {
   text-align: center;
 }
 
-p, strong {
+p, strong, a {
   font-size: 16px;
 }
 
