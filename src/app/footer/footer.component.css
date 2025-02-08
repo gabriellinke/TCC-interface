@@ -47,6 +47,10 @@ button.selected {
   color: var(--primary-color);
 }
 
+button.selected p{
+  color: var(--primary-color);
+}
+
 button.selected img{
   color: var(--primary-color);
 }

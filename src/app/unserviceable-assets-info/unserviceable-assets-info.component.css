@@ -14,10 +14,6 @@ h1 {
   text-align: center;
 }
 
-p, strong {
-  font-size: 16px;
-}
-
 li::marker {
   font-weight: bold;
 }
