@@ -1,1 +1,62 @@
-<p>web-app-info works!</p>
+<app-header></app-header>
+<main>
+  <h1>Função do Web-app</h1>
+
+  <section>
+    <h2>Geração de Arquivo para Solicitação de Laudos de Bens Inservíveis</h2>
+    <p>Este processo permite a criação de um arquivo PDF essencial para solicitar laudos de bens inservíveis.</p>
+
+    <h3>O que o arquivo PDF inclui?</h3>
+    <ul>
+      <li><strong>Espelhos dos patrimônios:</strong> Listagem detalhada de cada bem.</li>
+      <li><strong>Conjunto de fotografias:</strong> Inclui uma foto da placa de patrimônio de cada bem e, pelo menos, duas fotos adicionais do próprio bem.</li>
+    </ul>
+
+    <h3>Verificações antes da geração</h3>
+    <p>Antes de gerar o arquivo, o sistema verifica se:</p>
+    <ul>
+      <li>O bem está na situação <strong>"Em uso"</strong>.</li>
+      <li>O estado de conservação do bem é <strong>"Bom"</strong>.</li>
+      <li>Todos os bens são do mesmo responsável.</li>
+    </ul>
+
+    <h3>Utilização do Web-App</h3>
+    <p>O fluxograma de uso do Web-App pode ser visualizado na imagem abaixo, bem como imagens do passo a passo para a geração e download do arquivo. Após tirar as fotos do bem, você pode escolher entre as duas opções:</p>
+    <ol>
+      <li><strong>Adicionar mais bens:</strong> Inclua mais bens sob a responsabilidade da mesma pessoa.</li>
+      <li><strong>Finalizar e gerar o arquivo:</strong> O Web-App realizará os seguintes passos:
+        <ul>
+          <li>Escreverá os números de patrimônio sobre as imagens.</li>
+          <li>Consolidará todas as informações armazenadas.</li>
+          <li>Gerará o arquivo PDF.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Download do Arquivo</h3>
+    <p>Após a geração, o arquivo PDF estará disponível para download no Web-App. Ele poderá ser baixado no desktop e inserido no processo SEI <strong>"patrimônio: classificação de bens"</strong>.</p>
+
+    <div class="images-container">
+      <img src="assets/img/fluxo_web_app.svg" alt="Fluxo do web-app" style="margin-top: 16px">
+
+      <div class="image-group">
+        <figure>
+          <img src="assets/img/main_image.jpeg" alt="Imagem da aplicação: tirando foto da placa de patrimônio">
+          <figcaption><strong>1º passo:</strong> tire foto da etiqueta de patrimônio.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="assets/img/second_image.jpeg" alt="Imagem da aplicação: tirando foto do bem">
+          <figcaption><strong>2º passo:</strong> tire mais 2 fotos de ângulos diferentes do bem.</figcaption>
+        </figure>
+      </div>
+
+      <figure>
+        <img src="assets/img/download_image.png" alt="Imagem da aplicação: fazendo download de um arquivo">
+        <figcaption><strong>3º passo:</strong> baixe o arquivo e siga as instruções da base de conhecimento do processo: “Patrimônio: classificação de bens” do SEI.</figcaption>
+      </figure>
+    </div>
+
+  </section>
+</main>
+<app-footer></app-footer>
