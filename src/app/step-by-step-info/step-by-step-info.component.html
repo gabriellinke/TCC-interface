@@ -1,1 +1,279 @@
-<p>step-by-step-info works!</p>
+<app-header></app-header>
+<main>
+  <h1>Passo a passo para a solicitação de emissão de laudos</h1>
+
+  <h2>Considerar as orientações</h2>
+  <section>
+    <ol>
+      <li>Há um único processo SEI de <strong>"classificação de bens"</strong> para cada servidor do Campus Curitiba ou Reitoria (ver itens 1 e 2 desta instrução).</li>
+      <li>A comissão emite laudos apenas para bens:
+        <ul>
+          <li>Que são do Campus Curitiba e da Reitoria.</li>
+          <li>Com etiqueta ou placa de patrimônio. Sobre bens sem etiqueta ou placa, tratar com a <strong>DIPAT-CT</strong>.</li>
+          <li>Que estão em <strong>"situação: em uso"</strong> e <strong>"estado de conservação: bom"</strong>, segundo os Sistemas Corporativos Integrados (Patrimônio).</li>
+        </ul>
+      </li>
+      <li>É imprescindível indicar onde está fisicamente o bem. A comissão necessita ver e registrar a existência do bem.</li>
+      <li>Para não infringir a <strong>LGPD (Lei Geral de Proteção de Dados)</strong>, forneça apenas ramais e e-mails institucionais.</li>
+      <li><strong>Tombo</strong> = número de patrimônio do bem.</li>
+      <li>Não cabem laudos para bens ociosos em perfeitas condições de uso. Caso seja esta a situação, não peça laudo, mas disponibilize via:
+        <ul>
+          <li><strong>Sistemas Corporativos Integrados → Patrimônio → Consulta → Disponibilizar bens</strong>.</li>
+        </ul>
+      </li>
+      <li>Os bens considerados recuperáveis pela comissão permanecerão de posse do responsável. Também sugere-se a disponibilização via:
+        <ul>
+          <li><strong>Sistemas Corporativos Integrados → Patrimônio → Consulta → Disponibilizar bens</strong>.</li>
+        </ul>
+      </li>
+      <li>O responsável pelo bem ou pessoa por ele designada deverá acompanhar a visita do técnico da <strong>C-LDEMB-CT</strong> ao bem.</li>
+    </ol>
+  </section>
+
+  <h2>Visão geral do processo</h2>
+  <section class="general-vision">
+    <p>As etapas do fluxograma abaixo são detalhas nas próximas seções.</p>
+    <img src="assets/img/visao_geral_processo.svg" alt="Fluxograma visão geral do processo para solicitação de emissão de laudos">
+    <img src="assets/img/visao_geral_processo_mobile.svg" alt="Fluxograma visão geral do processo para solicitação de emissão de laudos">
+  </section>
+
+  <h2>1. Verificar se já tem processo de "Classificação de bens" em nome do responsável do bem</h2>
+  <section class="step-1">
+    <p>Cada servidor do campus Curitiba ou reitoria tem um único processo de "Classificação de bens".</p>
+    <br/>
+    <p>Como saber se já há um processo "Classificação de bens" em nome do responsável pelo bem?</p>
+    <p>Pesquisar no SEI.</p>
+    <br/>
+    <p>A opção de pesquisa no SEI fica no menu à esquerda.</p>
+    <br/>
+    <p>Na tela de Pesquisa:</p>
+    <br/>
+    <img src="assets/img/step1_1.png" alt="Escolher a opção 'Pesquisa' no menu do SEI">
+
+    <p>Campo "Texto para pesquisa": &lt;nome do responsável pelo bem&gt;</p>
+    <br/>
+    <p>Campo "Tipo de processo": procurar Patrimônio: Classificação de bens.</p>
+    <br/>
+    <img src="assets/img/step1_2.png" alt="Tela de pesquisa do SEI">
+
+    <p>
+      O SEI abrirá o processo de "Classificação de bens", se o responsável pelo bem já tiver um processo.
+      Seguir para o item 3 desta instrução.
+    </p>
+    <br/>
+    <p>
+      Se não houver processo, criar um processo do tipo "Patrimônio: Classificação de Bens". Seguir
+      para o item 2 desta instrução.
+    </p>
+  </section>
+
+  <h2>2. Criar processo "Classificação de bens", apenas para os servidores que ainda não têm tal processo</h2>
+  <section class="step-2">
+    <img src="assets/img/step2_1.png" alt="Tela para iniciar processo e escolher tipo de processo">
+
+    <p>Preencher com os parâmetros:</p>
+    <br/>
+    <p>Especificação: &lt;nome do responsável pelo bem&gt;;</p>
+    <br/>
+    <p>Interessados: &lt;nome do responsável pelo bem&gt;;</p>
+    <br/>
+    <p>Nível de acesso: Público</p>
+    <br/>
+
+    <img src="assets/img/step2_2.png" alt="Imagem do formulário que precisa ser preenchido">
+  </section>
+
+  <h2>3. Solicitar laudo de bens</h2>
+  <section class="step-3">
+    <p>Criar uma "Solicitação de laudos de bens".</p>
+    <img src="assets/img/step3_1.png" alt="Imagem de tela no SEI mostrando para clicar no primeiro ícone">
+
+    <p>E a seguir</p>
+    <img src="assets/img/step3_2.png" alt="Imagem de tela no SEI mostrando para clicar na última opção: solicitação de laudos de bens">
+
+    <p>Os parâmetros do formulário "Solicitação de laudos de bens" são:</p>
+    <br/>
+    <p>Descrição: Solicitação de laudos: &gt;Nome do responsável pelo bem&lt;;</p>
+    <br/>
+    <p>Destinatários: "C-LDEMB-CT - COMISSÃO DE LAUDOS DE EQUIPAMENTOS E MOBILIÁRIOS DO
+    CAMPUS CURITIBA" ou digitar "Laudos" para encontrar o destinatário;</p>
+    <br/>
+    <p>Classificação: 040;</p>
+    <br/>
+    <p>Nível de acesso: Público.</p>
+    <img src="assets/img/step3_3.png" alt="Imagem de tela no SEI mostrando para selecionar a opção de Nível de acesso público">
+
+    <p>Preencher os campos do formulário.</p>
+    <br/>
+    <p>a. Cabeçalho: À COMISSÃO DE LAUDOS DE EQUIPAMENTOS E MOBILIÁRIOS DO CAMPUS CURITIBA</p>
+    <br/>
+    <p>b. Texto: Solicito emissão de laudos dos bens sob responsabilidade do &gt;Escrever o nome completo do
+    servidor&lt;</p>
+    <br/>
+    <p>c. Tabela: Preencher a tabela.</p>
+    <br/>
+
+    <p>Coluna (1) Número do patrimônio novo;</p>
+    <br/>
+    <p>Coluna (2) Número do patrimônio antigo, para todos os bens de antes de 2012;</p>
+    <br/>
+    <p>Coluna (3) Se é patrimônio UTFPR, CEFET ou ETFPR;</p>
+    <br/>
+    <p>Coluna (4) Descrição do bem, conforme está nos Sistemas Corporativos Integrados e;</p>
+    <br/>
+    <p>Coluna (5) Local físico atual do bem.</p>
+    <br/>
+    <div class="responsive-table">
+      <table border="1">
+        <thead>
+          <tr>
+            <th><b>TOMBO NOVO</b></th>
+            <th><b>TOMBO ANTIGO</b></th>
+            <th><b>UTFPR, CEFET OU ETFPR</b></th>
+            <th><b>DESCRIÇÃO DO BEM</b></th>
+            <th><b>LOCAL FÍSICO DO BEM</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>d. Atenção: Observe esta frase que está no formulário: "Declaro que os bens, para os quais os laudos
+    foram solicitados, não estão somente ociosos e em perfeitas condições de uso. Declaro ciência de que, se
+    for este o caso, não deve ser solicitado laudo e o bem deve ser disponibilizado via Sistemas Corporativos
+    Integrados (Patrimônio -> Consulta -> Disponibilizar bens)."</p>
+    <br/>
+    <p>A comissão não emite laudos para bens que estão ociosos e em perfeitas condições de uso.</p>
+    <br/>
+    <p>Os dados solicitados acima (com exceção do local físico do bem) podem ser encontrados no espelho
+    (dados do bem) gerado nos Sistemas Corporativos Integrados ou no arquivo gerado pelo web app laudos. Para bens a partir de 2012 só há números
+    de patrimônios novos.</p>
+    <br/>
+    <p>Para facilitar a localização dos bens e tornar o processo mais rápido, são solicitadores também: (1)
+    Nome do servidor que irá receber e acompanhar a comissão; (2) Contato deste servidor (e-mail
+    institucional) e (3) Local onde este servidor pode se encontrado (Sede, Bloco andar e Sala):</p>
+    <br/>
+    <p>O solicitante ou responsável pela carga no sistema de patrimônio deve assinar o documento. Não é
+    necessário que ambos assinem.</p>
+    <br/>
+  </section>
+
+  <h2>4. Incluir os espelhos (dados) dos bens e as fotos dos bens para os quais foram solicitados laudos</h2>
+  <section>
+    <p>
+      Sendo esta parte a mais trabalhoso, foi desenvolvido um Web-App que gera um arquivo PDF que integra
+      os espelhos dos patrimônios e um conjunto de fotografias que inclui uma foto da placa de patrimônio
+      para cada bem e ao menos outras duas fotos do próprio bem.
+    </p>
+    <br/>
+    <p>
+      Basta acessar a <a routerLink="/">home page</a> para iniciar a geração do arquivo.
+    </p>
+    <br/>
+    <p>Obs.: 1. O Web-App não consome memória dos celulares.</p>
+    <br/>
+    <p>
+      2. Para cada bem tirar pelo menos 3 fotos diferentes, sendo 2 de ângulos distintos e uma da
+      etiqueta/placa do tombo. Tirar fotos nítidas e iluminadas. Em caso de bens com danos físicos, evidenciar
+      o problema nas fotos (por exemplo: cupim, móvel quebrado, etc.). O Web-App guiará a obtenção das
+      fotos.
+    </p>
+  </section>
+
+  <h2>4.1 Gerar arquivo para solicitação de laudos de bens inservíveis</h2>
+  <section>
+    <p>
+      Este processo é utilizado para criar um arquivo PDF necessário para solicitar laudos de bens
+      inservíveis. O passo a passo para a geração do arquivo pode ser encontrado <a href="/details/web-app">aqui</a>.
+    </p>
+  </section>
+
+  <h2>4.2 Incluir os espelhos e fotos dos bens no processo, a partir do arquivo gerado pelo web app laudos</h2>
+  <section class="step-4-2">
+    <p>
+      No mesmo computador que costuma usar o SEI acesse a <a routerLink="/">home page</a> do site e baixe o arquivo gerado.
+    </p>
+    <br/>
+    <p>
+      Incluir no processo, como "Documento Externo", o PDF gerado pelo Web-App. O documento deve ser do tipo "Anexo".
+    </p>
+    <br/>
+    <p>1º Incluir documento:</p>
+    <img src="assets/img/step4_1.png" alt="Imagem de tela no SEI mostrando para clicar no primeiro ícone">
+
+    <p>E a seguir:</p>
+    <img src="assets/img/step4_2.png" alt="Imagem de tela no SEI mostrando para escolher o tipo de documento como Externo">
+
+    <p>E a seguir, preencher com os parâmetros:</p>
+    <br/>
+    <p>Tipo de documento: Anexo;</p>
+    <br/>
+    <p>Data do documento: &gt;escolher a data em que o PDF foi gerado&lt;;</p>
+    <br/>
+    <p>Número/nome na árvore: "Ficha e fotos do(s) bem (ns)";</p>
+    <br/>
+    <p>Formato: Nato-digital;</p>
+    <br/>
+    <p>Interessados: &gt;nome do servidor responsável pelo bem&lt;</p>
+    <br/>
+    <p>Classificação: 040;</p>
+    <br/>
+    <p>Nível de acesso: Público.</p>
+    <img src="assets/img/step4_3.png" alt="Imagem de tela no SEI mostrando o formulário para registrar documento externo">
+  </section>
+
+  <h2>5. Enviar a solicitação para a comissão de emissão de laudos</h2>
+  <section>
+    <p>Enviar o processo para a C-LDEMB-CT</p>
+  </section>
+
+  <h2>Próximos passos</h2>
+  <section>
+    <p>
+      A comissão entrará em contato para agendar o dia da visita ao bem, a qual, normalmente, ocorre às
+      quintas-feiras à tarde. O servidor, requisitante ou outro indicado, necessita acompanhar os técnicos da
+      comissão na visita ao bem.
+    </p>
+
+    <h3>Anexo A - Conversão de número de patrimônios antigos - visão geral</h3>
+
+    <p>
+      Se for número de patrimônio antigo (CEFET ou ETFPR) é necessário fazer a conversão. As conversões
+      mais comuns estão listadas abaixo. Para as demais, consulte a DIPAT-CT.
+    </p><br/>
+
+    <p>Para patrimônios com números separados por "/", transformar da seguinte forma:</p>
+    <p><strong>Parte A:</strong> números antes da "/", converter:</p>
+    <br/>
+
+    <p>12713 → 267</p>
+    <p>266 → 266</p>
+    <p>267 → 267</p>
+    <p>12732 → 360</p><br/>
+
+    <p><strong>Parte B:</strong> repetir o número que vem após a "/";</p><br/>
+    <p><strong>Parte C:</strong> completar com zeros entre a parte A e a parte B, até que ficar um número com 8 algarismos</p><br/>
+    <strong>Exemplos:</strong><br/>
+
+    <p>12713/345 → 26700345;</p>
+    <p>266/7951 → 26607951;</p>
+    <p>267/800 → 26700800;</p>
+    <p>12732/107 → 36000107</p><br/><br/>
+  </section>
+</main>
+<app-footer></app-footer>

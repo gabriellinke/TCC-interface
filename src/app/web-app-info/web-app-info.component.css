@@ -21,11 +21,6 @@ ol, ul {
   list-style-position: inside;
 }
 
-/* img {
-  display: block;
-  margin: 0 auto;
-} */
-
 .images-container {
   display: flex;
   flex-direction: column;
