@@ -47,15 +47,15 @@
   <app-overlay [isVisible]="isOverlayOpen">
     <div class="overlay-content" *ngIf="state === State.PROCESSING">
       <strong>O arquivo está sendo processado</strong>
-      <p class="overlay-text max-two-lines">Essa operação pode levar alguns minutos.</p>
+      <p>Essa operação pode levar alguns minutos.</p>
       <img src="assets/img/load.gif" alt="Carregando" width="64px" height="64px">
     </div>
     <div class="overlay-content" *ngIf="state === State.SUCCESS">
-      <p class="overlay-text max-two-lines">O arquivo foi processado com sucesso</p>
+      <p>O arquivo foi processado com sucesso</p>
       <button class="primary" (click)="closeOverlay()">Fechar</button>
     </div>
     <div class="overlay-content" *ngIf="state === State.ERROR">
-      <p class="overlay-text max-two-lines">Erro ao processar arquivo</p>
+      <p>Erro ao processar arquivo</p>
       <button class="primary" (click)="closeOverlay()">Fechar</button>
     </div>
   </app-overlay>

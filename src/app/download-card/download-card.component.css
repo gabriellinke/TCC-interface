@@ -9,6 +9,7 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 224px;
+  line-height: 18px;
 }
 
 .container {
