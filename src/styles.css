@@ -12,8 +12,17 @@ h1 {
   font-size: 20px;
 }
 
-p, a, strong {
+h2 {
+  font-size: 18px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+p, a, strong, ul, ol, li {
   font-size: 14px;
+  line-height: 20px;
 }
 
 :root {

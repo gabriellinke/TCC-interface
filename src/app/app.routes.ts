@@ -7,8 +7,10 @@ import { AssetInfoComponent } from './asset-info/asset-info.component';
 import { SearchComponent } from './search/search.component';
 import { UnserviceableAssetsInfoComponent } from './unserviceable-assets-info/unserviceable-assets-info.component';
 import { FAQComponent } from './faq/faq.component';
-import { ReportsRequestInfoComponent } from './reports-request-info/reports-request-info.component';
 import { UploadAssetsComponent } from './upload-assets/upload-assets.component';
+import { StepByStepInfoComponent } from './step-by-step-info/step-by-step-info.component';
+import { SeiInfoComponent } from './sei-info/sei-info.component';
+import { WebAppInfoComponent } from './web-app-info/web-app-info.component';
 import { adminGuard } from './admin.guard';
 
 export const routes: Routes = [
@@ -45,8 +47,16 @@ export const routes: Routes = [
     component: FAQComponent,
   },
   {
-    path: 'details/reportsRequest',
-    component: ReportsRequestInfoComponent,
+    path: 'details/step-by-step',
+    component: StepByStepInfoComponent,
+  },
+  {
+    path: 'details/web-app',
+    component: WebAppInfoComponent,
+  },
+  {
+    path: 'details/sei',
+    component: SeiInfoComponent,
   },
   {
     path: 'upload-assets',
