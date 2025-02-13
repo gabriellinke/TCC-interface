@@ -9,7 +9,6 @@ import { UnserviceableAssetsInfoComponent } from './unserviceable-assets-info/un
 import { FAQComponent } from './faq/faq.component';
 import { UploadAssetsComponent } from './upload-assets/upload-assets.component';
 import { StepByStepInfoComponent } from './step-by-step-info/step-by-step-info.component';
-import { SeiInfoComponent } from './sei-info/sei-info.component';
 import { WebAppInfoComponent } from './web-app-info/web-app-info.component';
 import { adminGuard } from './admin.guard';
 
@@ -53,10 +52,6 @@ export const routes: Routes = [
   {
     path: 'details/web-app',
     component: WebAppInfoComponent,
-  },
-  {
-    path: 'details/sei',
-    component: SeiInfoComponent,
   },
   {
     path: 'upload-assets',
