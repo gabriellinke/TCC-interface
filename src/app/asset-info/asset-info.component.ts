@@ -52,7 +52,7 @@ export class AssetInfoComponent implements OnInit{
         this.loading = false;
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
       }
     });
   }
@@ -85,7 +85,7 @@ export class AssetInfoComponent implements OnInit{
         this.updateInfo();
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
       }
     });
   }
@@ -99,7 +99,7 @@ export class AssetInfoComponent implements OnInit{
         this.loadingOverlay = false;
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
       }
     });
   }

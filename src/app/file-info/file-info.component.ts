@@ -37,7 +37,7 @@ export class FileInfoComponent implements OnInit{
         this.loading = false;
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
       }
     });
   }
@@ -65,10 +65,10 @@ export class FileInfoComponent implements OnInit{
           this.router.navigate(['/']);
         },
         error: error => {
-          if(error.message === BACKEND_FILE_INVALID_ASSETS) {
-            alert(error.message);
+          if(error.error.detail === BACKEND_FILE_INVALID_ASSETS) {
+            alert(error);
           }
-          console.error(error.message);
+          console.error(error);
         }
       });
     } else {
