@@ -146,7 +146,6 @@ export class CameraComponent implements OnInit {
   }
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 
@@ -164,6 +163,7 @@ export class CameraComponent implements OnInit {
 
       if (isIOS) {
         alert('O modo torch não é suportado no iOS. Ative a lanterna manualmente.');
+        this.isTorchOn = false;
         return;
       }
 
@@ -187,6 +187,10 @@ export class CameraComponent implements OnInit {
                 } as MediaTrackConstraintSet,
               ],
             }).then();
+          } else {
+            alert('O modo torch não é suportado. Ative a lanterna manualmente.');
+            this.isTorchOn = false;
+            return;
           }
         });
       }
