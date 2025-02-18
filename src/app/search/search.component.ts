@@ -47,7 +47,7 @@ export class SearchComponent {
         this.loadingResult = false;
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
         this.loadingResult = false;
         this.asset = undefined;
         this.notFound = true;
@@ -63,7 +63,7 @@ export class SearchComponent {
         this.loadingResult = false;
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
         this.loadingResult = false;
         this.asset = undefined;
         this.notFound = true;

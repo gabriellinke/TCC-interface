@@ -36,6 +36,7 @@
       </div>
       <div
         *ngIf="currentState==fileStates.ASSET_NUMBER_NOT_FOUND
+            || currentState==fileStates.ERROR_INTERNAL_ERROR
             || currentState==fileStates.ERROR_ASSET_NOT_FOUND
             || currentState==fileStates.ERROR_ASSET_INVALID_CONDITION
             || currentState==fileStates.ERROR_ASSET_ALREADY_IN_FILE

@@ -1,11 +1,6 @@
-export const UNAUTHORIZED_401 = "Logout devido a erro 401";
-export const FORBIDDEN_403 = "Usuário ou senha incorretos ou operação não autorizada";
-export const NOT_FOUND_404 = "Não encontrado";
-export const UNKNOWN_ERROR = "Erro desconhecido";
 export const BACKEND_USER_ALREADY_HAS_FILE = "Usuário já tem um arquivo sendo criado";
 export const BACKEND_FILE_INVALID_ASSETS = "Bens inválidos";
 export const BACKEND_FILE_INCOMPLETE_ASSETS = "Arquivo contém um bem incompleto. Não foi possível adicionar novo bem";
-export const BACKEND_ASSET_NOT_RELATED_TO_ANY_FILE = "Asset ID não associado a nenhum arquivo";
 export const BACKEND_ASSET_NOT_FOUND = "Não foi possível encontrar bem com esse número de patrimônio";
 export const BACKEND_ASSET_INVALID_CONDITION = "Estado de conservação ou situação inválidos";
 export const BACKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE = "Arquivo contém mais de um responsável pelos bens";

@@ -164,6 +164,7 @@ export class CameraComponent implements OnInit {
 
       if (isIOS) {
         alert('O modo torch não é suportado no iOS. Ative a lanterna manualmente.');
+        return;
       }
 
       const mediaStream = await navigator.mediaDevices.getUserMedia({

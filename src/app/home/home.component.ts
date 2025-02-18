@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit{
         this.loading = false;
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
       }
     });
   }
@@ -82,10 +82,10 @@ export class HomeComponent implements OnInit{
         this.router.navigate([`/generate`], {state: {data: asset}});
       },
       error: error => {
-        if(error.message === BACKEND_USER_ALREADY_HAS_FILE) {
-          alert(error.message);
+        if(error.error.detail === BACKEND_USER_ALREADY_HAS_FILE) {
+          alert(error);
         }
-        console.error(error.message);
+        console.error(error);
       }
     });
   }

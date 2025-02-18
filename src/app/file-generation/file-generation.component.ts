@@ -6,7 +6,7 @@ import { CommonModule, Location } from '@angular/common';
 import { UtilsService } from './../utils.service';
 import { BackendService } from '../backend.service';
 import { CameraComponent } from '../camera/camera.component';
-import { BACKEND_ASSET_ALREADY_IN_FILE, BACKEND_ASSET_INVALID_CONDITION, BACKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BACKEND_ASSET_NOT_FOUND, BACKEND_FILE_INCOMPLETE_ASSETS, BACKEND_FILE_INVALID_ASSETS, BACKEND_USER_ALREADY_HAS_FILE, FORBIDDEN_403 } from '../../constants/constants';
+import { BACKEND_ASSET_ALREADY_IN_FILE, BACKEND_ASSET_INVALID_CONDITION, BACKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE, BACKEND_ASSET_NOT_FOUND, BACKEND_FILE_INCOMPLETE_ASSETS, BACKEND_FILE_INVALID_ASSETS } from '../../constants/constants';
 import { ActivatedRoute } from '@angular/router';
 import { AssetInterfaceSimplified } from '../../interfaces/AssetInterfaceSimplified';
 import { OverlayComponent } from '../overlay/overlay.component';
@@ -117,11 +117,12 @@ export class FileGenerationComponent {
           this.loadingOverlay = false;
         },
         error: error => {
-          if(error.message === BACKEND_FILE_INCOMPLETE_ASSETS) {
+          console.error(error);
+          if(error.error.detail === BACKEND_FILE_INCOMPLETE_ASSETS) {
             this.currentState = FileGenerationStates.ERROR_FILE_INCOMPLETE_ASSETS;
+          } else {
+            this.currentState = FileGenerationStates.ERROR_INTERNAL_ERROR;
           }
-          this.failedAssetCreationAttempts++;
-          console.error(error.message);
           this.loadingOverlay = false;
         }
       });
@@ -153,6 +154,9 @@ export class FileGenerationComponent {
           this.loadingOverlay = false;
         }
       });
+    } else {
+      this.loadingOverlay = false;
+      this.currentState = FileGenerationStates.ASSET_NUMBER_CAPTURE;
     }
   }
 
@@ -180,7 +184,7 @@ export class FileGenerationComponent {
         this.loadingOverlay = false;
       },
       error: error => {
-        console.error(error.message);
+        console.error(error);
         this.loadingOverlay = false;
       }
     });
@@ -205,18 +209,18 @@ export class FileGenerationComponent {
           this.loadingOverlay = false;
         },
         error: error => {
-          if(error.message == BACKEND_ASSET_NOT_FOUND) {
+          if(error.error.detail == BACKEND_ASSET_NOT_FOUND) {
             this.currentState = FileGenerationStates.ERROR_ASSET_NOT_FOUND;
-          } else if(error.message == BACKEND_ASSET_INVALID_CONDITION) {
+          } else if(error.error.detail == BACKEND_ASSET_INVALID_CONDITION) {
             this.currentState = FileGenerationStates.ERROR_ASSET_INVALID_CONDITION;
-          } else if(error.message == BACKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE) {
+          } else if(error.error.detail == BACKEND_ASSET_MORE_THAN_ONE_RESPONSIBLE) {
             this.currentState = FileGenerationStates.ERROR_MORE_THAN_ONE_RESPONSIBLE;
-          } else if(error.message == BACKEND_ASSET_ALREADY_IN_FILE) {
+          } else if(error.error.detail == BACKEND_ASSET_ALREADY_IN_FILE) {
             this.currentState = FileGenerationStates.ERROR_ASSET_ALREADY_IN_FILE;
           } else {
-            alert(error.message);
+            alert(error);
           }
-          console.error(error.message);
+          console.error(error);
           this.loadingOverlay = false;
         }
       });
@@ -256,12 +260,12 @@ export class FileGenerationComponent {
           this.loadingOverlay = false;
         },
         error: error => {
-          if(error.message === BACKEND_FILE_INVALID_ASSETS) {
+          if(error.error.detail === BACKEND_FILE_INVALID_ASSETS) {
             this.currentState = FileGenerationStates.ERROR_FILE_INVALID_ASSETS;
           } else {
-            alert(error.message);
+            alert(error);
           }
-          console.error(error.message);
+          console.error(error);
           this.loadingOverlay = false;
         }
       });

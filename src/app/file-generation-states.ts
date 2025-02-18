@@ -10,6 +10,7 @@ export enum FileGenerationStates {
   ERROR_ASSET_INVALID_CONDITION = "Não foi possível adicionar esse bem: estado de conservação ou situação inválida",
   ERROR_ASSET_ALREADY_IN_FILE = "Não foi possível adicionar esse bem: esse bem já está presente no arquivo",
   ERROR_FILE_INCOMPLETE_ASSETS = "Este arquivo contém um bem incompleto. Não foi possível adicionar novo bem",
+  ERROR_INTERNAL_ERROR = "Ocorreu um erro inesperado. Se o problema persistir, entre em contato com o suporte.",
   ERROR_FILE_INVALID_ASSETS = "Não foi possível gerar arquivo: esse arquivo contém bens incompletos",
   PHOTO_CAPTURE = "Obtendo foto do bem",
   REVIEWING_ASSET_PHOTO = "Revisando foto do bem",
