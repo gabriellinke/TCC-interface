@@ -137,7 +137,7 @@ export class CameraComponent implements OnInit {
     console.info('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
     this.imageCaptured.emit(webcamImage);  // Emitir o valor para o componente pai
-    this.turnTorchOff();
+    this.isTorchOn && this.turnTorchOff();
   }
 
   public turnTorchOff(): void {

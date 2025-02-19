@@ -1,0 +1,49 @@
+.onboarding-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 2001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h3 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.onboarding-overlay-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  color: white;
+  background: rgba(0, 0, 0);
+  font-size: 20px;
+  z-index: 2001;
+  border-radius: 0 0 12px 12px;
+  width: 100vw;
+  padding: 24px;
+  animation: slideUp 0.7s ease-out forwards;
+}
+
+.onboarding-overlay-content p:last-of-type {
+  color: #AAAAAA;
+  font-size: 20px;
+  align-self: baseline;
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(-200%); /* Inicialmente fora da tela (abaixo) */
+  }
+  100% {
+    transform: translateY(0); /* Finaliza na posição original */
+  }
+}
+
