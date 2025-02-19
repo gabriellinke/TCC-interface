@@ -59,6 +59,9 @@ export class CameraComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      alert('Testando notificação');
+    }, 1500);
     this.setupResizeObserver();
   }
 
@@ -165,8 +168,6 @@ export class CameraComponent implements OnInit {
         this.isTorchOn = false;
         return;
       }
-
-      alert('Testando notificação Android');
 
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: {
