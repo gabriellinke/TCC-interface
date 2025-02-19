@@ -74,6 +74,9 @@
       </div>
     </div>
   </app-overlay>
+  <app-onboarding-overlay [(isVisible)]="showingOnboardingOverlay">
+    {{ onboardingOverlayText }}
+  </app-onboarding-overlay>
 </div>
 
 <ng-template #loadingTemplate>

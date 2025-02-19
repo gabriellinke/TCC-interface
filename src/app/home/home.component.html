@@ -13,6 +13,10 @@
 </main>
 <app-footer></app-footer>
 
+<app-onboarding-overlay [(isVisible)]="showingOnboardingOverlay">
+  {{ onboardingOverlayText }}
+</app-onboarding-overlay>
+
 <ng-template #noFiles>
   <p style="text-align: center;">Não há arquivos disponíveis no momento. Inicie a geração de um novo arquivo.</p>
 </ng-template>

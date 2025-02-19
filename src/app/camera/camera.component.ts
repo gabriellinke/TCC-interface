@@ -137,7 +137,7 @@ export class CameraComponent implements OnInit {
     console.info('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
     this.imageCaptured.emit(webcamImage);  // Emitir o valor para o componente pai
-    this.turnTorchOff();
+    this.isTorchOn && this.turnTorchOff();
   }
 
   public turnTorchOff(): void {
@@ -146,7 +146,6 @@ export class CameraComponent implements OnInit {
   }
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 
@@ -163,7 +162,8 @@ export class CameraComponent implements OnInit {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
       if (isIOS) {
-        alert('O modo torch não é suportado no iOS. Ative a lanterna manualmente.');
+        // alert('O modo torch não é suportado no iOS. Ative a lanterna manualmente.');
+        this.isTorchOn = false;
         return;
       }
 
@@ -187,6 +187,10 @@ export class CameraComponent implements OnInit {
                 } as MediaTrackConstraintSet,
               ],
             }).then();
+          } else {
+            alert('O modo torch não é suportado. Ative a lanterna manualmente.');
+            this.isTorchOn = false;
+            return;
           }
         });
       }
