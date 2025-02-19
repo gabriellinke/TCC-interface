@@ -162,10 +162,11 @@ export class CameraComponent implements OnInit {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
       if (isIOS) {
-        // alert('O modo torch não é suportado no iOS. Ative a lanterna manualmente.');
         this.isTorchOn = false;
         return;
       }
+
+      alert('Testando notificação Android');
 
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: {
