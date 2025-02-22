@@ -37,6 +37,7 @@ export class CameraComponent implements OnInit {
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
   public isTorchOn: boolean | ConstrainBooleanParameters | undefined = false;
+  public isIOS: boolean = false;
 
   public webcamImage: WebcamImage | null = null;
   private resizeObserver: ResizeObserver | undefined;
@@ -50,6 +51,8 @@ export class CameraComponent implements OnInit {
       .then((mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
       });
+
+    this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
@@ -159,9 +162,7 @@ export class CameraComponent implements OnInit {
 
   public async onSwitchTorch() {
     try {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-      if (isIOS) {
+      if (this.isIOS) {
         alert('O modo torch não é suportado no iOS. Ative a lanterna manualmente.');
         this.isTorchOn = false;
         return;
@@ -187,10 +188,6 @@ export class CameraComponent implements OnInit {
                 } as MediaTrackConstraintSet,
               ],
             }).then();
-          } else {
-            alert('O modo torch não é suportado. Ative a lanterna manualmente.');
-            this.isTorchOn = false;
-            return;
           }
         });
       }

@@ -43,6 +43,7 @@
     (click)="triggerSnapshot();"
   ></button>
   <button
+    *ngIf="!isIOS"
     id="switchTorchButton"
     name="switch Torch"
     type="button"
