@@ -14,7 +14,7 @@ export class AuthService {
 
     const decodedToken: any = jwtDecode(token);
 
-    return decodedToken['resource_access']?.['tcc']?.roles || [];
+    return decodedToken['resource_access']?.['laudos']?.roles || [];
   }
 
   hasRole(role: string): boolean {
